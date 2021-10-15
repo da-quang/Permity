@@ -1,0 +1,35 @@
+frontend:
+      image: nextjs
+      container_name: frontend_container
+      build:
+        context: ./frontend
+        args:
+          - http_proxy=http://egvbrvproxy1v1.egv.at:8081
+          - https_proxy=http://egvbrvproxy1v1.egv.at:8081
+      restart: unless-stopped
+      
+      ports:
+        - 3000:3000
+      networks:
+        example-network:
+          ipv4_address: 172.16.238.13
+
+COPY "Betriebsbereich"
+FROM '/csv_files/Betriebsbereich.csv'
+DELIMITER ';'
+CSV HEADER encoding 'windows-1251';
+
+COPY "KSV_Struktur"
+FROM '/csv_files/KSV_Struktur.csv'
+DELIMITER ';'
+CSV HEADER encoding 'windows-1251';
+
+COPY "Mitarbeiter"
+FROM '/csv_files/Mitarbeiter.csv'
+DELIMITER ';'
+CSV HEADER encoding 'windows-1251';
+
+COPY "Teamzuordnung"
+FROM '/csv_files/Teamzuordnung.csv'
+DELIMITER ';'
+CSV HEADER encoding 'windows-1251';

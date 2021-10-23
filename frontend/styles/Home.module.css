@@ -109,33 +109,63 @@
       flex-direction: column;
     }
   }
-  
+
+  /* ------------index------------ */
+
   .Homepage Button {
    display: block;
     width: 60%;
     height: 78px;
     margin-left: 20%;
     margin-right: 20%;
-    margin-top:5px;
+    
     font-size: 20px;
+    
+    margin-bottom: 5%;
   }
+
+
+  .Homepage h1 {
+    margin-top: 15%;
+    text-align: center;
+    font-size: 35px;
+    background-color: #3f51b5;
+    color: #eaeaea;
+    margin-bottom: 30%;
+    }
+
+    
+  .TxtField{
+    display: block;
+       width: 60%;
+       height: 78px;
+       margin-right: 20%;
+       margin-left: 20%;
+       margin-top:5px;
+       font-size:20px;
+       
+  }
+
+
+
+  .line{
+    background-color: red;
+    margin-bottom: 0;
+    
+}
+
+/* ------------Next Pages------------ */
 
   .Subpage Button {
     display: block;
      width: 60%;
      height: 78px;
-     margin-left: 20%;
-     margin-right: 20%;
+    
      margin-top:5px;
      font-size:20px;
    }
 
-  .Homepage h1 {
-  text-align: center;
-  font-size: 35px;
-  background-color: #3f51b5;
-  color: #eaeaea;
-  }
+
   
   .Subpage h1 {
     text-align: center;
@@ -146,14 +176,20 @@
         margin-top: 60px;
     }
   
-    .line{
-        background-color: red;
-        margin-bottom: 0;
-        
+    .TxtContainer{
+      margin-top: 80px;
+     
     }
+
+    
+
+    
+
+
   /*.container Button:not(:last-child){
     margin-top: 1px;
   }*/
+
 
   
   

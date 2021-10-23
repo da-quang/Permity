@@ -16,6 +16,8 @@ function Profile() {
     const ksv = router.query.newKSV;
     const ebene = router.query.newEbene;
 
+    
+
     function test(newKSV, newEbene) {
         axios.get('http://localhost:8090/api/KSV/select', {params: {ksv: newKSV, ebene: newEbene} }).then(res => {
         console.log(res.data);

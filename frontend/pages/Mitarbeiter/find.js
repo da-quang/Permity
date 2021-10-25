@@ -37,7 +37,7 @@ function FindById() {
     return(
         <div>
             <form onSubmit={(e)=>submit(e)}>
-                <input onChange={(e)=>handle(e)} id="id" value={Mitarbeiter.id} placeholder="id" type="text"/>
+                <input onChange={(e)=>handle(e)} id="id" value={Mitarbeiter.name} placeholder="Name" type="text"/>
                 <button>Submit</button>
             </form>
             <a>{Mitarbeiter.name}</a>

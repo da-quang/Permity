@@ -1,3 +1,6 @@
+
+
+
 .main {
     padding: 5rem 0;
     flex: 1;
@@ -181,9 +184,38 @@
      
     }
 
-    
+   .Profil Button{
+     margin-top: 10px;
+     margin-left: 5px;
+   }
 
-    
+  .MaDaten{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  .Profil Button{
+    margin-top: 5%;
+  }
+  .typoh6{
+  border-bottom: solid;
+}
+
+.typoh4{
+  align-items: center;
+ background-color:#3f51b5;
+  margin-bottom: 20px;
+  color: #fafafa;
+  
+}
+
+.ProfilÜberschrift{
+  
+  align-items: center;
+ margin-top:15%;
+  margin-bottom: 10%;
+}
 
 
   /*.container Button:not(:last-child){

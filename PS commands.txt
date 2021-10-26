@@ -24,6 +24,6 @@ docker cp C:/Users/daqua/OneDrive/Desktop/app/csv_files/KSV_Struktur.csv postgre
 docker cp C:/Users/daqua/OneDrive/Desktop/app/csv_files/Mitarbeiter.csv postgresql_container:"/csv_files/Mitarbeiter.csv"
 docker cp C:/Users/daqua/OneDrive/Desktop/app/csv_files/Teamzuordnung.csv postgresql_container:"/csv_files/Teamzuordnung.csv"
 
-docker exec -t postgresql_container pg_dumpall -c -U postgres > C:/Users/daqua/OneDrive/Desktop/app/backup/dump.sql
+docker exec -t postgresql_container pg_dumpall -c -U postgres > C:/Users/daqua/OneDrive/Desktop/Diplom/Permity/backup/dump.sql
 
-cat C:/Users/daqua/OneDrive/Desktop/app/backup/dump.sql | docker exec -i postgresql_container psql -U postgres
+cat C:/Users/daqua/OneDrive/Desktop/Diplom/Permity/backup/dump.sql | docker exec -i postgresql_container psql -U postgres

@@ -26,10 +26,11 @@ namespace backend.Controllers
         [HttpGet("all")]
         public JsonResult all(string kurzzeichen)
         {
-            string query = @"select ""K"".* from ""Mitarbeiter"" ""M"" 
+            string query = @"select ""K"".""KSV"" from ""Mitarbeiter"" ""M"" 
                             left outer join ""Teamzuordnung"" ""T"" on concat (""M"".""ABTEILUNG"", ' ', ""M"".""TEAM"") = ""T"".""TEAM_KURZ"" 
                             left outer join ""KSV_Struktur"" ""K"" on ""T"".""KKS_STANDORT"" = ""K"".""KSV""
-                            where ""M"".""KURZZEICHEN"" = @kurzzeichen";
+                            where ""M"".""KURZZEICHEN"" = @kurzzeichen
+                            group by ""K"".""KSV""";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -50,6 +51,8 @@ namespace backend.Controllers
             }
             return new JsonResult(table);
         }
+
+       
 
         //api/KSV/select
         [HttpGet("select")]

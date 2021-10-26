@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\daqua\\OneDrive\\Desktop\\Permity\\backend\\backend.csproj": {}
+    "C:\\Users\\daqua\\OneDrive\\Desktop\\Diplom\\Permity\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\daqua\\OneDrive\\Desktop\\Permity\\backend\\backend.csproj": {
+    "C:\\Users\\daqua\\OneDrive\\Desktop\\Diplom\\Permity\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\daqua\\OneDrive\\Desktop\\Permity\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\daqua\\OneDrive\\Desktop\\Diplom\\Permity\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\daqua\\OneDrive\\Desktop\\Permity\\backend\\backend.csproj",
+        "projectPath": "C:\\Users\\daqua\\OneDrive\\Desktop\\Diplom\\Permity\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\daqua\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\daqua\\OneDrive\\Desktop\\Permity\\backend\\obj\\",
+        "outputPath": "C:\\Users\\daqua\\OneDrive\\Desktop\\Diplom\\Permity\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -99,7 +99,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

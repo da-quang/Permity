@@ -147,11 +147,10 @@ namespace backend.Controllers
 
         //api/Auftrag/create
         [HttpPost("create")]
-        public JsonResult CreateAssingment(Auftrag a)
+        public JsonResult CreateAuftrag(string ksv, string auftraggeber, string auftragnehmer, string sperren, string kommentar, string von, string bis, string status)
         {
-             
             string query = @"insert into ""Auftrag"" (""KSV"", ""AUFTRAGGEBER"", ""AUFTRAGNEHMER"", ""SPERREN"", ""KOMMENTAR"", ""VON"", ""BIS"", ""STATUS"") 
-                                            values (@ksv, @auftraggeber, @auftragnehmer, @sperren, @kommentar, @von, @von, @status)";
+                                            values (@ksv, @auftraggeber, @auftragnehmer, @sperren, @kommentar, @von, @bis , @status)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -161,14 +160,15 @@ namespace backend.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ksv", a.ksv);
-                    myCommand.Parameters.AddWithValue("@auftraggeber", a.auftraggeber);
-                    myCommand.Parameters.AddWithValue("@auftragnehmer", a.auftragnehmer);
-                    myCommand.Parameters.AddWithValue("@sperren", a.sperren);
-                    myCommand.Parameters.AddWithValue("@kommentar", a.kommentar);
-                    myCommand.Parameters.AddWithValue("@status", a.status);
-                    myCommand.Parameters.AddWithValue("@von", a.von);
-                    myCommand.Parameters.AddWithValue("@bis", a.bis);
+                    myCommand.Parameters.AddWithValue("@ksv", ksv);
+                    myCommand.Parameters.AddWithValue("@auftraggeber", auftraggeber);
+                    myCommand.Parameters.AddWithValue("@auftragnehmer", auftragnehmer);
+                    myCommand.Parameters.AddWithValue("@sperren", sperren);
+                    myCommand.Parameters.AddWithValue("@kommentar", kommentar);
+                    myCommand.Parameters.AddWithValue("@von", DateTimeOffset.Parse(von));
+                    myCommand.Parameters.AddWithValue("@bis", DateTimeOffset.Parse(bis));
+                    myCommand.Parameters.AddWithValue("@status", status);
+       
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -176,7 +176,6 @@ namespace backend.Controllers
                     myCon.Close();
                 }
             }
-            getId(a.auftraggeber);
             return new JsonResult("Added successfully");
         }
 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2n+ICsUQJewd86CU9hJt/1iS3SkkqDP/nb0KOZuSWvZdN1obsVnanpaJPDvlx/S33cAihhvax3onCfgsIh2ADg==",
+  "dgSpecHash": "WzDccuwvxgkHzRpxh2w/grq+EZPwGwkBxqYE27iCpN3h8ZF3W+xDUyyl/b13wv7Ve/2hmWgNvZ3We6OubG98fA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\daqua\\OneDrive\\Desktop\\Permity\\backend\\backend.csproj",
+  "projectFilePath": "C:\\Users\\daqua\\OneDrive\\Desktop\\Diplom\\Permity\\backend\\backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\daqua\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
     "C:\\Users\\daqua\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

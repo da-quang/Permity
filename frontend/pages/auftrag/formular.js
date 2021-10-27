@@ -18,7 +18,7 @@ export default function Formular() {
     let [bis, setBis] = useState (new Date())
     let status = 'offen'
     
-    function login(){
+    function create(){
         axios.post('http://localhost:8090/api/Auftrag/create', null, { params: { ksv, auftraggeber, auftragnehmer, sperren, kommentar, von, bis, status} })
         .then(res => {
             console.log(res)
@@ -33,7 +33,7 @@ export default function Formular() {
             <TextField label="Kommentar" onChange={e => setKommentar(e.target.value)}></TextField>
             <TextField label="Von" onChange={e => setVon(e.target.value)}></TextField>
             <TextField label="Bis" onChange={e => setBis(e.target.value)}></TextField>
-            <Button onClick={() => login()}>Login</Button>
+            <Button onClick={() => create()}>ERSTELLEN</Button>
         </div>
     )
 }

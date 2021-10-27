@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
-import useSWR from "swr"
+import useSWR from "swr";
+import Fab from '@mui/material/Fab';
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json())
 console.log("--> Profil")
-export default function OutsideUsageExample() {
+export default function Profil() {
     const {query} = useRouter()
     let kurzzeichen = query.param
    
@@ -14,20 +15,19 @@ export default function OutsideUsageExample() {
 
     return (
       <div>
-        <h1>Meine Daten</h1> 
-        {data && data.map((mitarbeiter, id) => <div key={id}> 
-          <div>{mitarbeiter.ID}</div> 
-          <div>{mitarbeiter.KURZZEICHEN}</div>
-          <div>{mitarbeiter.NAME}</div>
-          <div>{mitarbeiter.PERSONALNR}</div>
-          <div>{mitarbeiter.TEAM}</div>
-          <div>{mitarbeiter.ABTEILUNG}</div>
-          <div>{mitarbeiter.BEREICH}</div>
+        <h1 align="center">Meine Daten</h1> 
+        {data && data.map((mitarbeiter, id) => <div key={id} align="center"> 
+        <div><Fab variant="extended" sx={{width: 200, height: 40, marginTop: 3}}>{mitarbeiter.ID}</Fab></div>
+        <div><Fab variant="extended" sx={{width: 200, height: 40, marginTop: 3}}>{mitarbeiter.KURZZEICHEN}</Fab> </div>
+        <div><Fab variant="extended" sx={{width: 200, height: 40, marginTop: 3}}>{mitarbeiter.NAME}</Fab> </div>
+        <div><Fab variant="extended" sx={{width: 200, height: 40, marginTop: 3}}>{mitarbeiter.PERSONALNR}</Fab> </div>
+        <div><Fab variant="extended" sx={{width: 200, height: 40, marginTop: 3}}>{mitarbeiter.TEAM}</Fab> </div>
+        <div><Fab variant="extended" sx={{width: 200, height: 40, marginTop: 3}}>{mitarbeiter.ABTEILUNG}</Fab> </div>
+        <div><Fab variant="extended" sx={{width: 200, height: 40, marginTop: 3}}>{mitarbeiter.BEREICH}</Fab> </div>
         </div>)} 
         {error && <div>Error fetching data.</div>}
       </div>
     )
   } 
-
-
+ 
       

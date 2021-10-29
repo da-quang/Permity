@@ -45,7 +45,7 @@ export default function Login() {
 
 const useStyles = makeStyles({
     a: {
-      background: 'linear-gradient(45deg, #0288d1 30%, #03a9f4 90%)',
+      background: 'linear-gradient(45deg, #143968 30%, #143968 90%)',
       borderRadius: 3,
       boxShadow: '0 2px 5px 2px rgba(70, 175, 219, .3)',
       color: 'white',
@@ -72,7 +72,7 @@ const useStyles = makeStyles({
     },
 
     e: {
-        background: 'linear-gradient(45deg, #0288d1 30%, #03a9f4 90%)',
+        background: 'linear-gradient(45deg, #0e2748 30%, #436086 90%)',
         boxShadow: '0 3px 5px 2px rgba(70, 175, 219, .3)',
         marginTop: 100,
         paddingTop: 30,

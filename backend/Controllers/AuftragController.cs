@@ -21,7 +21,7 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
-        private async Task Cofnirmation(int id)
+        private async Task Confirmation(int id)
         {
             await Task.Run(() =>
             {
@@ -42,7 +42,6 @@ namespace backend.Controllers
                         }
                     }
                 } while (true);
-
             });
 
             await Task.Run(() =>
@@ -59,7 +58,7 @@ namespace backend.Controllers
             });
         }
 
-        private void getId(string auftraggeber)
+        private int getId(string auftraggeber)
         {
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
             using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
@@ -67,16 +66,16 @@ namespace backend.Controllers
                 myCon.Open();
                 NpgsqlCommand query = new NpgsqlCommand(@"select ""ID"" from ""Auftrag"" where ""AUFTRAGGEBER"" = @auftraggeber order by ""ID"" desc limit 1", myCon);
                 query.Parameters.AddWithValue("@auftraggeber", auftraggeber);
-                int id = (int)query.ExecuteScalar();
-                Cofnirmation(id);
+                return (int)query.ExecuteScalar();
+                
             }
         }
 
         //api/Auftrag/all
         [HttpGet("all")]
-        public JsonResult GetAuftrag(string name)
+        public JsonResult GetAuftrag(string kurzzeicehn)
         {
-            string query = @"select * from ""Auftrag"" where ""AUFTRAGGEBER"" = @name or ""AUFTRAGNEHMER"" = @name";
+            string query = @"select * from ""Auftrag"" where ""AUFTRAGGEBER"" = @kurzzeicehn or ""AUFTRAGNEHMER"" = @kurzzeicehn";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -86,7 +85,7 @@ namespace backend.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@name", name);
+                    myCommand.Parameters.AddWithValue("@kurzzeicehn", kurzzeicehn);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -96,11 +95,11 @@ namespace backend.Controllers
             }
             return new JsonResult(table);
         }
-
+        
         [HttpGet("sended")]
-        public JsonResult SendedAuftrag(string name)
+        public JsonResult SendedAuftrag(string kurzzeicehn)
         {
-            string query = @"select * from ""Auftrag"" where ""AUFTRAGGEBER"" = @name";
+            string query = @"select * from ""Auftrag"" where ""AUFTRAGGEBER"" = @kurzzeicehn";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -110,7 +109,7 @@ namespace backend.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@name", name);
+                    myCommand.Parameters.AddWithValue("@kurzzeicehn", kurzzeicehn);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -122,9 +121,9 @@ namespace backend.Controllers
         }
 
         [HttpGet("received")]
-        public JsonResult ReceivedAuftrag(string name)
+        public JsonResult ReceivedAuftrag(string kurzzeicehn)
         {
-            string query = @"select * from ""Auftrag"" where ""AUFTRAGNEHMER"" = @name";
+            string query = @"select * from ""Auftrag"" where ""AUFTRAGNEHMER"" = @kurzzeicehn";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -134,7 +133,7 @@ namespace backend.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@name", name);
+                    myCommand.Parameters.AddWithValue("@namkurzzeicehne", kurzzeicehn);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -176,6 +175,7 @@ namespace backend.Controllers
                     myCon.Close();
                 }
             }
+            Confirmation(getId(auftragnehmer));
             return new JsonResult("Added successfully");
         }
 

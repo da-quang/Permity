@@ -142,3 +142,7 @@ C:\Users\daqua\OneDrive\Desktop\Diplom\Permity\backend\obj\Debug\net5.0\backend.
 C:\Users\daqua\OneDrive\Desktop\Diplom\Permity\backend\obj\Debug\net5.0\ref\backend.dll
 C:\Users\daqua\OneDrive\Desktop\Diplom\Permity\backend\obj\Debug\net5.0\backend.pdb
 C:\Users\daqua\OneDrive\Desktop\Diplom\Permity\backend\obj\Debug\net5.0\backend.genruntimeconfig.cache
+C:\Users\daqua\OneDrive\Desktop\Diplom\Permity\backend\bin\Debug\net5.0\MailKit.dll
+C:\Users\daqua\OneDrive\Desktop\Diplom\Permity\backend\bin\Debug\net5.0\MimeKit.dll
+C:\Users\daqua\OneDrive\Desktop\Diplom\Permity\backend\bin\Debug\net5.0\NETCore.MailKit.dll
+C:\Users\daqua\OneDrive\Desktop\Diplom\Permity\backend\bin\Debug\net5.0\BouncyCastle.Crypto.dll

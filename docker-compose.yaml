@@ -19,11 +19,10 @@ services:
     container_name: postgresql_container
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
-    volumes:
-      - db_data:/var/lib/postgresql/data
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "postgres"
+      POSTGRES_INITDB_ARGS: "--encoding=win1250 --lc-collate=C --lc-ctype=C"
     ports:
       - "5432:5432"
     networks:
@@ -42,22 +41,6 @@ services:
       example-network:
         ipv4_address: 172.16.238.12
 
-
-  frontend:
-    image: nextjs
-    container_name: frontend_container
-    build:
-      context: ./frontend
-    restart: unless-stopped
-
-    ports:
-      - 3000:3000
-    networks:
-      example-network:
-        ipv4_address: 172.16.238.13
-
-
-
 networks:
   example-network:
     name: example-network
@@ -66,6 +49,3 @@ networks:
       driver: default
       config:
         - subnet: 172.16.238.0/24
-
-volumes:
-  db_data:

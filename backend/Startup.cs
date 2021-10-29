@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
+using backend.Settings;
+using backend.Services;
 
 namespace backend
 {
@@ -45,6 +47,8 @@ namespace backend
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
                 = new DefaultContractResolver());
 
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, MailService>();
             services.AddSession();
             services.AddControllers();
             
@@ -52,6 +56,14 @@ namespace backend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
             });
+
+            services.AddCors(c =>
+              {
+                  c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+
+
+              }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -3,7 +3,7 @@ import useSWR from 'swr'
 const fetcher = (...args) => fetch(...args).then((response) => response.json())
 
 function Profile() {
-  const { data, error } = useSWR('http://localhost:8090/Auftrag/all', fetcher)
+  const { data, error } = useSWR('http://localhost:8090/api/Auftrag/all', fetcher)
 
 
   if (error) return <div>failed to load</div>

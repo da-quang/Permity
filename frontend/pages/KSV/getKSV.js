@@ -35,7 +35,7 @@ function Profile() {
 
   return (
     <form onSubmit={(e)=>submit(e)}>
-        <button>Next</button>
+        
         <div>
             <ul>
                 {KSV && KSV.map((item, index) => <li key={index}> <p> <button type="button" onClick={() => Router.push({pathname: 'getKSV', query: {newKSV: item.KSV, newEbene: item.EBENE + 1},})}>{item.BEZEICHNUNG}</button> {item.ID + " " + item.KSV + " " + item.BEZEICHNUNG + " " + item.EBENE + " " + item.ROWID + " " + item.BETRIEBSBEREICH}</p></li>)}

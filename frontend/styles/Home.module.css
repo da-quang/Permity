@@ -204,18 +204,29 @@
 
 .typoh4{
   align-items: center;
- background-color:#3f51b5;
   margin-bottom: 20px;
   color: #fafafa;
   
 }
 
-.ProfilÜberschrift{
-  
-  align-items: center;
- margin-top:15%;
-  margin-bottom: 10%;
+.LoginÜberschrift{
+  display: flex;
+  margin-top:15%;
+  background-color: #3f51b5;
+  justify-content: center;
+  margin-bottom: 30%;
+  border-radius: 5%;
 }
+
+.Überschrift{
+  display: flex;
+  margin-top:15%;
+  background-color: #3f51b5;
+  justify-content: space-between;
+  margin-bottom: 30%;
+  border-radius: 5%;
+}
+
 
 
   /*.container Button:not(:last-child){

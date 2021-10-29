@@ -1,160 +1,55 @@
 /* eslint-disable @next/next/no-sync-scripts */
-import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Button from '@material-ui/core/Button'
-import { StylesContext } from '@material-ui/styles'
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react'
-
-
 import { useRouter } from 'next/router';
-import Link from 'next/link';
-
-
-
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { route } from 'next/dist/server/router';
-import { display } from '@mui/system';
+import { Typography } from '@material-ui/core';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import HomeIcon from '@mui/icons-material/Home';
 
-// import * as React from 'react';
-// import Box from'@material-ui/core/Box';
-// import Input from '@material-ui/core/Input';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import InputAdornment from '@material-ui/core/InputAdornment';
-// import FormControl from '@material-ui/core/FormControl';
-// import TextField from '@material-ui/core/TextField';
-// import AccountCircle from '@material-ui/core/AccountCircle';
+export default function Login() {
 
-// export default function InputWithIcon() {
-//   return (
-//     <Box sx={{ '& > :not(style)': { m: 1 } }}>
-//       <FormControl variant="standard">
-//         <InputLabel htmlFor="input-with-icon-adornment">
-//           With a start adornment
-//         </InputLabel>
-//         <Input
-//           id="input-with-icon-adornment"
-//           startAdornment={
-//             <InputAdornment position="start">
-//               <AccountCircle />
-//             </InputAdornment>
-//           }
-//         />
-//       </FormControl>
-//       <TextField
-//         id="input-with-icon-textfield"
-//         label="TextField"
-//         InputProps={{
-//           startAdornment: (
-//             <InputAdornment position="start">
-//               <AccountCircle />
-//             </InputAdornment>
-//           ),
-//         }}
-//         variant="standard"
-//       />
-//       <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-//         <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-//         <TextField id="input-with-sx" label="With sx" variant="standard" />
-//       </Box>
-//     </Box>
-//   );
-// }
+  let [name, setName] = useState('')
+  let [kurzzeichen, setKurzzeichen] = useState('')
+  const router = useRouter()
 
 
-
-
-
-
-function FindById() {
-
-  const router = useRouter();
-
-  const [Mitarbeiter, setMitarbeiter] = useState({
-    id: '',
-    kurzzeichen: '',
-    name: '',
-    personalnr: '',
-    abteilung: '',
-    team: '',
-    bereich: ''
-  })
-
-
-
-  const loginMitarbeiter = async (kurzzeichen1, name1) => {
-    axios.get('http://localhost:8090/api/Mitarbeiter/login', { params: { name: name1, kurzzeichen: kurzzeichen1 } }).then(res => {
-      console.log(res.data[0]);
-      setMitarbeiter({
-        id: res.data[0].ID,
-        kurzzeichen: res.data[0].KURZZEICHEN,
-        name: res.data[0].NAME,
-        personalnr: res.data.PERSONALNR,
-        abteilung: res.data[0].ABTEILUNG,
-        team: res.data[0].TEAM,
-        bereich: res.data[0].BEREICH,
-      })
+  function login() {
+    axios.get('http://localhost:8090/api/Mitarbeiter/login', { params: { name, kurzzeichen } }).then(res => {
+      if (res.data[0].exists == true) {
+        console.log("Login Succesful!")
+        console.log(`Logged in as ${name}.`)
+        router.push(`/startseite?param=${kurzzeichen}`)
+      } else {
+        console.log("Your login attempt was not successful. Please Try again.")
+      }
     })
-  }
-
-  function submit(e) {
-    e.preventDefault();
-    loginMitarbeiter(Mitarbeiter.kurzzeichen, Mitarbeiter.name);
-
-  }
-
-  function handle(e) {
-    const newMitarbeiter = { ...Mitarbeiter }
-    newMitarbeiter[e.target.id] = e.target.value
-    setMitarbeiter(newMitarbeiter)
-    console.log(newMitarbeiter)
-  }
-  // const inputRef = useRef(null)
-
-  // useEffect(() => {
-  //   inputRef.current.style.display='';
-  // }, [])
-  function MakeAppear() {
-    console.log("I appeared");
-  }
-
-  function PassOn(Kurzzeichen2, name2) {
-    let Kurzzeichen = Kurzzeichen2;
-    let Name = name2;
-
-    console.log(Kurzzeichen);
-    console.log(Name);
   }
 
   return (
 
-    <><div className={styles.Homepage}>
-      <footer className={styles.line}> </footer>
-      <h1>Permity</h1>
-
-
-      <TextField onChange={(e) => handle(e)} id="kurzzeichen" value={Mitarbeiter.kurzzeichen} fullWidth className={styles.TxtField} label="Kurzzeichen" variant="outlined"> </TextField>
-      <TextField onChange={(e) => handle(e)} id="name" value={Mitarbeiter.name} fullWidth className={styles.TxtField} label="Name" variant="outlined"> </TextField>
-
-
-      <Button onClick={(e) => submit(e)} variant='contained' color='primary' id="Index">Authentifizieren</Button>
-
-
-      {/* {Mitarbeiter.map(e => ( */}
-      <Link href={`/Homepage/Homepage?Kurzzeichen=${Mitarbeiter.kurzzeichen}&Name=${Mitarbeiter.name}&id=${Mitarbeiter.id}&personalnr=${Mitarbeiter.personalnr}&abteilung=${Mitarbeiter.abteilung}&team=${Mitarbeiter.team}&bereich=${Mitarbeiter.bereich}`}>
-        <Button color='secondary' id="Index">Weiter</Button>
-      </Link>
-      {/* ))} */}
+    <><div className={styles.LoginÜberschrift}>
+      <Typography style={{ fontWeight: 600 }} className={styles.typoh4} variant="h4" align="center">Permity</Typography>
     </div>
-
-
-
-
-
-    </>
+      <div className={styles.Homepage}>
+        <TextField onChange={e => setName(e.target.value)} id="kurzzeichen" fullWidth className={styles.TxtField} label="Kurzzeichen" variant="outlined"> </TextField>
+        <TextField onChange={e => setKurzzeichen(e.target.value)} id="name" fullWidth className={styles.TxtField} label="Name" variant="outlined"> </TextField>
+        <Button onClick={() => login()} variant='contained' color='primary' id="Index">Authentifizieren</Button>
+      </div></>
   )
 }
-console.log(route.query);
-export default FindById; {
-}
+
+
+
+
+
+
+
+
+
+
+
+
+

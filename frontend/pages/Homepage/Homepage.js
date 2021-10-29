@@ -12,14 +12,9 @@ export default function Home() {
     const { query } = useRouter();
     const router = useRouter();
     console.log(query.Kurzzeichen)
+
   return (
     <div className={styles.Page}>
-      <Head>
-        <title>Homepage</title>
-        <meta name='keywords' content='web development, porgramming'/>
-        
-      </Head>
-
       <div className={styles.Subpage}>
       <h1>Homepage</h1>
       </div>

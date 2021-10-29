@@ -93,7 +93,7 @@ import { display } from '@mui/system';
           </SWRConfig>
         )
       }
-
+      console.log(data)
 
 
 

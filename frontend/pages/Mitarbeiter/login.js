@@ -1,65 +1,34 @@
+import { Button, TextField } from '@material-ui/core';
+import {useState} from "react";
 import axios from 'axios';
-import React, {useState } from 'react'
-import { loginMitarbeiter } from '../api/auth';
+import { useRouter } from 'next/router';
 
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 
-function FindById() {
-    const [Mitarbeiter, setMitarbeiter] = useState({
-        id: '',
-        kurzzeichen: '',
-        name: '',
-        personalnr: '',
-        abteilung: '',
-        team: '',
-        bereich: ''
-    })
+console.log("--> Login")
+export default function Login() {
+    
+    let [name, setName] = useState ('')
+    let [kurzzeichen, setKurzzeichen] = useState ('')
+    const router = useRouter()
     
 
-    const loginMitarbeiter = async(kurzzeichen1, name1) => {
-        axios.get('http://localhost:8090/api/Mitarbeiter/login', {params: {name: name1, kurzzeichen: kurzzeichen1}}).then(res => {
-            console.log(res.data[0]);
-            setMitarbeiter({
-                id: res.data[0].ID,
-                kurzzeichen: res.data[0].KURZZEICHEN,
-                name: res.data[0].NAME,
-                personalnr: res.data.PERSONALNR,
-                abteilung: res.data[0].ABTEILUNG,
-                team: res.data[0].TEAM,
-                bereich: res.data[0].BEREICH,
-                })
-            })
-    }
-
-    function submit(e) {
-        e.preventDefault();
-        loginMitarbeiter(Mitarbeiter.kurzzeichen, Mitarbeiter.name);
-    }
-
-    function handle(e){
-        const newMitarbeiter= {...Mitarbeiter}
-        newMitarbeiter[e.target.id] = e.target.value
-        setMitarbeiter(newMitarbeiter)
-        console.log(newMitarbeiter)
+    function login(){
+        axios.get('http://localhost:8090/api/Mitarbeiter/login', { params: { name, kurzzeichen } }).then(res => {
+            if(res.data[0].exists == true){
+                console.log("Login Succesful!")
+                console.log(`Logged in as ${name}.`)
+                router.push(`/startseite?param=${kurzzeichen}`) 
+            }else{
+                console.log("Your login attempt was not successful. Please Try again.") 
+            }
+        })
     }
 
     return(
-        <Box><div>
-        <form onSubmit={(e)=>submit(e)}>
-            <TextField onChange={(e)=>handle(e)} id="kurzzeichen" value={Mitarbeiter.kurzzeichen}  label="Kurzzeichen" variant="outlined"> </TextField>
-            <TextField onChange={(e)=>handle(e)} id="name" value={Mitarbeiter.name}  label="Name" variant="outlined" > </TextField>
-            <button>Submit</button>
-        </form>
-        <p>{Mitarbeiter.id}</p>
-        <p>{Mitarbeiter.kurzzeichen}</p>
-        <p>{Mitarbeiter.name}</p>
-        <p>{Mitarbeiter.personalnr}</p>
-        <p>{Mitarbeiter.abteilung}</p>
-        <p>{Mitarbeiter.team}</p>
-        <p>{Mitarbeiter.bereich}</p>
-    </div></Box>
-        
+        <div>
+            <TextField label="Name" onChange={e => setName(e.target.value)}></TextField>
+            <TextField label="Kürzel" onChange={e => setKurzzeichen(e.target.value)}></TextField>
+            <Button onClick={() => login()}>Login</Button>
+        </div>
     )
 }
-export default FindById;

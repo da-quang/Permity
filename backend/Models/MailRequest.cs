@@ -8,9 +8,9 @@ namespace backend.Models
 {
     public class MailRequest
     {
-        public string toEmail { get; set; }
-        public string subject { get; set; }
-        public string body { get; set; }
+        public string empfänger { get; set; }
+        public string betreff { get; set; }
+        public string mailtext { get; set; }
         public List<IFormFile> attachments { get; set; }
     }
 }

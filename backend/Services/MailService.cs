@@ -23,8 +23,8 @@ namespace backend.Services
         {
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(mailSettings.mail);
-            email.To.Add(MailboxAddress.Parse(mailRequest.toEmail));
-            email.Subject = mailRequest.subject;
+            email.To.Add(MailboxAddress.Parse(mailRequest.empfänger));
+            email.Subject = mailRequest.betreff;
             var builder = new BodyBuilder();
             if (mailRequest.attachments != null)
             {
@@ -42,7 +42,7 @@ namespace backend.Services
                     }
                 }
             }
-            builder.HtmlBody = mailRequest.body;
+            builder.HtmlBody = mailRequest.mailtext;
             email.Body = builder.ToMessageBody();
             using var smtp = new SmtpClient();
             smtp.Connect(mailSettings.host, mailSettings.port, SecureSocketOptions.StartTls);

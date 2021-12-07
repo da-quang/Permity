@@ -45,7 +45,7 @@ const useStyles = makeStyles({
     a: {
       background: 'linear-gradient(45deg, #143968  30%, #143968  90%)',
       borderRadius: 3,
-      boxShadow: '0 2px 3px 2px rgba(74, 74, 73, .3)',
+      boxShadow: '0 2px 5px 2px rgba(70, 175, 219, .3)',
       color: 'white',
       height: 80,
       width: "70%",
@@ -75,14 +75,16 @@ const useStyles = makeStyles({
 
     e: {
         background: 'linear-gradient(45deg, #143968  30%, #143968  90%)',
-        boxShadow: '0 2px 3px 2px rgba(74, 74, 73, .3)',
+        boxShadow: '0 3px 5px 2px rgba(70, 175, 219, .3)',
         marginTop: 0,
         paddingTop: 60,
         marginBottom: 100,
-        fontSize: 30,
+        fontSize: 40,
         height: 110,
         color: 'white',
-        borderRadius: 3,
+        fontWeight: 'bold',
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
     },
 
     f: {
@@ -92,6 +94,7 @@ const useStyles = makeStyles({
     },
 
     g: {
-        marginTop:"40"
+        marginTop:"40%"
     },
 })
+

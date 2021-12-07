@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\backend",
+    "\\backend\\Controllers",
     "\\backend\\Services"
   ],
-  "SelectedNode": "\\backend\\Services\\MailService.cs",
+  "SelectedNode": "\\backend\\Controllers\\AuftragController.cs",
   "PreviewInSolutionExplorer": false
 }

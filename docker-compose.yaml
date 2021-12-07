@@ -41,6 +41,21 @@ services:
       example-network:
         ipv4_address: 172.16.238.12
 
+  frontend:
+    image: nextjs
+    container_name: frontend_container
+    build:
+      context: ./frontend
+      args:
+        - http_proxy=http://egvbrvproxy1v1.egv.at:8081
+        - https_proxy=http://egvbrvproxy1v1.egv.at:8081
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      example-network:
+        ipv4_address: 172.16.238.13
+
 networks:
   example-network:
     name: example-network

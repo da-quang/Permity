@@ -2,12 +2,15 @@ version: "3.8"
 
 services:
   pgadmin:
-    image: dpage/pgadmin4
+    #image: dpage/pgadmin4
+    image: biarms/pgadmin4
     container_name: pgadmin4_container
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: root@root.com
       PGADMIN_DEFAULT_PASSWORD: root
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
     ports:
       - "5050:80"
     networks:
@@ -23,6 +26,8 @@ services:
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "postgres"
       POSTGRES_INITDB_ARGS: "--encoding=win1250 --lc-collate=C --lc-ctype=C"
+    volumes:
+      - db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
@@ -46,9 +51,6 @@ services:
     container_name: frontend_container
     build:
       context: ./frontend
-      args:
-        - http_proxy=http://egvbrvproxy1v1.egv.at:8081
-        - https_proxy=http://egvbrvproxy1v1.egv.at:8081
     restart: unless-stopped
     ports:
       - 3000:3000
@@ -64,3 +66,7 @@ networks:
       driver: default
       config:
         - subnet: 172.16.238.0/24
+        
+ volumes:
+  db_data:
+  pgadmin-data:

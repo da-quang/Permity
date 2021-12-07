@@ -27,7 +27,7 @@ namespace backend.Controllers
         [HttpGet("find")]
         public JsonResult FindById(string kurzzeichenOrName)
         {
-            string query = @"select ""NAME"", ""EMAIL"" from ""Mitarbeiter"" where ""NAME"" = @kurzzeichenOrName or ""KURZZEICHEN"" = @kurzzeichenOrName";
+            string query = @"select ""NAME"" from ""Mitarbeiter""";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");

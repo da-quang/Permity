@@ -230,6 +230,32 @@ namespace backend.Controllers
             return new JsonResult("Updated successfully");
         }
 
+        //api/Auftrag/update
+        [HttpPut("find")]
+        public JsonResult find(int id)
+        {
+            string query = @"select * from ""Auftrag"" where ""ID"" = @id";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("AppCon");
+            NpgsqlDataReader myReader;
+            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@id", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult("Updated successfully");
+        }
+
         //api/Auftrag/delete
         [HttpDelete("delete")]
         public JsonResult Delete(int id)

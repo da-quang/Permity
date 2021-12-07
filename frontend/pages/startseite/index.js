@@ -47,7 +47,8 @@ export default function Startseite() {
                 
             </div>
             <div >
-                {data && data.map((auftrag, id) => <ul className={classes.g} key={id}>
+                {data && data.map((auftrag, id) => <ul  key={id}>
+                    {auftrag.STATUS == "offen" && <div className={classes.g}>
                     <details className={classes.details}>
                         <summary className={classes.summary}>{auftrag.ID}
                             <div className={classes.BTNROW}>
@@ -70,6 +71,31 @@ export default function Startseite() {
                            
                         </div>
                     </details>
+                    </div>}
+                    {auftrag.STATUS == "bestätigt" && <div className={classes.gg}>
+                    <details className={classes.details}>
+                        <summary className={classes.summary}>{auftrag.ID}
+                            <div className={classes.BTNROW}>
+                                <Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                    <CreateIcon />
+                                </Button>
+                                <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} className={classes.DeleteBTN} color="inherit">
+                                    <DeleteIcon />
+                                </Button>
+                            </div>
+                        </summary>
+                    
+                        <div className={classes.InsideCard}>
+                            <Typography className={classes.p}>KSV: {auftrag.KSV}</Typography>
+                            <Typography className={classes.p}>Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
+                            <Typography className={classes.p}>Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
+                            <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
+                            <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
+                            <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
+                           
+                        </div>
+                    </details>
+                    </div>}
                 </ul>)}
                 {error && <div>Error fetching data.</div>}
                 <footer>
@@ -179,6 +205,14 @@ const useStyles = makeStyles({
     g: {
         borderRadius: 10,
         background: '#143968',
+        marginRight: "10%",
+        marginLeft: "10%",
+        color: "white",
+    },
+
+    gg: {
+        borderRadius: 10,
+        background: 'green',
         marginRight: "10%",
         marginLeft: "10%",
         color: "white",

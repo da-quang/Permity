@@ -4,8 +4,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
 WORKDIR /app
 ENV ASPNETCORE_ENVIRONMENT=Development
-EXPOSE 80
-EXPOSE 443
+EXPOSE 8090
+#EXPOSE 443
 
 #FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build

@@ -7,6 +7,5 @@ module.exports = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
-  webpack5: false,
   optimizeFonts: false,
 }

@@ -19,7 +19,7 @@ RUN npm prune --production
 # #FROM node:lts-alpine
 FROM arm32v6/node:lts-alpine3.12
 
-# WORKDIR /app
+WORKDIR /app
 
 # # copy from build image
 COPY --from=BUILD_IMAGE /app/package.json ./package.json

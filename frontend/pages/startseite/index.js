@@ -11,7 +11,7 @@ import Popup from "reactjs-popup";
 import SignaturePad from "react-signature-canvas";
 import Router from "next/router";
 import "./sigCanvas.module.css";
-import { minHeight } from '@mui/system';
+import { minHeight, textAlign } from '@mui/system';
 import ReactSignatureCanvas from 'react-signature-canvas';
 import sigCanvas from './sigCanvas.module.css';
 import React, { useRef, useState } from "react";
@@ -25,27 +25,25 @@ import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Divider, ListItem, ListItemButton } from '@mui/material';
+import Switch from '@mui/material/Switch';
+import Modal from '@mui/material/Modal';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+import AppBar from '@mui/material/AppBar';
+import List from '@mui/material/List';
+import Dialog from '@mui/material/Dialog';
+import ListItemText from '@mui/material/ListItemText';
+import IconButton from '@mui/material/IconButton';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 console.log("--> Startseite")
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json())
 console.log("--> Übersicht")
 
-// const [textColor, setTextColor] = useState('red');
-
-// const handleChangeTextColor = (e) => {
-//     setTextColor('FF0000');
-// }
-
-//Status ändern nach Speichern des Bildes
-
-// updatedata() {
-//     axios.put(`http://localhost:8090/api/Auftrag/update?id=52&status=Freigegeben"`)
-//     .then((data) => {
-//         console.log(data)
-//     })
-   
-// }
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function Startseite() {
 
@@ -59,12 +57,29 @@ export default function Startseite() {
         setAnchorEl(null);
     };
 
+
+    const [openModal, setOpenModal] = useState(false)
+    const [filter, setfilter] = useState("");
+    const [filter2, setfilter2] = useState("");
+    const [filter3, setfilter3] = useState("");
+
     const handleSearchChange = (se) => {
+        setfilter(se)
+
+    };
+
+    const handleSearchChange3 = (se) => {
+        setfilter3(se)
+
+    };
+
+
+    const handleSearchChangeReset = (se) => {
         setfilter(se);
         setfilter2("");
     };
 
-
+    let BTNColor = false
 
     //Filter
     const [anchorE2, setAnchorE2] = React.useState(null);
@@ -77,16 +92,15 @@ export default function Startseite() {
     };
 
     const handleSearchChange2 = (se) => {
-        setfilter("");
+        BTNColor = true
         setfilter2(se);
     };
-    
 
 
 
 
-    const [filter, setfilter] = useState("");
-    const [filter2, setfilter2] = useState("");
+
+
 
     // Signatur
     const sigCanvasRef = useRef({});
@@ -100,7 +114,7 @@ export default function Startseite() {
     const classes = useStyles();
 
 
-   
+
 
 
     let kurzzeichen = query.param
@@ -111,7 +125,7 @@ export default function Startseite() {
     if (error) return <div>failed to load</div>
     if (!data) return <div>loading...</div>
 
-    
+
 
     //Auftrag löschen
     const Delete = async auftragID => {
@@ -132,8 +146,10 @@ export default function Startseite() {
         console.log(data)
         Router.reload()
     }
-    
-    
+
+
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false)
 
     return (
         // Blaue Fläche
@@ -190,18 +206,19 @@ export default function Startseite() {
                                 'aria-labelledby': 'basic-button',
                             }}
                         >
-                            <ListItem className={classes.ListItem}> <Button onClick={() => handleSearchChange2("")} onClick={() => handleSearchChange("")} variant="contained">Standard </Button></ListItem>
-                            <Divider/>
-                            <ListItem ><Typography> STATUS </Typography> </ListItem>
+                            <ListItem className={classes.ListItem}> <Button onClick={() => handleSearchChangeReset("")} variant="contained">Zurücksetzen </Button></ListItem>
+                            <Divider />
+                            <ListItem background='red'> <Typography variant='h6' fontWeight='bold' > STATUS </Typography></ListItem>
                             <ListItemButton> <Button onClick={() => handleSearchChange("offen")} variant="contained">Offen </Button></ListItemButton>
                             <ListItem> <Button onClick={() => handleSearchChange("Freigegeben")} variant="contained" >Freigegeben </Button></ListItem>
                             <ListItem> <Button onClick={() => handleSearchChange("Abgeschlossen")} variant="contained">Abgeschlossen</Button></ListItem>
-                            <Divider/>
-                            <ListItem> SPERREN </ListItem>
+
+                            <Divider />
+                            <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
                             <ListItem> <Button onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
                             <ListItem> <Button onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
                             <ListItem> <Button onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
-                            <ListItem> <Button onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
+                            <ListItem> <Button className={BTNColor == true ? classes.BTNPressed : null} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
                         </Menu>
 
 
@@ -216,7 +233,7 @@ export default function Startseite() {
             </div>
 
             <div >
-                {data && data.map((auftrag, id) => data[id].STATUS.includes(filter) && data[id].SPERREN.includes(filter2) && <ul className={auftrag.STATUS == "Abgeschlossen" ? classes.Abgeschlossen : auftrag.STATUS == "Freigegeben" ? classes.Freigegeben : auftrag.STATUS == "offen" ? classes.Offen : null} key={id}>
+                {data && data.map((auftrag, id) => data[id].STATUS.includes(filter) && data[id].STATUS.includes(filter3) && data[id].SPERREN.includes(filter2) && <ul className={auftrag.STATUS == "Abgeschlossen" ? classes.Abgeschlossen : auftrag.STATUS == "Freigegeben" ? classes.Freigegeben : auftrag.STATUS == "offen" ? classes.Offen : null} key={id}>
 
                     {/* //KarteikarteBegin */}
                     <details className={classes.details}>
@@ -227,7 +244,7 @@ export default function Startseite() {
                         >{auftrag.ID} <a id="Erfüllen"></a>
                             <div className={classes.BTNROW}>
                                 {/* SignaturBegin */}
-                                <Popup modal trigger={<Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                {/* <Popup modal trigger={<Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                     <CreateIcon />
                                 </Button>}
                                     closeOnDocumentClick={false}
@@ -239,23 +256,104 @@ export default function Startseite() {
                                                     ref={sigCanvasRef}
                                                     canvasProps={
                                                         {
-                                                            style: { background: 'white', width: '300px', minHeight: '300px' }
+                                                            style: { background: 'white', width: '100%', minHeight: '650px' }
                                                         }
                                                     } />
                                             </div>
                                             <Button variant="contained" onClick={close}>Zurück</Button>
                                             <Button variant="contained" onClick={clear}>Leeren</Button>
-                                            <Button variant="contained" onClick={save} >Speichern</Button>
+                                            <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
                                         </>
                                     )}
 
-                                </Popup>
+                                </Popup> */}
                                 {/* SignaturEnd */}
-                                <a className={auftrag.STATUS == "Abgeschlossen" ? classes.BTNClosed : auftrag.Status == "Freigegeben" ? classes.BTNClosed2 : null} >
+
+                                {/* <Button onClick={handleOpenModal} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                    <CreateIcon />
+                                </Button>
+                                <Modal
+                                    open={openModal}
+                                    onClose={handleCloseModal}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                >
+                                    <>
+                                        <div className={sigCanvas.signatureCanvas} >
+                                            <SignaturePad
+                                                ref={sigCanvasRef}
+                                                canvasProps={
+                                                    {
+                                                        style: { background: 'white', width: '100%', minHeight: '650px' }
+                                                    }
+                                                } />
+                                        </div>
+
+                                        <Button variant="contained" onClick={() => clear}>Leeren</Button>
+                                        <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
+                                    </>
+
+                                </Modal> */}
+
+
+
+
+                                <Button onClick={handleOpenModal} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                    <CreateIcon />
+                                </Button>
+                                <Dialog
+                                    fullScreen
+                                    open={openModal}
+                                    onClose={handleCloseModal}
+                                    TransitionComponent={Transition}
+                                >
+                                    <AppBar className={classes.Unterschrift} sx={{ position: 'relative' }}>
+                                        <Toolbar >
+                                            <IconButton
+                                                edge="start"
+                                                color="inherit"
+                                                onClick={handleCloseModal}
+                                                aria-label="close"
+
+                                            >
+                                                <CloseIcon />
+                                            </IconButton>
+                                            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                                Unterschrift
+                                            </Typography>
+                                            <div className={classes.c}>
+                                                <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
+                                                <Button color="inherit" autoFocus onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
+                                            </div>
+                                        </Toolbar>
+                                    </AppBar>
+                                    <>
+                                        <div className={sigCanvas.signatureCanvas} >
+                                            <SignaturePad
+                                                ref={sigCanvasRef}
+                                                canvasProps={
+                                                    {
+                                                        style: { background: 'white', width: '100%', minHeight: '600px' }
+                                                    }
+                                                } />
+                                        </div>
+
+
+
+                                    </>
+                                </Dialog>
+
+
+
+
+
+
+
+                                <rr className={auftrag.STATUS == "Abgeschlossen" ? classes.BTNClosed : auftrag.Status == "Freigegeben" ? classes.BTNClosed2 : null} >
                                     <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                         <DeleteIcon />
                                     </Button>
-                                </a>
+                                </rr>
                             </div>
                         </summary>
 
@@ -292,16 +390,24 @@ export default function Startseite() {
 
 const useStyles = makeStyles({
     a: {
-        background: 'linear-gradient(45deg, #0288d1 30%, #03a9f4 90%)',
+        background: 'linear-gradient(45deg, #143968 30%, #143968 90%)',
         borderRadius: 3,
-        boxShadow: '0 2px 5px 2px rgba(70, 175, 219, .3)',
+
         color: 'white',
-        height: 80,
+        height: 60,
         width: "70%",
-        padding: '0 30px',
+
         textAlign: 'center',
-        marginTop: 40,
-        fontSize: 20,
+
+        fontSize: '20px',
+    },
+
+    BTNPressed: {
+        backgroundColor: "red",
+    },
+
+    FilterHeading: {
+        fontWeight: "bold",
     },
 
     searchContainer: {
@@ -337,7 +443,7 @@ const useStyles = makeStyles({
         background: "blue",
     },
 
-   
+
 
 
 
@@ -359,7 +465,7 @@ const useStyles = makeStyles({
 
     Fab: {
         position: "fixed",
-       
+
 
         zIndex: "999",
     },
@@ -377,7 +483,9 @@ const useStyles = makeStyles({
     },
 
     c: {
-        textAlign: 'center',
+        marginLeft:"30%",
+        textAlign:"center",
+       
 
     },
 
@@ -401,7 +509,11 @@ const useStyles = makeStyles({
         display: 'flex',
     },
 
-
+    Unterschrift: {
+        background: 'linear-gradient(45deg, #143968 30%, #143968 90%)',
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+    },
 
     g: {
         borderBottomLeftRadius: 15,

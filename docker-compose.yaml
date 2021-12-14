@@ -41,12 +41,6 @@ services:
     networks:
       example-network:
         ipv4_address: 172.16.238.12
-    
-    ports:
-      - 3000:3000
-    networks:
-      example-network:
-        ipv4_address: 172.16.238.13
 
   frontend:
     image: nextjs

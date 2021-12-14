@@ -47,9 +47,6 @@ services:
     container_name: frontend_container
     build:
       context: ./frontend
-      args:
-        - http_proxy=http://egvbrvproxy1v1.egv.at:8081
-        - https_proxy=http://egvbrvproxy1v1.egv.at:8081
     restart: unless-stopped
     ports:
       - 3000:3000

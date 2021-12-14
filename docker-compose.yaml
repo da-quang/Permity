@@ -9,8 +9,10 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: root@root.com
       PGADMIN_DEFAULT_PASSWORD: root
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
     ports:
-      - "5050:80"
+      - "5050:5050"
     networks:
       example-network:
         ipv4_address: 172.16.238.10
@@ -24,6 +26,8 @@ services:
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "postgres"
       POSTGRES_INITDB_ARGS: "--encoding=win1250 --lc-collate=C --lc-ctype=C"
+    volumes:
+      - db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
@@ -37,7 +41,7 @@ services:
       context: ./backend
     restart: unless-stopped
     ports:
-      - "8090:80"
+      - "8090:8090"
     networks:
       example-network:
         ipv4_address: 172.16.238.12
@@ -53,7 +57,7 @@ services:
     networks:
       example-network:
         ipv4_address: 172.16.238.13
-        
+
   nginx:
     image: arm32v6/nginx:alpine
     container_name: nginx
@@ -65,7 +69,7 @@ services:
     networks:
       example-network:
         ipv4_address: 172.16.238.15
-        
+
 networks:
   example-network:
     name: example-network
@@ -74,3 +78,7 @@ networks:
       driver: default
       config:
         - subnet: 172.16.238.0/24
+        
+volumes:
+  db_data:
+  pgadmin-data:

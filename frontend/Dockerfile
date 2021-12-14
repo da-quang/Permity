@@ -1,5 +1,5 @@
-# FROM node:lts-alpine as BUILD_IMAGE
-FROM arm32v6/node:lts-alpine3.12 as BUILD_IMAGE
+FROM node:lts-alpine as BUILD_IMAGE
+#FROM arm32v6/node:lts-alpine3.12 as BUILD_IMAGE
 
 WORKDIR /app
 

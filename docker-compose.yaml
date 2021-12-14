@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   pgadmin:
-    #image: dpage/pgadmin4
-    image: biarms/pgadmin4
+    image: dpage/pgadmin4
+    #image: biarms/pgadmin4
     container_name: pgadmin4_container
     restart: always
     environment:

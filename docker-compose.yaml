@@ -51,6 +51,11 @@ services:
         - http_proxy=http://egvbrvproxy1v1.egv.at:8081
         - https_proxy=http://egvbrvproxy1v1.egv.at:8081
     restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      example-network:
+        ipv4_address: 172.16.238.13
         
   nginx:
     image: arm32v6/nginx:alpine

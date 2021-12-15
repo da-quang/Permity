@@ -62,7 +62,7 @@ export default function Formular() {
             })
             .then((data) => setData(data));
     }
-
+//Amir
     let kurzzeichen = query.param
 
     let loaded = false

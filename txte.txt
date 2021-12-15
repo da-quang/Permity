@@ -64,7 +64,8 @@ CREATE TABLE public."Mitarbeiter" (
     "LEHR_VERANT" character varying,
     "AUFGABE_1" character varying,
     "AUFGABE_2" character varying,
-    "AUFGABE_3" character varying
+    "AUFGABE_3" character varying,
+    "EMAIL" character varying
 );
 
 CREATE TABLE public."Teamzuordnung" (

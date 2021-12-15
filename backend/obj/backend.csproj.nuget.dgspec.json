@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Permity\\backend\\backend.csproj": {}
+    "C:\\Users\\daqua\\OneDrive\\Desktop\\Permity\\backend\\backend.csproj": {}
   },
   "projects": {
-    "D:\\Permity\\backend\\backend.csproj": {
+    "C:\\Users\\daqua\\OneDrive\\Desktop\\Permity\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Permity\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\daqua\\OneDrive\\Desktop\\Permity\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "D:\\Permity\\backend\\backend.csproj",
+        "projectPath": "C:\\Users\\daqua\\OneDrive\\Desktop\\Permity\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\daqua\\.nuget\\packages\\",
-        "outputPath": "D:\\Permity\\backend\\obj\\",
+        "outputPath": "C:\\Users\\daqua\\OneDrive\\Desktop\\Permity\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Microsoft Visual Studio\\Shared\\NuGetPackages"

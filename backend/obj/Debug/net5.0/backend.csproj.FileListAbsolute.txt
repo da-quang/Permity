@@ -38,7 +38,6 @@ C:\Users\daqua\OneDrive\Desktop\Permity\backend\obj\Debug\net5.0\backend.csproj.
 C:\Users\daqua\OneDrive\Desktop\Permity\backend\obj\Debug\net5.0\backend.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\daqua\OneDrive\Desktop\Permity\backend\obj\Debug\net5.0\backend.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\daqua\OneDrive\Desktop\Permity\backend\obj\Debug\net5.0\staticwebassets\backend.StaticWebAssets.Manifest.cache
-C:\Users\daqua\OneDrive\Desktop\Permity\backend\obj\Debug\net5.0\staticwebassets\backend.StaticWebAssets.xml
 C:\Users\daqua\OneDrive\Desktop\Permity\backend\obj\Debug\net5.0\scopedcss\bundle\backend.styles.css
 C:\Users\daqua\OneDrive\Desktop\Permity\backend\obj\Debug\net5.0\backend.RazorTargetAssemblyInfo.cache
 C:\Users\daqua\OneDrive\Desktop\Permity\backend\obj\Debug\net5.0\backend.csproj.CopyComplete
@@ -250,3 +249,8 @@ D:\Permity\backend\obj\Debug\net5.0\backend.dll
 D:\Permity\backend\obj\Debug\net5.0\ref\backend.dll
 D:\Permity\backend\obj\Debug\net5.0\backend.pdb
 D:\Permity\backend\obj\Debug\net5.0\backend.genruntimeconfig.cache
+C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\backend.StaticWebAssets.xml
+C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\MailKit.dll
+C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\MimeKit.dll
+C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\NETCore.MailKit.dll
+C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\BouncyCastle.Crypto.dll

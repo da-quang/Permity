@@ -253,7 +253,7 @@ namespace backend.Controllers
                 }
             }
 
-            return new JsonResult("Updated successfully");
+             return new JsonResult(table);
         }
 
         //api/Auftrag/delete

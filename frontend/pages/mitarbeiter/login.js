@@ -14,8 +14,15 @@ export default function Login() {
     const router = useRouter()
 
     function login(){
-        router.push(`/startseite?param=${kurzzeichen}&param2=${name}`) 
-        
+        axios.get('http://localhost:8090/api/Mitarbeiter/login', { params: { name, kurzzeichen } }).then(res => {
+            if(res.data[0].exists == true){
+                console.log("Login Succesful!")
+                console.log(`Logged in as ${name}.`)
+                router.push(`/startseite?param=${kurzzeichen}&param2=${name}`) 
+            }else{
+                console.log("Your login attempt was not successful. Please Try again.") 
+            }
+        })
     }
 
     const classes = useStyles();

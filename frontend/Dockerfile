@@ -13,8 +13,8 @@ COPY . .
 # build
 RUN npm run build
 
-# remove dev dependencies
-RUN npm prune --production
+# # remove dev dependencies
+# RUN npm prune --production
 
 # # FROM node:lts-alpine
 # FROM arm32v6/node:lts-alpine3.12

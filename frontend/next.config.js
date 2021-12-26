@@ -9,5 +9,4 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
   optimizeFonts: false,
-  presets: ['@next/babel'],
 }

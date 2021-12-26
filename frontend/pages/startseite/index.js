@@ -2,17 +2,14 @@ import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';;
 import MenuIcon from '@mui/icons-material/Menu';
-import { Fab, Link, Typography } from '@material-ui/core';
+import { Fab, Typography } from '@material-ui/core';
 import AddIcon from '@mui/icons-material/Add';
 import useSWR from "swr"
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Popup from "reactjs-popup";
 import SignaturePad from "react-signature-canvas";
 import Router from "next/router";
 import "./sigCanvas.module.css";
-import { minHeight, textAlign } from '@mui/system';
-import ReactSignatureCanvas from 'react-signature-canvas';
 import sigCanvas from './sigCanvas.module.css';
 import React, { useRef, useState } from "react";
 import Toolbar from '@mui/material/Toolbar';
@@ -25,16 +22,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Divider, ListItem, ListItemButton } from '@mui/material';
-import Switch from '@mui/material/Switch';
-import Modal from '@mui/material/Modal';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import AppBar from '@mui/material/AppBar';
-import List from '@mui/material/List';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
-import ButtonGroup from '@mui/material/ButtonGroup';
 
 console.log("--> Startseite")
 

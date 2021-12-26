@@ -1,11 +1,6 @@
-import { TextField, Grid, Box, Typography } from '@material-ui/core';
-import {useState} from "react";
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
-import SaveIcon from '@mui/icons-material/Save';
-import { autocompleteClasses } from '@mui/material';
 
 
 console.log("--> Start")
@@ -42,40 +37,6 @@ const useStyles = makeStyles({
         display: 'block',
         marginLeft: 'auto',
         marginTop: 'auto'
-    },
-
-    c: {
-        display: 'inline-block'
-    },
-
-    d: {
-        color: "green",
-        textAlign: 'center',
-        marginTop: 40,
-    },
-
-    e: {
-        background: 'linear-gradient(45deg, #143968  30%, #143968  90%)',
-        boxShadow: '0 3px 5px 2px rgba(70, 175, 219, .3)',
-        marginTop: 0,
-        paddingTop: 60,
-        marginBottom: 100,
-        fontSize: 40,
-        height: 110,
-        color: 'white',
-        fontWeight: 'bold',
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-    },
-
-    f: {
-        background: 'linear-gradient(45deg, #455a64 30%, #546e7a 90%)',
-        boxShadow: '0 3px 5px 2px rgba(70, 175, 219, .3)',
-        height: 75,
-    },
-
-    g: {
-        marginTop:"40%"
     },
 })
 

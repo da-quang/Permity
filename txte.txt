@@ -105,10 +105,10 @@ FROM '/Teamzuordnung.csv'
 DELIMITER ';'
 CSV HEADER encoding 'windows-1250';
 
-docker cp D:/Permity/csv_files/Betriebsbereich.csv postgresql_container:"Betriebsbereich.csv"
-docker cp D:/Permity/csv_files/KSV_Struktur.csv postgresql_container:"KSV_Struktur.csv"
-docker cp D:/Permity/csv_files/Mitarbeiter.csv postgresql_container:"Mitarbeiter.csv"
-docker cp D:/Permity/csv_files/Teamzuordnung.csv postgresql_container:"Teamzuordnung.csv"
+docker cp C:/Users/daqua/OneDrive/Desktop/Permity/csv_files/Betriebsbereich.csv postgresql_container:"Betriebsbereich.csv"
+docker cp C:/Users/daqua/OneDrive/Desktop/Permity/csv_files/KSV_Struktur.csv postgresql_container:"KSV_Struktur.csv"
+docker cp C:/Users/daqua/OneDrive/Desktop/Permity/csv_files/Mitarbeiter.csv postgresql_container:"Mitarbeiter.csv"
+docker cp C:/Users/daqua/OneDrive/Desktop/Permity/csv_files/Teamzuordnung.csv postgresql_container:"Teamzuordnung.csv"
 
 
 docker exec -t postgresql_container pg_dumpall -c -U postgres > D:Permity/backup/dump.sql

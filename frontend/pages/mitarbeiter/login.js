@@ -36,7 +36,6 @@ export default function Login() {
                 <div className={classes.d}><TextField className={classes.b} id="standard-basic" variant="outlined" label="Kürzel" onChange={e => setKurzzeichen(e.target.value)}></TextField></div>
                 <div className={classes.c}><Button color="inherit" className={classes.a} onClick={() => login()}><SaveIcon/>Login</Button></div>
             </div>
-           
         </form>
     )
 }

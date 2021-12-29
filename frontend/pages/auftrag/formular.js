@@ -157,8 +157,12 @@ function loadEbene2(){
 
     const [value, setValue] = useState(new Date());
     const [value1, setValue1] = useState(new Date());
-
-
+    const [x, setx] = useState("");
+    const handleChange = e => {
+        console.log(`${e.target.value}`);
+        setx(e.target.value)
+    };
+    
 
     return (
         <form className={classes.h}>
@@ -271,10 +275,10 @@ function loadEbene2(){
                         options={data3}
                         getOptionLabel={(option) => option.KSV}
 
-                        renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
+                        renderInput={(params) => (<TextField {...params} variant="outlined" value={x} onChange={handleChange} label="Ksv"></TextField>)}
                         isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                     />
-                    {/* <Button onClick={}>Weiter</Button> */}
+                    <Button onClick={() => test()}>Weiter</Button>
                 </Grid>
                 <Grid item xs={6}>
                     <Autocomplete

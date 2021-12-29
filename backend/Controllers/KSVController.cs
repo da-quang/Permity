@@ -52,7 +52,31 @@ namespace backend.Controllers
             return new JsonResult(table);
         }
 
-       
+       //api/KSV/all
+        [HttpGet("ksv")]
+        public JsonResult ksv(string ksv)
+        {
+            string query = @"select ""KSV"", ""BEZEICHNUNG"" from ""KSV_Struktur"" where ""KSV"" like @ksv or ""BEZEICHNUNG"" like @ksv and ""EBENE"" <= 5 order by 1;";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("AppCon");
+            NpgsqlDataReader myReader;
+
+            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ksv", "%" + ksv + "%");
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
 
         //api/KSV/select
         [HttpGet("select")]

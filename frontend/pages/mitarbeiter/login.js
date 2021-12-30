@@ -14,7 +14,7 @@ export default function Login() {
     const router = useRouter()
 
     function login(){
-        axios.get('http://localhost:8090/api/Mitarbeiter/login', { params: { name, kurzzeichen } }).then(res => {
+        axios.get('https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/login', { params: { name, kurzzeichen } }).then(res => {
             if(res.data[0].exists == true){
                 console.log("Login Succesful!")
                 console.log(`Logged in as ${name}.`)

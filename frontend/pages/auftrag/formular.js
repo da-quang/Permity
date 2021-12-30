@@ -70,7 +70,7 @@ export default function Formular() {
    
 
     const CREATE = async () => {
-        const response = await fetch(`http://localhost:8090/api/Auftrag/create?ksv=${ksv}-13&auftraggeber=Riegler%20Thomas&auftragnehmer=Boch%20Walter&sperren=Freigabe%20zur%20Arbeit&kommentar=Gut%20machen&von=2021.12.30&bis=2021.12.31`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${ksv}-13&auftraggeber=Riegler%20Thomas&auftragnehmer=Boch%20Walter&sperren=Freigabe%20zur%20Arbeit&kommentar=Gut%20machen&von=2021.12.30&bis=2021.12.31`, {
             method: 'POST'
         })
         const data = await response.json()

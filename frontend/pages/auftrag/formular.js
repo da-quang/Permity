@@ -32,7 +32,6 @@ export default function Formular() {
     const classes = useStyles();
     // const [data, setData] = useState([]);
 
-    let [ksv, setKsv] = useState('')
     let auftraggeber = query.param2
     let [auftragnehmer, setAuftragnehmer] = useState('')
     let [sperren, setSperren] = useState('')
@@ -57,13 +56,6 @@ export default function Formular() {
 
     let loaded = false
 
-
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/all`)
-            .then((response) => response.json())
-            .then((data2) => setData2(data2));
-    }, []);
-
     //Menü
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -81,15 +73,18 @@ export default function Formular() {
 
     const [value, setValue] = useState(new Date());
     const [value1, setValue1] = useState(new Date());
-    const [x, setx] = useState("");
-    const handleChange = e => {
-        console.log(`${e.target.value}`);
-        setx(e.target.value)
-    };
     
     const [kurzzeichenOrName, setKurzzeichenOrName] = useState([]);
     function findMitarbeiter() {
         axios.get('https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/find', { params: { kurzzeichenOrName } })
+        .then(res => {
+            console.log(res.data)
+        })
+    }
+
+    const [ksv, setKsv] = useState([]);
+    function getKsv() {
+        axios.get('https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/ksv', { params: { ksv } })
         .then(res => {
             console.log(res.data)
         })
@@ -169,17 +164,18 @@ export default function Formular() {
                     <TextField variant="outlined" label="Mitarbeiter/in" onChange={e => setKurzzeichenOrName(e.target.value)}></TextField>
                     <Button onClick={() => findMitarbeiter()}>Suchen</Button>
                 </Grid>
+
+                <Grid item xs={6}>
+                    <TextField variant="outlined" label="KSV" onChange={e => setKsv(e.target.value)}></TextField>
+                    <Button onClick={() => getKsv()}>Suchen</Button>
+                </Grid>
             </Grid>
         
-
-           
             <Fab onClick={() => create()} color="secondary" className={classes.Fab} aria-label="add">
                 <AddIcon />
             </Fab>
-
         </form>
     )
-
 }
 
 

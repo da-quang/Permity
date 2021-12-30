@@ -153,7 +153,7 @@ export default function Startseite() {
         <form className={classes.h}>
 
             <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
-                <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}`)} color="secondary" aria-label="add">
+                <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)} color="secondary" aria-label="add">
                     <AddIcon />
                 </Fab>
 
@@ -363,6 +363,8 @@ export default function Startseite() {
                             <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
                             <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
                             <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
+                            <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
+                            <Typography className={classes.p}>BIS: {auftrag.BIS}</Typography>
 
                         </div>
                     </details>
@@ -557,7 +559,7 @@ const useStyles = makeStyles({
         marginRight: "10%",
         marginLeft: "10%",
         color: "white",
-        backgroundColor: "red",
+        backgroundColor: "#1769aa",
 
 
 
@@ -572,7 +574,7 @@ const useStyles = makeStyles({
         marginRight: "10%",
         marginLeft: "10%",
         color: "white",
-        backgroundColor: "orange",
+        backgroundColor: "linear-gradient(45deg, #143968 30%, #143968 90%)",
     },
 
 
@@ -585,7 +587,7 @@ const useStyles = makeStyles({
         marginRight: "10%",
         marginLeft: "10%",
         color: "white",
-        backgroundColor: "green",
+        backgroundColor: "grey",
     },
 
 

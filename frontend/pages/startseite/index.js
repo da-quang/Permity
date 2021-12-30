@@ -7,19 +7,13 @@ import AddIcon from '@mui/icons-material/Add';
 import useSWR from "swr"
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Popup from "reactjs-popup";
 import SignaturePad from "react-signature-canvas";
 import Router from "next/router";
 import "./sigCanvas.module.css";
-import { minHeight, textAlign } from '@mui/system';
-import ReactSignatureCanvas from 'react-signature-canvas';
 import sigCanvas from './sigCanvas.module.css';
 import React, { useRef, useState } from "react";
 import Toolbar from '@mui/material/Toolbar';
 import LogoutIcon from '@mui/icons-material/Logout';
-import HomeIcon from '@mui/icons-material/Home';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import SearchIcon from '@mui/icons-material/Search';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
@@ -35,6 +29,7 @@ import Dialog from '@mui/material/Dialog';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import MailIcon from '@mui/icons-material/Mail';
 
 console.log("--> Startseite")
 
@@ -59,14 +54,11 @@ export default function Startseite() {
 
 
     const [openModal, setOpenModal] = useState(false)
+    const [filterOnOff, setfilterOnOff] = useState(false)
     const [filter, setfilter] = useState("");
     const [filter2, setfilter2] = useState("");
     const [filter3, setfilter3] = useState("");
 
-    const handleSearchChange = (se) => {
-        setfilter(se)
-
-    };
 
     const handleSearchChange3 = (se) => {
         setfilter3(se)
@@ -74,10 +66,10 @@ export default function Startseite() {
     };
 
 
-    const handleSearchChangeReset = (se) => {
-        setfilter(se);
-        setfilter2("");
-    };
+    // const handleSearchChangeReset = (se) => {
+    //     setfilter(se);
+    //     setfilter2("");
+    // };
 
     let BTNColor = false
 
@@ -92,14 +84,23 @@ export default function Startseite() {
     };
 
     const handleSearchChange2 = (se) => {
-        BTNColor = true
-        setfilter2(se);
+        if (filter2 == se) {
+            setfilter2("");
+        }
+        else {
+            setfilter2(se);
+        }
     };
+    const
+        handleSearchChange = (se) => {
+            if (filter == se) {
+                setfilter("");
+            }
+            else {
+                setfilter(se);
+            }
 
-
-
-
-
+        };
 
 
     // Signatur
@@ -113,14 +114,10 @@ export default function Startseite() {
     const router = useRouter()
     const classes = useStyles();
 
-
-
-
-
     let kurzzeichen = query.param
     let name = query.param2
 
-    const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
+    const { data, error } = useSWR(`http://localhost:8090/api/Auftrag/all?name=${name}`, fetcher)
 
     if (error) return <div>failed to load</div>
     if (!data) return <div>loading...</div>
@@ -129,7 +126,7 @@ export default function Startseite() {
 
     //Auftrag löschen
     const Delete = async auftragID => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/delete?id=${auftragID}`, {
+        const response = await fetch(`http://localhost:8090/api/Auftrag/delete?id=${auftragID}`, {
             method: 'DELETE'
         })
         const data = await response.json()
@@ -139,7 +136,7 @@ export default function Startseite() {
 
     //Status des Auftrags ändern
     const Update = async auftragID => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${auftragID}&status=Freigegeben`, {
+        const response = await fetch(`http://localhost:8090/api/Auftrag/update?id=${auftragID}&status=Freigegeben`, {
             method: 'PUT'
         })
         const data = await response.json()
@@ -154,6 +151,14 @@ export default function Startseite() {
     return (
         // Blaue Fläche
         <form className={classes.h}>
+
+            <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
+                <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)} color="secondary" aria-label="add">
+                    <AddIcon />
+                </Fab>
+
+            </Box>
+
             <div className={classes.e}>
                 <div>
                     <Button color="inherit" className={classes.BTN}
@@ -184,50 +189,43 @@ export default function Startseite() {
 
 
             <div className={classes.FilterAdd}>
-                <Toolbar>
-                    <div className={classes.searchContainer}>
+
+                <div className={classes.searchContainer}>
+                    <Button color="inherit" className={classes.BTN}
+                        id="basic-button"
+                        aria-controls="basic-menu"
+                        aria-haspopup="true"
+                        aria-expanded={open2 ? 'true' : undefined}
+                        onClick={handleClick2}
+                    >
+                        <FilterAltIcon className={classes.searchIcon} /> <Typography> Filter </Typography>
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorE2}
+                        open={open2}
+                        onClose={handleClose2}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                    >
+
+                        <ListItem background='red'> <Typography variant='h6' fontWeight='bold' > STATUS </Typography></ListItem>
+                        <ListItem> <Button className={filter == "offen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("offen")} variant="contained">Offen </Button></ListItem>
+                        <ListItem> <Button className={filter == "Freigegeben" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Freigegeben")} variant="contained" >Freigegeben </Button></ListItem>
+                        <ListItem> <Button className={filter == "Abgeschlossen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Abgeschlossen")} variant="contained">Abgeschlossen</Button></ListItem>
+
+                        <Divider />
+                        <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
+                        <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
+                        <ListItem> <Button className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
+                        <ListItem> <Button className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
+                        <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
+                    </Menu>
 
 
-                        <Button color="inherit" className={classes.BTN}
-                            id="basic-button"
-                            aria-controls="basic-menu"
-                            aria-haspopup="true"
-                            aria-expanded={open2 ? 'true' : undefined}
-                            onClick={handleClick2}
-                        >
-                            <FilterAltIcon className={classes.searchIcon} /> <Typography> Filter </Typography>
-                        </Button>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorE2}
-                            open={open2}
-                            onClose={handleClose2}
-                            MenuListProps={{
-                                'aria-labelledby': 'basic-button',
-                            }}
-                        >
-                            <ListItem className={classes.ListItem}> <Button onClick={() => handleSearchChangeReset("")} variant="contained">Zurücksetzen </Button></ListItem>
-                            <Divider />
-                            <ListItem background='red'> <Typography variant='h6' fontWeight='bold' > STATUS </Typography></ListItem>
-                            <ListItemButton> <Button onClick={() => handleSearchChange("offen")} variant="contained">Offen </Button></ListItemButton>
-                            <ListItem> <Button onClick={() => handleSearchChange("Freigegeben")} variant="contained" >Freigegeben </Button></ListItem>
-                            <ListItem> <Button onClick={() => handleSearchChange("Abgeschlossen")} variant="contained">Abgeschlossen</Button></ListItem>
-
-                            <Divider />
-                            <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
-                            <ListItem> <Button onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
-                            <ListItem> <Button onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
-                            <ListItem> <Button onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
-                            <ListItem> <Button className={BTNColor == true ? classes.BTNPressed : null} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
-                        </Menu>
-
-
-                        {/* <TextField onChange={handleSearchChange} label="Status suchen"variant="standard" className={classes.SearchInput} /> */}
-                    </div>
-                </Toolbar>
-
-
-
+                    {/* <TextField onChange={handleSearchChange} label="Status suchen"variant="standard" className={classes.SearchInput} /> */}
+                </div>
 
 
             </div>
@@ -243,64 +241,11 @@ export default function Startseite() {
 
                         >{auftrag.ID} <a id="Erfüllen"></a>
                             <div className={classes.BTNROW}>
-                                {/* SignaturBegin */}
-                                {/* <Popup modal trigger={<Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                    <CreateIcon />
-                                </Button>}
-                                    closeOnDocumentClick={false}
-                                >
-                                    {close => (
-                                        <>
-                                            <div className={sigCanvas.signatureCanvas} >
-                                                <SignaturePad
-                                                    ref={sigCanvasRef}
-                                                    canvasProps={
-                                                        {
-                                                            style: { background: 'white', width: '100%', minHeight: '650px' }
-                                                        }
-                                                    } />
-                                            </div>
-                                            <Button variant="contained" onClick={close}>Zurück</Button>
-                                            <Button variant="contained" onClick={clear}>Leeren</Button>
-                                            <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
-                                        </>
-                                    )}
-
-                                </Popup> */}
-                                {/* SignaturEnd */}
-
-                                {/* <Button onClick={handleOpenModal} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                    <CreateIcon />
-                                </Button>
-                                <Modal
-                                    open={openModal}
-                                    onClose={handleCloseModal}
-                                    aria-labelledby="modal-modal-title"
-                                    aria-describedby="modal-modal-description"
-                                >
-                                    <>
-                                        <div className={sigCanvas.signatureCanvas} >
-                                            <SignaturePad
-                                                ref={sigCanvasRef}
-                                                canvasProps={
-                                                    {
-                                                        style: { background: 'white', width: '100%', minHeight: '650px' }
-                                                    }
-                                                } />
-                                        </div>
-
-                                        <Button variant="contained" onClick={() => clear}>Leeren</Button>
-                                        <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
-                                    </>
-
-                                </Modal> */}
-
-
-
-
-                                <Button onClick={handleOpenModal} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                    <CreateIcon />
-                                </Button>
+                                <a className={auftrag.STATUS == "Freigegeben" || auftrag.STATUS == "Abgeschlossen" ? classes.SummaryBTNDisabled : null}>
+                                    <Button onClick={handleOpenModal} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                        <CreateIcon />
+                                    </Button>
+                                </a>
                                 <Dialog
                                     fullScreen
                                     open={openModal}
@@ -344,16 +289,65 @@ export default function Startseite() {
                                 </Dialog>
 
 
+                                {/* SignaturBegin */}
+                                {/* <Popup modal trigger={<Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                    <CreateIcon />
+                                </Button>}
+                                    closeOnDocumentClick={false}
+                                >
+                                    {close => (
+                                        <>
+                                            <div className={sigCanvas.signatureCanvas} >
+                                                <SignaturePad
+                                                    ref={sigCanvasRef}
+                                                    canvasProps={
+                                                        {
+                                                            style: { background: 'white', width: '100%', minHeight: '650px' }
+                                                        }
+                                                    } />
+                                            </div>
+                                            <Button variant="contained" onClick={close}>Zurück</Button>
+                                            <Button variant="contained" onClick={clear}>Leeren</Button>
+                                            <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
+                                        </>
+                                    )}
+                                </Popup> */}
+                                {/* SignaturEnd */}
+
+                                {/* <Button onClick={handleOpenModal} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                    <CreateIcon />
+                                </Button>
+                                <Modal
+                                    open={openModal}
+                                    onClose={handleCloseModal}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                >
+                                    <>
+                                        <div className={sigCanvas.signatureCanvas} >
+                                            <SignaturePad
+                                                ref={sigCanvasRef}
+                                                canvasProps={
+                                                    {
+                                                        style: { background: 'white', width: '100%', minHeight: '650px' }
+                                                    }
+                                                } />
+                                        </div>
+                                        <Button variant="contained" onClick={() => clear}>Leeren</Button>
+                                        <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
+                                    </>
+                                </Modal> */}
 
 
 
 
 
-                                <rr className={auftrag.STATUS == "Abgeschlossen" ? classes.BTNClosed : auftrag.Status == "Freigegeben" ? classes.BTNClosed2 : null} >
+
+                                <a className={auftrag.STATUS == "offen" || auftrag.STATUS == "Freigegeben" ? classes.SummaryBTNDisabled : null}>
                                     <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                         <DeleteIcon />
                                     </Button>
-                                </rr>
+                                </a>
                             </div>
                         </summary>
 
@@ -366,6 +360,8 @@ export default function Startseite() {
                             <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
                             <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
                             <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
+                            <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
+                            <Typography className={classes.p}>BIS: {auftrag.BIS}</Typography>
 
                         </div>
                     </details>
@@ -376,12 +372,7 @@ export default function Startseite() {
 
 
             </div>
-            <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
-                <Fab className={classes.Fab} onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}`)} color="secondary" aria-label="add">
-                    <AddIcon />
-                </Fab>
 
-            </Box>
         </form>
     )
 }
@@ -389,59 +380,78 @@ export default function Startseite() {
 
 
 const useStyles = makeStyles({
-    a: {
-        background: 'linear-gradient(45deg, #143968 30%, #143968 90%)',
-        borderRadius: 3,
-
-        color: 'white',
-        height: 60,
-        width: "70%",
-
-        textAlign: 'center',
-
-        fontSize: '20px',
-    },
-
-    BTNPressed: {
-        backgroundColor: "red",
-    },
-
-    FilterHeading: {
-        fontWeight: "bold",
-    },
-
-    searchContainer: {
-        display: "flex",
-
-        marginTop: "5px",
-        marginBottom: "5px",
-        width: "200px",
-    },
-
-    searchIcon: {
-        alignSelf: "flex-end",
-        marginBottom: "5px",
-    },
-
-    SearchInput: {
-        width: "200px",
-
-    },
 
     FilterAdd: {
+        marginTop: "10%",
+        marginBottom: "10%",
         display: "flex",
-        marginRight: "80%"
-
+        marginLeft: "10%",
+        marginRight: "10%",
+        justifyContent: 'space-between',
     },
 
-    SignaturePad: {
-        backgroundColor: 'grey',
+    // a: {
+    //     background: 'linear-gradient(45deg, #143968 30%, #143968 90%)',
+    //     borderRadius: 3,
+
+    //     color: 'white',
+    //     height: 60,
+    //     width: "70%",
+
+    //     textAlign: 'center',
+
+    //     fontSize: '20px',
+    // },
+
+
+    BTNEnabled: {
+        background: 'linear-gradient(45deg, #143968 30%, #143968 90%)',
     },
 
-    BTNClosed: {
+    BTNDisabled: {
+        background: 'linear-gradient(90deg, rgba(212,25,25,1) 38%, rgba(212,25,25,1) 100%)',
+    },
+
+    SummaryBTNDisabled: {
         display: 'none',
-        background: "blue",
     },
+
+    // FilterHeading: {
+    //     fontWeight: "bold",
+    // },
+
+    // searchContainer: {
+    //     display: "flex",
+
+    //     marginTop: "5px",
+    //     marginBottom: "5px",
+    //     width: "200px",
+    // },
+
+    // searchIcon: {
+    //     alignSelf: "flex-end",
+    //     marginBottom: "5px",
+    // },
+
+    // SearchInput: {
+    //     width: "200px",
+
+    // },
+
+    // FilterAdd: {
+    //     display: "flex",
+    //     marginRight: "80%"
+
+    // },
+
+    // SignaturePad: {
+    //     backgroundColor: 'grey',
+    // },
+
+    // BTNClosed: {
+    //     display: 'none',
+    //     background: "blue",
+    // },
 
 
 
@@ -465,16 +475,17 @@ const useStyles = makeStyles({
 
     Fab: {
         position: "fixed",
-
+        right: "8%",
+        bottom: "5%",
 
         zIndex: "999",
     },
 
-    BTN: {
-        color: 'white',
-        fontSize: 100,
-        fontWeight: '600',
-    },
+    // BTN: {
+    //     color: 'white',
+    //     fontSize: 100,
+    //     fontWeight: '600',
+    // },
 
     b: {
         height: 40,
@@ -483,9 +494,9 @@ const useStyles = makeStyles({
     },
 
     c: {
-        marginLeft:"30%",
-        textAlign:"center",
-       
+        marginLeft: "30%",
+        textAlign: "center",
+
 
     },
 
@@ -499,9 +510,9 @@ const useStyles = makeStyles({
         background: 'linear-gradient(45deg, #143968 30%, #143968 90%)',
         boxShadow: '0 3px 5px 2px rgba(20, 57, 104, .3)',
         marginTop: 0,
-        paddingTop: 60,
+        paddingTop: 15,
         marginBottom: "5%",
-        height: 110,
+        height: 60,
         color: 'white',
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
@@ -515,16 +526,16 @@ const useStyles = makeStyles({
         borderBottomRightRadius: 15,
     },
 
-    g: {
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        background: '#143968',
-        marginRight: "10%",
-        marginLeft: "10%",
-        color: "white",
-    },
+    // g: {
+    //     borderBottomLeftRadius: 15,
+    //     borderBottomRightRadius: 15,
+    //     borderTopLeftRadius: 15,
+    //     borderTopRightRadius: 15,
+    //     background: '#143968',
+    //     marginRight: "10%",
+    //     marginLeft: "10%",
+    //     color: "white",
+    // },
 
 
 
@@ -534,9 +545,6 @@ const useStyles = makeStyles({
         lineHeight: 3,
         display: "flex",
         justifyContent: 'space-between',
-
-
-
     },
 
     Offen: {
@@ -548,7 +556,7 @@ const useStyles = makeStyles({
         marginRight: "10%",
         marginLeft: "10%",
         color: "white",
-        backgroundColor: "red",
+        backgroundColor: "#1769aa",
 
 
 
@@ -563,10 +571,9 @@ const useStyles = makeStyles({
         marginRight: "10%",
         marginLeft: "10%",
         color: "white",
-        backgroundColor: "orange",
-
-
+        backgroundColor: "linear-gradient(45deg, #143968 30%, #143968 90%)",
     },
+
 
     Abgeschlossen: {
         borderBottomLeftRadius: 15,
@@ -577,18 +584,17 @@ const useStyles = makeStyles({
         marginRight: "10%",
         marginLeft: "10%",
         color: "white",
-        backgroundColor: "green",
-
-
+        backgroundColor: "grey",
     },
-    p: {
-        borderBottom: "solid",
-        width: "85%",
-        marginTop: 10,
 
 
-    },
+    // p: {
+    //     borderBottom: "solid",
+    //     width: "85%",
+    //     marginTop: 10,
+
+
+    // },
 
 
 })
-

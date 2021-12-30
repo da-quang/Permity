@@ -7,7 +7,7 @@ export default function OutsideUsageExample() {
   const {query} = useRouter()
   let kurzzeichen = query.param
   
-  const { data, error } = useSWR(`http://localhost:8090/api/Auftrag/all?name=${kurzzeichen}`, fetcher)
+  const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${kurzzeichen}`, fetcher)
 
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>

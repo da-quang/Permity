@@ -40,22 +40,12 @@ export default function Formular() {
     let [von, setVon] = useState(new Date())
     let [bis, setBis] = useState(new Date())
     let status = 'offen'
-
-    const [data1, setData1] = useState([]);
     const [data2, setData2] = useState([]);
-    const [data3, setData3] = useState([]);
-    const [data4, setData4] = useState([]);
-    const [data5, setData5] = useState([]);
-    const [data6, setData6] = useState([]);
-    const [data7, setData7] = useState([]);
-    const [data8, setData8] = useState([]);
-    const [data9, setData9] = useState([]);
-    const [data10, setData10] = useState([]);
-    const [data11, setData11] = useState([]);
+ 
 
 
     function create() {
-        axios.post('http://localhost:8090/api/Auftrag/create', null, { params: { ksv, auftraggeber, auftragnehmer, sperren, kommentar, von, bis, status } })
+        axios.post('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', null, { params: { ksv, auftraggeber, auftragnehmer, sperren, kommentar, von, bis, status } })
             .then(res => {
                 console.log(res)
 
@@ -69,68 +59,9 @@ export default function Formular() {
 
 
     useEffect(() => {
-        fetch(`http://localhost:8090/api/Mitarbeiter/all`)
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/all`)
             .then((response) => response.json())
             .then((data2) => setData2(data2));
-    }, []);
-
-
-    useEffect(() => {
-        fetch(`http://localhost:8090/api/KSV/select?ebene=1`)
-            .then((response) => response.json())
-            .then((data3) => setData3(data3));
-    }, []);
-
-function loadEbene2(){
-
-    useEffect(() => {
-        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=2`)
-            .then((response) => response.json())
-            .then((data4) => setData4(data4));
-    }, []);
-
-}
-   
-    useEffect(() => {
-        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=3`)
-            .then((response) => response.json())
-            .then((data5) => setData5(data5));
-    }, []);
-
-    useEffect(() => {
-        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=4`)
-            .then((response) => response.json())
-            .then((data6) => setData6(data6));
-    }, []);
-
-    useEffect(() => {
-        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=5`)
-            .then((response) => response.json())
-            .then((data7) => setData7(data7));
-    }, []);
-
-    useEffect(() => {
-        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=6`)
-            .then((response) => response.json())
-            .then((data8) => setData8(data8));
-    }, []);
-
-    useEffect(() => {
-        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=7`)
-            .then((response) => response.json())
-            .then((data9) => setData9(data9));
-    }, []);
-
-    useEffect(() => {
-        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=8`)
-            .then((response) => response.json())
-            .then((data10) => setData10(data10));
-    }, []);
-
-    useEffect(() => {
-        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=9`)
-            .then((response) => response.json())
-            .then((data11) => setData11(data11));
     }, []);
 
     //Menü
@@ -146,13 +77,6 @@ function loadEbene2(){
     const router = useRouter()
 
     const [ksv1, setKsv1] = useState([]);
-
-   
-        
-       
-    
-
-
     const handleLoad1 = (event, value) => setKsv1(value);
 
     const [value, setValue] = useState(new Date());
@@ -163,13 +87,17 @@ function loadEbene2(){
         setx(e.target.value)
     };
     
+    const [kurzzeichenOrName, setKurzzeichenOrName] = useState([]);
+    function findMitarbeiter() {
+        axios.get('https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/find', { params: { kurzzeichenOrName } })
+        .then(res => {
+            console.log(res.data)
+        })
+    }
 
     return (
         <form className={classes.h}>
-
             <div>
-
-
                 <div className={classes.e}>
                     <div>
                         <Button color="inherit" className={classes.BTN}
@@ -179,7 +107,7 @@ function loadEbene2(){
                             aria-expanded={open ? 'true' : undefined}
                             onClick={handleClick}
                         >
-                            <MenuIcon fontSize="large" />
+                        <MenuIcon fontSize="large" />
                         </Button>
                         <Menu
                             id="basic-menu"
@@ -188,8 +116,7 @@ function loadEbene2(){
                             onClose={handleClose}
                             MenuListProps={{
                                 'aria-labelledby': 'basic-button',
-                            }}
-                        >
+                            }}>
                             <MenuItem onClick={() => router.push(`/Mitarbeiter/login?param`)}><LogoutIcon />Logout </MenuItem>
                             <MenuItem onClick={() => router.back()}><HomeIcon />Startseite</MenuItem>
                         </Menu>
@@ -197,12 +124,8 @@ function loadEbene2(){
                     <Typography variant="h4" className={classes.typoh4}> Auftrag </Typography>
                     <Typography variant="h6" className={classes.typoh6}>{query.param}</Typography>
                 </div>
-
-
             </div>
             <Grid container spacing={2}>
-
-
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <Grid item xs={6}>
                         <Stack>
@@ -214,21 +137,14 @@ function loadEbene2(){
                                 }}
                                 label="Von"
                                 inputFormat="dd/MM/yyyy hh:mm"
-
                                 renderInput={(params) => <TextField onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
-
                             />
-
                         </Stack>
-
                     </Grid>
-
-
 
                     <Grid item xs={6}>
                         <Stack>
                             <MobileDateTimePicker
-
                                 ampm={false}
                                 label="24hours"
                                 disableFuture
@@ -238,115 +154,25 @@ function loadEbene2(){
                                 }}
                                 label="Bis"
                                 inputFormat="dd/MM/yyyy hh:mm"
-
                                 renderInput={(params) => <TextField onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
-
                             />
-
                         </Stack>
                     </Grid>
-
-
-
                 </LocalizationProvider>
 
 
                 <Grid item xs={12}>
                     <TextField fullWidth variant="outlined" label="Kommentar" onChange={e => setKommentar(e.target.value)}></TextField>
                 </Grid>
+            
                 <Grid item xs={6}>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={data2}
-                        getOptionLabel={(option) => option.NAME}
-                        onChange={handleLoad1}
-                        renderInput={(params) => (<TextField {...params} variant="outlined" label="Name" ></TextField>)}
-                        isOptionEqualToValue={(option, value) => option.NAME === value.NAME}
-                    
-                    />
-                    <button onClick={loadEbene2()}>Click</button>
+                    <TextField variant="outlined" label="Mitarbeiter/in" onChange={e => setKurzzeichenOrName(e.target.value)}></TextField>
+                    <Button onClick={() => findMitarbeiter()}>Suchen</Button>
                 </Grid>
-                
-                <Grid item xs={6}>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={data3}
-                        getOptionLabel={(option) => option.KSV}
-
-                        renderInput={(params) => (<TextField {...params} variant="outlined" value={x} onChange={handleChange} label="Ksv"></TextField>)}
-                        isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
-                    />
-                    <Button onClick={() => test()}>Weiter</Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={data4}
-                        getOptionLabel={(option) => option.KSV}
-
-                        renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
-                        isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={data5}
-                        getOptionLabel={(option) => option.KSV}
-
-                        renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
-                        isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={data6}
-                        getOptionLabel={(option) => option.KSV}
-
-                        renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
-                        isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={data7}
-                        getOptionLabel={(option) => option.KSV}
-
-                        renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" onChange={e => setKsv1(e.target.value)}></TextField>)}
-                        isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
-                    />
-                </Grid>
-
-
-
-
             </Grid>
-            {/* <Grid item xs={8}>
-                    <TextField fullWidth label="Auftragnehmer" onChange={e => setAuftragnehmer(e.target.value)}></TextField>
-                </Grid >
-                <Grid item xs={6}>
-                    <TextField fullWidth label="Sperren" onChange={e => setSperren(e.target.value)}></TextField>
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField fullWidth label="Kommentar" onChange={e => setKommentar(e.target.value)}></TextField>
-                </Grid >
-                <Grid item xs={6}>
-                    <TextField fullWidth label="Von" onChange={e => setVon(e.target.value)}></TextField>
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField fullWidth label="Bis" onChange={e => setBis(e.target.value)}></TextField>
-                </Grid> */}
+        
 
-
-
+           
             <Fab onClick={() => create()} color="secondary" className={classes.Fab} aria-label="add">
                 <AddIcon />
             </Fab>

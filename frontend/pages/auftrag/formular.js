@@ -158,7 +158,7 @@ console.log(BIS)
     let AUFTRAGGEBER = query.param2
 
     const CREATE2 = async () => {
-        const response = await fetch(`http://localhost:8090/api/Auftrag/create?ksv=${KSV}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}`, {
             method: 'POST'
         })
         const data = await response.json()

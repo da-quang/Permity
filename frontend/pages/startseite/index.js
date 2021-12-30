@@ -120,7 +120,7 @@ export default function Startseite() {
     let kurzzeichen = query.param
     let name = query.param2
 
-    const { data, error } = useSWR(`http://localhost:8090/api/Auftrag/all?name=${name}`, fetcher)
+    const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
 
     if (error) return <div>failed to load</div>
     if (!data) return <div>loading...</div>
@@ -129,7 +129,7 @@ export default function Startseite() {
 
     //Auftrag löschen
     const Delete = async auftragID => {
-        const response = await fetch(`http://localhost:8090/api/Auftrag/delete?id=${auftragID}`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/delete?id=${auftragID}`, {
             method: 'DELETE'
         })
         const data = await response.json()
@@ -139,7 +139,7 @@ export default function Startseite() {
 
     //Status des Auftrags ändern
     const Update = async auftragID => {
-        const response = await fetch(`http://localhost:8090/api/Auftrag/update?id=${auftragID}&status=Freigegeben`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${auftragID}&status=Freigegeben`, {
             method: 'PUT'
         })
         const data = await response.json()

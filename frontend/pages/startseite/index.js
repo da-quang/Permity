@@ -591,10 +591,4 @@ const useStyles = makeStyles({
 
 
     // },
-
-
-<<<<<<< Updated upstream
 })
-=======
-})
->>>>>>> Stashed changes

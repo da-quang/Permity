@@ -19,7 +19,6 @@ namespace backend.Controllers
             try
             {
                 SmtpClient client = new SmtpClient("smtp-mail.outlook.com");
-
                 client.Port = 587;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;

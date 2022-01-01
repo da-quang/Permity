@@ -14,7 +14,7 @@ export default function Login() {
     const router = useRouter()
 
     function login(){
-        axios.get('https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/login', { params: { name, kurzzeichen } }).then(res => {
+        axios.get('http://localhost:8090/api/Mitarbeiter/login', { params: { name, kurzzeichen } }).then(res => {
             if(res.data[0].exists == true){
                 console.log("Login Succesful!")
                 console.log(`Logged in as ${name}.`)
@@ -36,7 +36,6 @@ export default function Login() {
                 <div className={classes.d}><TextField className={classes.b} id="standard-basic" variant="outlined" label="Kürzel" onChange={e => setKurzzeichen(e.target.value)}></TextField></div>
                 <div className={classes.c}><Button color="inherit" className={classes.a} onClick={() => login()}><SaveIcon/>Login</Button></div>
             </div>
-           
         </form>
     )
 }

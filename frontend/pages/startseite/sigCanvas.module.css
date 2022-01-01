@@ -1,8 +1,11 @@
 .signatureCanvas {
     
-    width: 100%;
-    margin-top: 5%;
-    min-height: 600px;
     
+    margin-top: 20%;
+    min-height: 600px;
+    background-color: white;
+    padding:20px;
+ 
+   justify-Content: center;
   }
   

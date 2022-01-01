@@ -254,14 +254,14 @@ console.log(BIS)
                     <Grid item xs={6}>
                         <Stack>
                             <MobileDateTimePicker
-                                mask="____/__/__"
+                                
                                 ampm={false}
                                 value={value}
                                 onChange={(newValue) => {
                                     setValue(newValue)
                                 }}
                                 label="Von"
-                                inputFormat="yyyy.MM.dd HH:mm"
+                                inputFormat="yyyy/MM/dd HH:mm"
 
                                 renderInput={(params) => <TextField onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
 
@@ -323,6 +323,7 @@ console.log(BIS)
                         id="combo-box-demo"
                         options={data3}
                         getOptionLabel={(option) => option.KSV}
+
                         renderInput={(params) => (<TextField {...params} variant="outlined" onChange={() => setKSV(e.target.value)} label="Ksv"></TextField>)}
                         isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                     /> */}
@@ -333,6 +334,7 @@ console.log(BIS)
                         id="combo-box-demo"
                         options={data5}
                         getOptionLabel={(option) => option.KSV}
+
                         renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
                         isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                     />
@@ -343,6 +345,7 @@ console.log(BIS)
                         id="combo-box-demo"
                         options={data6}
                         getOptionLabel={(option) => option.KSV}
+
                         renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
                         isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                     />
@@ -353,6 +356,7 @@ console.log(BIS)
                         id="combo-box-demo"
                         options={data7}
                         getOptionLabel={(option) => option.KSV}
+
                         renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" onChange={e => setKsv1(e.target.value)}></TextField>)}
                         isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                     />

@@ -19,15 +19,17 @@ namespace backend.Services
         {
             mailSettings = options.Value;
         }
+
         public async Task SendEmailAsync(MailRequest mailRequest)
         {
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(mailSettings.mail);
             email.To.Add(MailboxAddress.Parse(mailRequest.empfänger));
             email.Subject = mailRequest.betreff;
+
             var builder = new BodyBuilder();
             if (mailRequest.attachments != null)
-            {
+            {   
                 byte[] fileBytes;
                 foreach (var file in mailRequest.attachments)
                 {

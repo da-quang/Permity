@@ -147,10 +147,10 @@ namespace backend.Controllers
 
         //api/Auftrag/create
         [HttpPost("create")]
-        public JsonResult CreateAuftrag(string ksv, string auftraggeber, string auftragnehmer, string sperren, string kommentar, string von, string bis)
+        public JsonResult CreateAuftrag(string ksv, string auftrag, string auftraggeber, string auftragnehmer, string sperren, string kommentar, string von, string bis)
         {
-            string query = @"insert into ""Auftrag"" (""KSV"", ""AUFTRAGGEBER"", ""AUFTRAGNEHMER"", ""SPERREN"", ""KOMMENTAR"", ""VON"", ""BIS"", ""STATUS"") 
-                                            values (@ksv, @auftraggeber, @auftragnehmer, @sperren, @kommentar, @von, @bis , 'offen')";
+            string query = @"insert into ""Auftrag"" (""KSV"", ""AUFTRAG"", ""AUFTRAGGEBER"", ""AUFTRAGNEHMER"", ""SPERREN"", ""KOMMENTAR"", ""VON"", ""BIS"", ""STATUS"") 
+                                            values (@ksv, @auftrag, @auftraggeber, @auftragnehmer, @sperren, @kommentar, @von, @bis , 'offen')";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -161,6 +161,7 @@ namespace backend.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@ksv", ksv);
+                    myCommand.Parameters.AddWithValue("@auftrag", auftrag);
                     myCommand.Parameters.AddWithValue("@auftraggeber", auftraggeber);
                     myCommand.Parameters.AddWithValue("@auftragnehmer", auftragnehmer);
                     myCommand.Parameters.AddWithValue("@sperren", sperren);

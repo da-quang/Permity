@@ -323,7 +323,6 @@ console.log(BIS)
                         id="combo-box-demo"
                         options={data3}
                         getOptionLabel={(option) => option.KSV}
-
                         renderInput={(params) => (<TextField {...params} variant="outlined" onChange={() => setKSV(e.target.value)} label="Ksv"></TextField>)}
                         isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                     /> */}
@@ -334,7 +333,6 @@ console.log(BIS)
                         id="combo-box-demo"
                         options={data5}
                         getOptionLabel={(option) => option.KSV}
-
                         renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
                         isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                     />
@@ -345,7 +343,6 @@ console.log(BIS)
                         id="combo-box-demo"
                         options={data6}
                         getOptionLabel={(option) => option.KSV}
-
                         renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
                         isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                     />
@@ -356,7 +353,6 @@ console.log(BIS)
                         id="combo-box-demo"
                         options={data7}
                         getOptionLabel={(option) => option.KSV}
-
                         renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" onChange={e => setKsv1(e.target.value)}></TextField>)}
                         isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                     />

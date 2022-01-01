@@ -259,7 +259,6 @@ export default function Startseite() {
                                                 color="inherit"
                                                 onClick={handleCloseModal}
                                                 aria-label="close"
-
                                             >
                                                 <CloseIcon />
                                             </IconButton>
@@ -282,9 +281,6 @@ export default function Startseite() {
                                                     }
                                                 } />
                                         </div>
-
-
-
                                     </>
                                 </Dialog>
 
@@ -597,4 +593,8 @@ const useStyles = makeStyles({
     // },
 
 
+<<<<<<< Updated upstream
 })
+=======
+})
+>>>>>>> Stashed changes

@@ -2,7 +2,8 @@ import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';;
 import MenuIcon from '@mui/icons-material/Menu';
-import { Fab, Link, Typography } from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import useSWR from "swr"
 import CreateIcon from '@mui/icons-material/Create';
@@ -30,6 +31,8 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import MailIcon from '@mui/icons-material/Mail';
+import Popup from 'reactjs-popup';
+import CheckIcon from '@mui/icons-material/Check';
 
 console.log("--> Startseite")
 
@@ -48,6 +51,7 @@ export default function Startseite() {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -144,6 +148,15 @@ export default function Startseite() {
         Router.reload()
     }
 
+    const Update2 = async auftragID => {
+        const response = await fetch(`http://localhost:8090/api/Auftrag/update?id=${auftragID}&status=Abgeschlossen`, {
+            method: 'PUT'
+        })
+        const data = await response.json()
+        console.log(data)
+        Router.reload()
+    }
+
 
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false)
@@ -231,6 +244,7 @@ export default function Startseite() {
             </div>
 
             <div >
+                {/* <Sort by='STATUS'> */}
                 {data && data.map((auftrag, id) => data[id].STATUS.includes(filter) && data[id].STATUS.includes(filter3) && data[id].SPERREN.includes(filter2) && <ul className={auftrag.STATUS == "Abgeschlossen" ? classes.Abgeschlossen : auftrag.STATUS == "Freigegeben" ? classes.Freigegeben : auftrag.STATUS == "offen" ? classes.Offen : null} key={id}>
 
                     {/* //KarteikarteBegin */}
@@ -239,9 +253,9 @@ export default function Startseite() {
                             className={classes.summary}
 
 
-                        >{auftrag.ID} <a id="Erfüllen"></a>
-                            <div className={classes.BTNROW}>
-                                <a className={auftrag.STATUS == "Freigegeben" || auftrag.STATUS == "Abgeschlossen" ? classes.SummaryBTNDisabled : null}>
+                        >{auftrag.ID} {auftrag.KSV} <a id="Erfüllen"></a>
+                            
+                                {/* <a className={auftrag.STATUS == "Freigegeben" || auftrag.STATUS == "Abgeschlossen" ? classes.SummaryBTNDisabled : classes.SummaryButton}>
                                     <Button onClick={handleOpenModal} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                         <CreateIcon />
                                     </Button>
@@ -286,13 +300,18 @@ export default function Startseite() {
 
 
                                     </>
-                                </Dialog>
+                                </Dialog> */}
 
 
                                 {/* SignaturBegin */}
-                                {/* <Popup modal trigger={<Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                <Popup modal trigger={
+                                <a className={auftrag.STATUS == "Freigegeben" || auftrag.STATUS == "Abgeschlossen" ? classes.SummaryBTNDisabled : classes.SummaryButton}>
+                                <Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                     <CreateIcon />
-                                </Button>}
+                                </Button>
+                                </a>
+                                }
+                                
                                     closeOnDocumentClick={false}
                                 >
                                     {close => (
@@ -302,17 +321,21 @@ export default function Startseite() {
                                                     ref={sigCanvasRef}
                                                     canvasProps={
                                                         {
-                                                            style: { background: 'white', width: '100%', minHeight: '650px' }
+                                                            style: { background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
                                                         }
                                                     } />
-                                            </div>
+                                             <div className={classes.SignatureBTNRow}>
                                             <Button variant="contained" onClick={close}>Zurück</Button>
                                             <Button variant="contained" onClick={clear}>Leeren</Button>
                                             <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
+                                            </div>
+                                            
+                                            </div>
+                                           
                                         </>
                                     )}
 
-                                </Popup> */}
+                                </Popup>
                                 {/* SignaturEnd */}
 
                                 {/* <Button onClick={handleOpenModal} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
@@ -351,7 +374,14 @@ export default function Startseite() {
                                         <DeleteIcon />
                                     </Button>
                                 </a>
-                            </div>
+
+                                <a className={auftrag.STATUS == "offen" || auftrag.STATUS == "Abgeschlossen" || auftrag.AUFTRAGNEHMER == query.param2 ? classes.Check : null}>
+                                    <Button onClick={() => Update2(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                        <CheckIcon/>
+                                    </Button>
+                                </a>
+                            
+                            
                         </summary>
 
 
@@ -373,7 +403,7 @@ export default function Startseite() {
                 {error && <div>Error fetching data.</div>}
 
 
-
+{/* </Sort> */}
             </div>
 
         </form>
@@ -391,6 +421,17 @@ const useStyles = makeStyles({
         marginLeft: "10%",
         marginRight: "10%",
         justifyContent: 'space-between',
+    },
+
+    SignatureBTNRow: {
+        display: "flex",
+        textAlign: "center",
+        margin: "auto",
+       justifyContent: "center",
+    },
+
+    Check: {
+        display: 'none',
     },
 
     // a: {
@@ -544,10 +585,13 @@ const useStyles = makeStyles({
 
     summary: {
         fontWeight: "bold",
-        height: 45,
+        // height: 45,
         lineHeight: 3,
-        display: "flex",
+        display: 'flex',
         justifyContent: 'space-between',
+        
+        
+        
     },
 
     Offen: {

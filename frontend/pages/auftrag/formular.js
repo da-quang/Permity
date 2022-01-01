@@ -254,14 +254,14 @@ console.log(BIS)
                     <Grid item xs={6}>
                         <Stack>
                             <MobileDateTimePicker
-                                mask="____/__/__"
+                                
                                 ampm={false}
                                 value={value}
                                 onChange={(newValue) => {
                                     setValue(newValue)
                                 }}
                                 label="Von"
-                                inputFormat="yyyy.MM.dd HH:mm"
+                                inputFormat="yyyy/MM/dd HH:mm"
 
                                 renderInput={(params) => <TextField onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
 

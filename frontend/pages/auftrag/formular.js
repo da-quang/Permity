@@ -70,7 +70,7 @@ export default function Formular() {
    
 
     const CREATE = async () => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${ksv}-13&auftraggeber=Riegler%20Thomas&auftragnehmer=Boch%20Walter&sperren=Freigabe%20zur%20Arbeit&kommentar=Gut%20machen&von=2021.12.30&bis=2021.12.31`, {
+        const response = await fetch(`http://localhost:8090/api/Auftrag/create?ksv=${ksv}-13&auftraggeber=Riegler%20Thomas&auftragnehmer=Boch%20Walter&sperren=Freigabe%20zur%20Arbeit&kommentar=Gut%20machen&von=2021.12.30&bis=2021.12.31`, {
             method: 'POST'
         })
         const data = await response.json()
@@ -87,14 +87,14 @@ export default function Formular() {
 
 
     useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/all`)
+        fetch(`http://localhost:8090/api/Mitarbeiter/all`)
             .then((response) => response.json())
             .then((data2) => setData2(data2));
     }, []);
 
 
     useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ebene=1`)
+        fetch(`http://localhost:8090/api/KSV/select?ebene=1`)
             .then((response) => response.json())
             .then((data3) => setData3(data3));
     }, []);
@@ -102,7 +102,7 @@ export default function Formular() {
     function loadEbene2() {
 
         useEffect(() => {
-            fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${ksv1}&ebene=2`)
+            fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=2`)
                 .then((response) => response.json())
                 .then((data4) => setData4(data4));
         }, []);
@@ -110,9 +110,45 @@ export default function Formular() {
     }
 
     useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${ksv1}&ebene=3`)
+        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=3`)
             .then((response) => response.json())
             .then((data5) => setData5(data5));
+    }, []);
+
+    useEffect(() => {
+        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=4`)
+            .then((response) => response.json())
+            .then((data6) => setData6(data6));
+    }, []);
+
+    useEffect(() => {
+        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=5`)
+            .then((response) => response.json())
+            .then((data7) => setData7(data7));
+    }, []);
+
+    useEffect(() => {
+        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=6`)
+            .then((response) => response.json())
+            .then((data8) => setData8(data8));
+    }, []);
+
+    useEffect(() => {
+        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=7`)
+            .then((response) => response.json())
+            .then((data9) => setData9(data9));
+    }, []);
+
+    useEffect(() => {
+        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=8`)
+            .then((response) => response.json())
+            .then((data10) => setData10(data10));
+    }, []);
+
+    useEffect(() => {
+        fetch(`http://localhost:8090/api/KSV/select?ksv=${ksv1}&ebene=9`)
+            .then((response) => response.json())
+            .then((data11) => setData11(data11));
     }, []);
 
     //Menü
@@ -158,7 +194,7 @@ console.log(BIS)
     let AUFTRAGGEBER = query.param2
 
     const CREATE2 = async () => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}`, {
+        const response = await fetch(`http://localhost:8090/api/Auftrag/create?ksv=${KSV}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}`, {
             method: 'POST'
         })
         const data = await response.json()
@@ -218,14 +254,14 @@ console.log(BIS)
                     <Grid item xs={6}>
                         <Stack>
                             <MobileDateTimePicker
-                                mask="____/__/__"
+                                
                                 ampm={false}
                                 value={value}
                                 onChange={(newValue) => {
                                     setValue(newValue)
                                 }}
                                 label="Von"
-                                inputFormat="yyyy.MM.dd HH:mm"
+                                inputFormat="yyyy/MM/dd HH:mm"
 
                                 renderInput={(params) => <TextField onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
 

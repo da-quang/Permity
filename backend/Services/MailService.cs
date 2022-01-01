@@ -19,6 +19,7 @@ namespace backend.Services
         {
             mailSettings = options.Value;
         }
+        
         public async Task SendEmailAsync(MailRequest mailRequest)
         {
             var email = new MimeMessage();

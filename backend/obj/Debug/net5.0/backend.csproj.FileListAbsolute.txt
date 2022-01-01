@@ -249,8 +249,9 @@ D:\Permity\backend\obj\Debug\net5.0\backend.dll
 D:\Permity\backend\obj\Debug\net5.0\ref\backend.dll
 D:\Permity\backend\obj\Debug\net5.0\backend.pdb
 D:\Permity\backend\obj\Debug\net5.0\backend.genruntimeconfig.cache
-C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\backend.StaticWebAssets.xml
 C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\MailKit.dll
 C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\MimeKit.dll
 C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\NETCore.MailKit.dll
 C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\SendGrid.dll
+C:\Users\daqua\OneDrive\Desktop\Permity\backend\bin\Debug\net5.0\StarkbankEcdsa.dll

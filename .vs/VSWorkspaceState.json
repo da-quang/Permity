@@ -1,9 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\backend",
     "\\backend\\Controllers",
     "\\backend\\Services"
   ],
-  "SelectedNode": "\\backend",
+  "SelectedNode": "\\backend\\backend.sln",
   "PreviewInSolutionExplorer": false
 }

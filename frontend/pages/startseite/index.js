@@ -140,7 +140,7 @@ export default function Startseite() {
 
     //Status des Auftrags ändern
     const Update = async auftragID => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${auftragID}&status=Freigegeben`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${auftragID}&status=Bestätigt`, {
             method: 'PUT'
         })
         const data = await response.json()
@@ -224,9 +224,10 @@ export default function Startseite() {
                     >
 
                         <ListItem background='red'> <Typography variant='h6' fontWeight='bold' > STATUS </Typography></ListItem>
-                        <ListItem> <Button className={filter == "offen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("offen")} variant="contained">Offen </Button></ListItem>
-                        <ListItem> <Button className={filter == "Freigegeben" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Freigegeben")} variant="contained" >Freigegeben </Button></ListItem>
+                        <ListItem> <Button className={filter == "Offen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Offen")} variant="contained">Offen </Button></ListItem>
+                        <ListItem> <Button className={filter == "Bestätigt" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Bestätigt")} variant="contained" >Bestätigt </Button></ListItem>
                         <ListItem> <Button className={filter == "Abgeschlossen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Abgeschlossen")} variant="contained">Abgeschlossen</Button></ListItem>
+                        <ListItem> <Button className={filter == "Abgelehnt" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Abgelehnt")} variant="contained">Abgelehnt</Button></ListItem>
 
                         <Divider />
                         <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
@@ -245,7 +246,7 @@ export default function Startseite() {
 
             <div >
                 {/* <Sort by='STATUS'> */}
-                {data && data.map((auftrag, id) => data[id].STATUS.includes(filter) && data[id].STATUS.includes(filter3) && data[id].SPERREN.includes(filter2) && <ul className={auftrag.STATUS == "Abgeschlossen" ? classes.Abgeschlossen : auftrag.STATUS == "Freigegeben" ? classes.Freigegeben : auftrag.STATUS == "offen" ? classes.Offen : null} key={id}>
+                {data && data.map((auftrag, id) => data[id].STATUS.includes(filter) && data[id].STATUS.includes(filter3) && data[id].SPERREN.includes(filter2) && <ul className={auftrag.STATUS == "Abgeschlossen" ? classes.Abgeschlossen : auftrag.STATUS == "Freigegeben" ? classes.Freigegeben : auftrag.STATUS == "Offen" ? classes.Offen : null} key={id}>
 
                     {/* //KarteikarteBegin */}
                     <details className={classes.details}>
@@ -369,13 +370,13 @@ export default function Startseite() {
 
 
 
-                                <a className={auftrag.STATUS == "offen" || auftrag.STATUS == "Freigegeben" ? classes.SummaryBTNDisabled : null}>
+                                <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Freigegeben" ? classes.SummaryBTNDisabled : null}>
                                     <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                         <DeleteIcon />
                                     </Button>
                                 </a>
 
-                                <a className={auftrag.STATUS == "offen" || auftrag.STATUS == "Abgeschlossen" || auftrag.AUFTRAGNEHMER == query.param2 ? classes.Check : null}>
+                                <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Abgeschlossen" || auftrag.AUFTRAGNEHMER == query.param2 ? classes.Check : null}>
                                     <Button onClick={() => Update2(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                         <CheckIcon/>
                                     </Button>

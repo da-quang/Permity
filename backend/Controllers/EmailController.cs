@@ -26,7 +26,7 @@ namespace backend.Controllers
                 client.EnableSsl = true;
                 client.Credentials = credential;
 
-                MailMessage message = new MailMessage("da.quang@outlook.com", "david.nguyen@student.htldornbirn.at");
+                MailMessage message = new MailMessage("da.quang@outlook.com", email);
                 message.Subject = "Neuer Auftrag";
                 message.Body = "<div>Bitte bestätigten Sie den Auftrag in dem Sie die Permity App öffnen</div>" +
                                "<a href='https://palmiest-hornet-1388.dataplicity.io/mitarbeiter/login'>Permity öffnen</a>";

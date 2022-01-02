@@ -212,7 +212,7 @@ namespace backend.Controllers
         [HttpPut("update")]
         public JsonResult UpdateAuftrag(int id, string auftragnehmer_unterschrift, string status)
         {
-            string query = @"update ""Auftrag"" set ""STATUS"" = @status and ""AUFTRAGNEHMER_UNTERSCHRIFT"" = @auftragnehmer_unterschrift  where ""ID"" = @id";
+            string query = @"update ""Auftrag"" set ""STATUS"" = @status , ""AUFTRAGNEHMER_UNTERSCHRIFT"" = @auftragnehmer_unterschrift  where ""ID"" = @id";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");

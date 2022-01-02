@@ -175,8 +175,7 @@ namespace backend.Controllers
                     myCon.Close();
                 }
             }
-            Confirmation(getId(auftragnehmer));
-            return new JsonResult("Added successfully");
+            return new JsonResult(getId(auftragnehmer));
         }
 
         [HttpGet("new")]

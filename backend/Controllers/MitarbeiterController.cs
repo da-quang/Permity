@@ -48,6 +48,31 @@ namespace backend.Controllers
             return new JsonResult(table);
         }
 
+        //api/Mitarbeiter/find
+        [HttpGet("email")]
+        public JsonResult FindById(string kurzzeichenOrName)
+        {
+            string query = @"select ""EMAIL"" from ""Mitarbeiter"" where ""KURZZEICHEN"" = @kurzzeichenOrName or ""NAME"" = @kurzzeichenOrName ";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("AppCon");
+            NpgsqlDataReader myReader;
+            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@kurzzeichenOrName", kurzzeichenOrName);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
+
         //api/Mitarbeiter/login
         [HttpGet("login")]
         public JsonResult Login(string name, string kurzzeichen)

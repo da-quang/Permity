@@ -27,7 +27,7 @@ namespace backend.Controllers
             Task<int> nichtAngenommenTask = nichtAngenommenAsync(id);
         }
 
-        public async Task<int> BestätigtAsync(int id)
+        private async Task<int> BestätigtAsync(int id)
         {
             do
             {
@@ -49,7 +49,7 @@ namespace backend.Controllers
             return 0;
         }
 
-        public async Task<int> nichtAngenommenAsync(int id)
+        private async Task<int> nichtAngenommenAsync(int id)
         {
             Task.Delay(1200000).Wait();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -235,8 +235,8 @@ namespace backend.Controllers
             return new JsonResult("Updated successfully");
         }
 
-        //api/Auftrag/update
-        [HttpPut("find")]
+
+        [HttpGet("find")]
         public JsonResult find(int id)
         {
             string query = @"select * from ""Auftrag"" where ""ID"" = @id";

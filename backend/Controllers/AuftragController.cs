@@ -21,7 +21,7 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
-        private async Task<int> Confirmation(int id)
+        private async Task Confirmation(int id)
         {
             Task<int> BestätigtTask = BestätigtAsync(id);
             Task<int> nichtAngenommenTask = nichtAngenommenAsync(id);

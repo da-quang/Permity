@@ -50,7 +50,7 @@ namespace backend.Controllers
 
         //api/Mitarbeiter/find
         [HttpGet("email")]
-        public JsonResult FindById(string kurzzeichenOrName)
+        public JsonResult GetEmail(string kurzzeichenOrName)
         {
             string query = @"select ""EMAIL"" from ""Mitarbeiter"" where ""KURZZEICHEN"" = @kurzzeichenOrName or ""NAME"" = @kurzzeichenOrName ";
 

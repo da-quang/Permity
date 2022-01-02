@@ -23,30 +23,8 @@ namespace backend.Controllers
 
         private async Task Confirmation(int id)
         {
-            // await Task.Run(() =>
-            // {
-            //     do
-            //     {
-            //         Task.Delay(10000).Wait();
-            //         string sqlDataSource = _configuration.GetConnectionString("AppCon");
-            //         using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
-            //         {
-            //             myCon.Open();
-            //             NpgsqlCommand query = new NpgsqlCommand(@"select exists (select ""ID"" from ""Auftrag"" where ""ID"" = @id and ""STATUS"" = 'Bestätigt')", myCon);
-            //             query.Parameters.AddWithValue("@id", id);
-
-            //             Boolean flag = (Boolean)query.ExecuteScalar();
-            //             if (flag == true)
-            //             {
-            //                 break;
-            //             }
-            //         }
-            //     } while (true);
-            // });
-
             await Task.Run(() =>
             {
-                Task.Delay(10000).Wait();
                 string sqlDataSource = _configuration.GetConnectionString("AppCon");
                 using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
                 {
@@ -175,7 +153,8 @@ namespace backend.Controllers
                     myCon.Close();
                 }
             }
-            return new JsonResult(getId(auftragnehmer));
+            Confirmation(getId(auftragnehmer));
+            return new JsonResult("Added successfully");
         }
 
         [HttpGet("new")]

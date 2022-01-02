@@ -184,23 +184,30 @@ export default function Formular() {
     let VON = `${value.getFullYear()}.${value.getMonth() + 1}.${value.getDate()}`;
     let BIS = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()}`;
     // ${value.getHours()}:${value.getMinutes()}
-console.log(VON)
-console.log(BIS)
+
 
     let [KSV, setKSV] = useState('')
     let [KOMMENTAR, setKOMMENTAR] = useState('')
     let [AUFTRAGNEHMER, setAUFTRAGNEHMER] = useState('')
     let [SPERREN, setSPERREN] = useState('')
+    let [AUFTRAG, setAUFTRAG] = useState('')
+    let [Email, setEmail] = useState('')
+    let EMAIL = Email + "@gmail.com"
     let AUFTRAGGEBER = query.param2
 
-    const CREATE2 = async () => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}`, {
-            method: 'POST'
-        })
-        const data = await response.json()
-        console.log(data)
-        Router.reload()
+    function Erstellen(VALUE){
+        () => CREATE2(VALUE)
+        const CREATE2 = async () => {
+            const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}`, {
+                method: 'POST'
+            })
+            const data = await response.json()
+
+            console.log(data)
+            Router.reload()
+        }
     }
+    
     return (
         <form className={classes.h}>
 
@@ -241,13 +248,13 @@ console.log(BIS)
                         <CreateIcon /> Unterschreiben
                     </Fab>
 
-                    <Fab onClick={() => CREATE2()} color="secondary" aria-label="add">
-                        <AddIcon />
+                    <Fab variant="extended" onClick={() => CREATE2()} color="secondary" aria-label="add">
+                        <AddIcon /> Erstellen
                     </Fab>
 
                 </Box>
             </div>
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
 
 
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -312,10 +319,18 @@ console.log(BIS)
                 <TextField  fullWidth variant="outlined" label="Sperren" onChange={e => setSPERREN(e.target.value)}></TextField>
                     
                 </Grid>
-                <Grid item xs={6}>
+            
 
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                     <TextField  fullWidth variant="outlined" label="KSV" onChange={e => setKSV(e.target.value)}></TextField>
+                </Grid>
+
+                <Grid item xs={6}>
+                    <TextField  fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
+                </Grid>
+
+                <Grid item xs={6}>
+                    <TextField  fullWidth variant="outlined" label="Auftrag Name" onChange={e => setEmail(e.target.value)}></TextField>
                 </Grid>
 
                 {/* <Autocomplete
@@ -327,7 +342,7 @@ console.log(BIS)
                         renderInput={(params) => (<TextField {...params} variant="outlined" onChange={() => setKSV(e.target.value)} label="Ksv"></TextField>)}
                         isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                     /> */}
-                </Grid>
+                
                 {/* <Grid item xs={6}>
                     <Autocomplete
                         disablePortal

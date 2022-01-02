@@ -32,7 +32,7 @@ import IconButton from '@mui/material/IconButton';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import MailIcon from '@mui/icons-material/Mail';
 import Popup from 'reactjs-popup';
-import CheckIcon from '@mui/icons-material/Check';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 console.log("--> Startseite")
 
@@ -166,7 +166,7 @@ export default function Startseite() {
         <form className={classes.h}>
 
             <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
-                <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)} color="secondary" aria-label="add">
+                <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)}  aria-label="add" color="primary">
                     <AddIcon />
                 </Fab>
 
@@ -246,7 +246,7 @@ export default function Startseite() {
 
             <div >
                 {/* <Sort by='STATUS'> */}
-                {data && data.map((auftrag, id) => data[id].STATUS.includes(filter) && data[id].STATUS.includes(filter3) && data[id].SPERREN.includes(filter2) && <ul className={auftrag.STATUS == "Abgeschlossen" ? classes.Abgeschlossen : auftrag.STATUS == "Freigegeben" ? classes.Freigegeben : auftrag.STATUS == "Offen" ? classes.Offen : null} key={id}>
+                {data && data.map((auftrag, id) => data[id].STATUS.includes(filter) && data[id].STATUS.includes(filter3) && data[id].SPERREN.includes(filter2) && <ul className={auftrag.STATUS == "Abgeschlossen" ? classes.Abgeschlossen : auftrag.STATUS == "Bestätigt" ? classes.Bestätigt : auftrag.STATUS == "Offen" ? classes.Offen : auftrag.STATUS == "Abgelehnt" ? classes.Abgelehnt : null} key={id}>
 
                     {/* //KarteikarteBegin */}
                     <details className={classes.details}>
@@ -254,7 +254,7 @@ export default function Startseite() {
                             className={classes.summary}
 
 
-                        >{auftrag.ID} {auftrag.KSV} <a id="Erfüllen"></a>
+                        >{auftrag.ID} | {auftrag.AUFTRAG} <a id="Erfüllen"></a>
                             
                                 {/* <a className={auftrag.STATUS == "Freigegeben" || auftrag.STATUS == "Abgeschlossen" ? classes.SummaryBTNDisabled : classes.SummaryButton}>
                                     <Button onClick={handleOpenModal} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
@@ -306,7 +306,7 @@ export default function Startseite() {
 
                                 {/* SignaturBegin */}
                                 <Popup modal trigger={
-                                <a className={auftrag.STATUS == "Freigegeben" || auftrag.STATUS == "Abgeschlossen" ? classes.SummaryBTNDisabled : classes.SummaryButton}>
+                                <a className={auftrag.STATUS == "Bestätigt" || auftrag.STATUS == "Abgeschlossen" ? classes.SummaryBTNDisabled : classes.SummaryButton}>
                                 <Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                     <CreateIcon />
                                 </Button>
@@ -370,7 +370,7 @@ export default function Startseite() {
 
 
 
-                                <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Freigegeben" ? classes.SummaryBTNDisabled : null}>
+                                <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Bestätigt" ? classes.SummaryBTNDisabled : null}>
                                     <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                         <DeleteIcon />
                                     </Button>
@@ -378,7 +378,7 @@ export default function Startseite() {
 
                                 <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Abgeschlossen" || auftrag.AUFTRAGNEHMER == query.param2 ? classes.Check : null}>
                                     <Button onClick={() => Update2(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                        <CheckIcon/>
+                                        <HowToRegIcon/>
                                     </Button>
                                 </a>
                             
@@ -395,7 +395,7 @@ export default function Startseite() {
                             <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
                             <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
                             <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
-                            <Typography className={classes.p}>BIS: {auftrag.BIS}</Typography>
+                            <Typography className={classes.p}>Bis: {auftrag.BIS}</Typography>
 
                         </div>
                     </details>
@@ -610,7 +610,7 @@ const useStyles = makeStyles({
 
     },
 
-    Freigegeben: {
+    Bestätigt: {
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
         borderTopLeftRadius: 15,
@@ -624,6 +624,18 @@ const useStyles = makeStyles({
 
 
     Abgeschlossen: {
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        background: '#143968',
+        marginRight: "10%",
+        marginLeft: "10%",
+        color: "white",
+        backgroundColor: "grey",
+    },
+
+    Abgelehnt: {
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
         borderTopLeftRadius: 15,

@@ -48,7 +48,7 @@ namespace backend.Controllers
             return new JsonResult(table);
         }
 
-        //api/Mitarbeiter/find
+        //api/Mitarbeiter/email
         [HttpGet("email")]
         public JsonResult GetEmail(string kurzzeichenOrName)
         {

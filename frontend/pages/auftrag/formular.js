@@ -100,7 +100,7 @@ export default function Formular() {
     console.log(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
 
     return (
-        <form className={classes.h}>
+        <form>
             <div>
                 <div className={classes.e}>
                     <div>
@@ -268,7 +268,6 @@ const useStyles = makeStyles({
 
     c: {
         textAlign: 'center',
-
     },
 
     d: {
@@ -299,10 +298,11 @@ const useStyles = makeStyles({
     },
 
     g: {
+        display: "flex",
         padding: 10,
     },
 
     h: {
-        paddingLeft: 10,
+        paddingRight: 10,
     },
 });

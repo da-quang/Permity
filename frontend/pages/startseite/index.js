@@ -157,7 +157,7 @@ export default function Startseite() {
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
                         }}>
-                    <MenuItem onClick={() => router.push(`/Mitarbeiter/login?param`)} ><LogoutIcon />Logout </MenuItem>
+                    <MenuItem onClick={() => router.push(`/mitarbeiter/login`)} ><LogoutIcon />Logout </MenuItem>
                     </Menu>
                 </div>
                 <Typography variant="h4" className={classes.typoh4}> Startseite </Typography>

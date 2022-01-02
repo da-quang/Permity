@@ -23,11 +23,11 @@ namespace backend.Controllers
 
         private async Task Confirmation(int id)
         {
-            Task<void> BestätigtTask = BestätigtAsync();
-            Task<void> nichtAngenommenTask = nichtAngenommenAsync();
+            Task<int> BestätigtTask = BestätigtAsync();
+            Task<int> nichtAngenommenTask = nichtAngenommenAsync();
         }
 
-        public async Task<void> BestätigtAsync()
+        public async Task<int> BestätigtAsync()
         {
             do
             {
@@ -46,9 +46,10 @@ namespace backend.Controllers
                     }
                 }
             } while (true);
+            return 0;
         }
 
-        public async Task<void> nichtAngenommenAsync()
+        public async Task<int> nichtAngenommenAsync()
         {
             Task.Delay(1200000).Wait();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -59,6 +60,7 @@ namespace backend.Controllers
                 query.Parameters.AddWithValue("@id", id);
                 query.ExecuteScalar();
             }
+            return 0;
         }
 
         private int getId(string name)

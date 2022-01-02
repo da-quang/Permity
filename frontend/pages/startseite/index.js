@@ -220,8 +220,7 @@ export default function Startseite() {
                         onClose={handleClose2}
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
-                        }}
-                    >
+                        }}>
 
                         <ListItem background='red'> <Typography variant='h6' fontWeight='bold' > STATUS </Typography></ListItem>
                         <ListItem> <Button className={filter == "Offen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Offen")} variant="contained">Offen </Button></ListItem>
@@ -229,7 +228,6 @@ export default function Startseite() {
                         <ListItem> <Button className={filter == "Abgeschlossen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Abgeschlossen")} variant="contained">Abgeschlossen</Button></ListItem>
                         <ListItem> <Button className={filter == "Abgelehnt" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Abgelehnt")} variant="contained">Abgelehnt</Button></ListItem>
 
-                        <Divider />
                         <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
                         <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
                         <ListItem> <Button className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
@@ -237,13 +235,9 @@ export default function Startseite() {
                         <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
                     </Menu>
 
-
                     {/* <TextField onChange={handleSearchChange} label="Status suchen"variant="standard" className={classes.SearchInput} /> */}
                 </div>
-
-
             </div>
-
             <div >
                 {/* <Sort by='STATUS'> */}
                 {data && data.map((auftrag, id) => data[id].STATUS.includes(filter) && data[id].STATUS.includes(filter3) && data[id].SPERREN.includes(filter2) && <ul className={auftrag.STATUS == "Abgeschlossen" ? classes.Abgeschlossen : auftrag.STATUS == "Bestätigt" ? classes.Bestätigt : auftrag.STATUS == "Offen" ? classes.Offen : auftrag.STATUS == "Abgelehnt" ? classes.Abgelehnt : null} key={id}>
@@ -252,59 +246,7 @@ export default function Startseite() {
                     <details className={classes.details}>
                         <summary
                             className={classes.summary}
-
-
                         >{auftrag.ID} | {auftrag.AUFTRAG} <a id="Erfüllen"></a>
-                            
-                                {/* <a className={auftrag.STATUS == "Freigegeben" || auftrag.STATUS == "Abgeschlossen" ? classes.SummaryBTNDisabled : classes.SummaryButton}>
-                                    <Button onClick={handleOpenModal} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                        <CreateIcon />
-                                    </Button>
-                                </a>
-                                <Dialog
-                                    fullScreen
-                                    open={openModal}
-                                    onClose={handleCloseModal}
-                                    TransitionComponent={Transition}
-                                >
-                                    <AppBar className={classes.Unterschrift} sx={{ position: 'relative' }}>
-                                        <Toolbar >
-                                            <IconButton
-                                                edge="start"
-                                                color="inherit"
-                                                onClick={handleCloseModal}
-                                                aria-label="close"
-
-                                            >
-                                                <CloseIcon />
-                                            </IconButton>
-                                            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                                                Unterschrift
-                                            </Typography>
-                                            <div className={classes.c}>
-                                                <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
-                                                <Button color="inherit" autoFocus onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
-                                            </div>
-                                        </Toolbar>
-                                    </AppBar>
-                                    <>
-                                        <div className={sigCanvas.signatureCanvas} >
-                                            <SignaturePad
-                                                ref={sigCanvasRef}
-                                                canvasProps={
-                                                    {
-                                                        style: { background: 'white', width: '100%', minHeight: '600px' }
-                                                    }
-                                                } />
-                                        </div>
-
-
-
-                                    </>
-                                </Dialog> */}
-
-
-                                {/* SignaturBegin */}
                                 <Popup modal trigger={
                                 <a className={auftrag.STATUS == "Bestätigt" || auftrag.STATUS == "Abgeschlossen" ? classes.SummaryBTNDisabled : classes.SummaryButton}>
                                 <Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
@@ -312,64 +254,25 @@ export default function Startseite() {
                                 </Button>
                                 </a>
                                 }
-                                
-                                    closeOnDocumentClick={false}
-                                >
+                                closeOnDocumentClick={false}>
                                     {close => (
-                                        <>
-                                            <div className={sigCanvas.signatureCanvas} >
-                                                <SignaturePad
-                                                    ref={sigCanvasRef}
-                                                    canvasProps={
-                                                        {
-                                                            style: { background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
-                                                        }
-                                                    } />
-                                             <div className={classes.SignatureBTNRow}>
-                                            <Button variant="contained" onClick={close}>Zurück</Button>
-                                            <Button variant="contained" onClick={clear}>Leeren</Button>
-                                            <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
-                                            </div>
-                                            
-                                            </div>
-                                           
-                                        </>
-                                    )}
-
-                                </Popup>
-                                {/* SignaturEnd */}
-
-                                {/* <Button onClick={handleOpenModal} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                    <CreateIcon />
-                                </Button>
-                                <Modal
-                                    open={openModal}
-                                    onClose={handleCloseModal}
-                                    aria-labelledby="modal-modal-title"
-                                    aria-describedby="modal-modal-description"
-                                >
-                                    <>
                                         <div className={sigCanvas.signatureCanvas} >
                                             <SignaturePad
                                                 ref={sigCanvasRef}
                                                 canvasProps={
                                                     {
-                                                        style: { background: 'white', width: '100%', minHeight: '650px' }
+                                                        style: { background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
                                                     }
                                                 } />
-                                        </div>
-
-                                        <Button variant="contained" onClick={() => clear}>Leeren</Button>
+                                            <div className={classes.SignatureBTNRow}>
+                                        <Button variant="contained" onClick={close}>Zurück</Button>
+                                        <Button variant="contained" onClick={clear}>Leeren</Button>
                                         <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
-                                    </>
-
-                                </Modal> */}
-
-
-
-
-
-
+                                        </div>
+                                        
+                                        </div>
+                                    )}
+                                </Popup>
                                 <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Bestätigt" ? classes.SummaryBTNDisabled : null}>
                                     <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                         <DeleteIcon />
@@ -388,6 +291,7 @@ export default function Startseite() {
 
                         {/* In der Karteikarte drinnen */}
                         <div className={classes.InsideCard}>
+                            <Typography className={classes.p}>Auftrag: {auftrag.AUFTRAG}</Typography>
                             <Typography className={classes.p}>KSV: {auftrag.KSV}</Typography>
                             <Typography className={classes.p}>Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
                             <Typography className={classes.p}>Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
@@ -396,7 +300,6 @@ export default function Startseite() {
                             <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
                             <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
                             <Typography className={classes.p}>Bis: {auftrag.BIS}</Typography>
-
                         </div>
                     </details>
                     {/* //KarteikarteEnd */}

@@ -23,30 +23,30 @@ namespace backend.Controllers
 
         private async Task Confirmation(int id)
         {
+            // await Task.Run(() =>
+            // {
+            //     do
+            //     {
+            //         Task.Delay(10000).Wait();
+            //         string sqlDataSource = _configuration.GetConnectionString("AppCon");
+            //         using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+            //         {
+            //             myCon.Open();
+            //             NpgsqlCommand query = new NpgsqlCommand(@"select exists (select ""ID"" from ""Auftrag"" where ""ID"" = @id and ""STATUS"" = 'Bestätigt')", myCon);
+            //             query.Parameters.AddWithValue("@id", id);
+
+            //             Boolean flag = (Boolean)query.ExecuteScalar();
+            //             if (flag == true)
+            //             {
+            //                 break;
+            //             }
+            //         }
+            //     } while (true);
+            // });
+
             await Task.Run(() =>
             {
-                do
-                {
-                    Task.Delay(10000).Wait();
-                    string sqlDataSource = _configuration.GetConnectionString("AppCon");
-                    using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
-                    {
-                        myCon.Open();
-                        NpgsqlCommand query = new NpgsqlCommand(@"select exists (select ""ID"" from ""Auftrag"" where ""ID"" = @id and ""STATUS"" = 'Bestätigt')", myCon);
-                        query.Parameters.AddWithValue("@id", id);
-
-                        Boolean flag = (Boolean)query.ExecuteScalar();
-                        if (flag == true)
-                        {
-                            break;
-                        }
-                    }
-                } while (true);
-            });
-
-            await Task.Run(() =>
-            {
-                Task.Delay(200000).Wait();
+                Task.Delay(10000).Wait();
                 string sqlDataSource = _configuration.GetConnectionString("AppCon");
                 using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
                 {
@@ -67,8 +67,7 @@ namespace backend.Controllers
                 NpgsqlCommand query = new NpgsqlCommand(@"select ""ID"" from ""Auftrag"" where ""AUFTRAGGEBER"" = @name order by ""ID"" desc limit 1", myCon);
                 query.Parameters.AddWithValue("@name", name);
                 int id = (int)query.ExecuteScalar();
-                return id;
-                
+                return id;   
             }
         }
 

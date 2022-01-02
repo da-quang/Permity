@@ -254,14 +254,33 @@ export default function Formular() {
 
                 </Box>
             </div>
-            <Grid container spacing={1}>
-
-
+            <Grid>
+                <div className={classes.f}>
+                <Grid className={classes.g} item xs={6}>
+                    <TextField  fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)} inputProps={{ maxLength: 30 } } ></TextField>
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField  fullWidth variant="outlined" label="Auftragnehmer" onChange={e => setAUFTRAGNEHMER(e.target.value)}></TextField>
+                </Grid>
+                </div>
+                <div className={classes.f}>
+                <Grid className={classes.g} item xs={6}>
+                    <TextField  fullWidth variant="outlined" label="KSV" onChange={e => setKSV(e.target.value)}></TextField>
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField  fullWidth variant="outlined" label="Sperren" onChange={e => setSPERREN(e.target.value)}></TextField>
+                </Grid>
+                </div>
+                <div className={classes.f}>
+                <Grid item xs={12}>
+                    <TextField  fullWidth variant="outlined" label="Kommentar" onChange={e => setKOMMENTAR(e.target.value)}></TextField>
+                </Grid>
+                </div>
+                <div className={classes.f}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <Grid item xs={6}>
+                    <Grid className={classes.g} item xs={6}>
                         <Stack>
                             <MobileDateTimePicker
-                                
                                 ampm={false}
                                 value={value}
                                 onChange={(newValue) => {
@@ -271,20 +290,12 @@ export default function Formular() {
                                 inputFormat="yyyy/MM/dd HH:mm"
 
                                 renderInput={(params) => <TextField onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
-
                             />
-
                         </Stack>
-
                     </Grid>
-
-
-
-                    <Grid item xs={6}>
+                    <Grid className={classes.h} item xs={6}>
                         <Stack>
-
                             <MobileDateTimePicker
-
                                 ampm={false}
                                 label="24hours"
                                
@@ -296,108 +307,23 @@ export default function Formular() {
                                 inputFormat="yyyy/MM/dd HH:mm"
 
                                 renderInput={(params) => <TextField onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
-
                             />
-
                         </Stack>
                     </Grid>
-
-
-
                 </LocalizationProvider>
+                </div>
 
+                
+                
 
-                <Grid item xs={12}>
-                    <TextField  fullWidth variant="outlined" label="Kommentar" onChange={e => setKOMMENTAR(e.target.value)}></TextField>
-                </Grid>
-                <Grid item xs={6}>
-                <TextField  fullWidth variant="outlined" label="Auftragnehmer" onChange={e => setAUFTRAGNEHMER(e.target.value)}></TextField>
-                    
-                </Grid>
-
-                <Grid item xs={6}>
-                <TextField  fullWidth variant="outlined" label="Sperren" onChange={e => setSPERREN(e.target.value)}></TextField>
-                    
-                </Grid>
+                
             
 
-                <Grid item xs={6}>
-                    <TextField  fullWidth variant="outlined" label="KSV" onChange={e => setKSV(e.target.value)}></TextField>
-                </Grid>
-
-                <Grid item xs={6}>
-                    <TextField  fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
-                </Grid>
-
-                <Grid item xs={6}>
-                    <TextField  fullWidth variant="outlined" label="Auftrag Name" onChange={e => setEmail(e.target.value)}></TextField>
-                </Grid>
-
-                {/* <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={data3}
-                        getOptionLabel={(option) => option.KSV}
-
-                        renderInput={(params) => (<TextField {...params} variant="outlined" onChange={() => setKSV(e.target.value)} label="Ksv"></TextField>)}
-                        isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
-                    /> */}
                 
-                {/* <Grid item xs={6}>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={data5}
-                        getOptionLabel={(option) => option.KSV}
 
-                        renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
-                        isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={data6}
-                        getOptionLabel={(option) => option.KSV}
-
-                        renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
-                        isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={data7}
-                        getOptionLabel={(option) => option.KSV}
-
-                        renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" onChange={e => setKsv1(e.target.value)}></TextField>)}
-                        isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
-                    />
-                </Grid> */}
-
-
-
+                
                 
             </Grid>
-
-
-            {/* <Grid item xs={8}>
-                    <TextField fullWidth label="Auftragnehmer" onChange={e => setAuftragnehmer(e.target.value)}></TextField>
-                </Grid >
-                <Grid item xs={6}>
-                    <TextField fullWidth label="Sperren" onChange={e => setSperren(e.target.value)}></TextField>
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField fullWidth label="Kommentar" onChange={e => setKommentar(e.target.value)}></TextField>
-                </Grid >
-                <Grid item xs={6}>
-                    <TextField fullWidth label="Von" onChange={e => setVon(e.target.value)}></TextField>
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField fullWidth label="Bis" onChange={e => setBis(e.target.value)}></TextField>
-                </Grid> */}
 
         </form>
     )
@@ -474,13 +400,13 @@ const useStyles = makeStyles({
         display: 'flex',
     },
 
+    f: {
+        display: 'flex',
+        padding: 10,
+    },
 
-
-
-
-
-
-
-
+    g: {
+        paddingRight: 10,
+    },
 
 });

@@ -223,7 +223,6 @@ export default function Formular() {
             </Grid>
         </form>
     )
-
 }
 
 
@@ -231,10 +230,6 @@ export default function Formular() {
 
 
 const useStyles = makeStyles({
-
-
-
-
     typoh4: {
         fontWeight: "bold",
     },
@@ -310,10 +305,4 @@ const useStyles = makeStyles({
     h: {
         paddingLeft: 10,
     },
-
-
-
-
-
-
 });

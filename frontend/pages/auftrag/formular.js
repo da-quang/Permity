@@ -1,155 +1,37 @@
 import { Button, TextField, Grid, Fab, Link, Typography } from "@material-ui/core";
-import React, { Fragment, useState, useEffect } from 'react';
-import MomentUtils from '@date-io/moment';
-import axios from 'axios';
+import React, { Fragment, useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Autocomplete } from "@mui/material";
-import useSWR from "swr";
 import { makeStyles } from '@mui/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
-import TimePicker from '@mui/lab/TimePicker';
-import DateTimePicker from '@mui/lab/DateTimePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { delLocale } from "next/dist/shared/lib/router/router";
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Router from "next/router";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import CreateIcon from '@mui/icons-material/Create';
-import Create from "@mui/icons-material/Create";
-import { getDate, getHours } from "date-fns";
+import Popup from 'reactjs-popup';
+import "../startseite/sigCanvas.module.css";
+import sigCanvas from '../startseite/sigCanvas.module.css';
+import SignaturePad from "react-signature-canvas";
 console.log("--> Formular")
-
-
-
 
 export default function Formular() {
 
     const { query } = useRouter()
     const classes = useStyles();
-    // const [data, setData] = useState([]);
 
     let [ksv, setKsv] = useState('')
-    let auftraggeber = query.param2
-    let [auftragnehmer, setAuftragnehmer] = useState('')
-    let [empfänger, setEmpfänger] = useState('')
-    let [sperren, setSperren] = useState('')
-    let [kommentar, setKommentar] = useState('')
     let [von, setVon] = useState(new Date())
     let [bis, setBis] = useState(new Date())
     let status = 'offen'
-
-    const [data1, setData1] = useState([]);
-    const [data2, setData2] = useState([]);
-    const [data3, setData3] = useState([]);
-    const [data4, setData4] = useState([]);
-    const [data5, setData5] = useState([]);
-    const [data6, setData6] = useState([]);
-    const [data7, setData7] = useState([]);
-    const [data8, setData8] = useState([]);
-    const [data9, setData9] = useState([]);
-    const [data10, setData10] = useState([]);
-    const [data11, setData11] = useState([]);
-
     let betreff = "Freigabe"
     let mailtext = "Bitte erledigen"
-
-    // const formData = new FormData();
-    // formData.append('empfänger', 'hodzic.amir66@gmail.com');
-    // formData.append('betreff', 'Sees');
-    // formData.append('mailtext', 'hallo');
-    // formData.append('attachments', '');
-
-   
-
-    const CREATE = async () => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${ksv}-13&auftraggeber=Riegler%20Thomas&auftragnehmer=Boch%20Walter&sperren=Freigabe%20zur%20Arbeit&kommentar=Gut%20machen&von=2021.12.30&bis=2021.12.31`, {
-            method: 'POST'
-        })
-        const data = await response.json()
-        console.log(data)
-        Router.reload()
-    }
-
-
-
-    let kurzzeichen = query.param
-
-
-    let loaded = false
-
-
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/all`)
-            .then((response) => response.json())
-            .then((data2) => setData2(data2));
-    }, []);
-
-
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ebene=1`)
-            .then((response) => response.json())
-            .then((data3) => setData3(data3));
-    }, []);
-
-    function loadEbene2() {
-
-        useEffect(() => {
-            fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${ksv1}&ebene=2`)
-                .then((response) => response.json())
-                .then((data4) => setData4(data4));
-        }, []);
-
-    }
-
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${ksv1}&ebene=3`)
-            .then((response) => response.json())
-            .then((data5) => setData5(data5));
-    }, []);
-
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${ksv1}&ebene=4`)
-            .then((response) => response.json())
-            .then((data6) => setData6(data6));
-    }, []);
-
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${ksv1}&ebene=5`)
-            .then((response) => response.json())
-            .then((data7) => setData7(data7));
-    }, []);
-
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${ksv1}&ebene=6`)
-            .then((response) => response.json())
-            .then((data8) => setData8(data8));
-    }, []);
-
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${ksv1}&ebene=7`)
-            .then((response) => response.json())
-            .then((data9) => setData9(data9));
-    }, []);
-
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${ksv1}&ebene=8`)
-            .then((response) => response.json())
-            .then((data10) => setData10(data10));
-    }, []);
-
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${ksv1}&ebene=9`)
-            .then((response) => response.json())
-            .then((data11) => setData11(data11));
-    }, []);
 
     //Menü
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -164,13 +46,6 @@ export default function Formular() {
     const router = useRouter()
 
     const [ksv1, setKsv1] = useState([]);
-
-
-
-
-
-
-
     const handleLoad1 = (event, value) => setKsv1(value);
 
     const [value, setValue] = useState(new Date());
@@ -183,36 +58,50 @@ export default function Formular() {
 
     let VON = `${value.getFullYear()}.${value.getMonth() + 1}.${value.getDate()}`;
     let BIS = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()}`;
-    // ${value.getHours()}:${value.getMinutes()}
-
 
     let [KSV, setKSV] = useState('')
     let [KOMMENTAR, setKOMMENTAR] = useState('')
     let [AUFTRAGNEHMER, setAUFTRAGNEHMER] = useState('')
     let [SPERREN, setSPERREN] = useState('')
     let [AUFTRAG, setAUFTRAG] = useState('')
-    let [Email, setEmail] = useState('')
-    let EMAIL = Email + "@gmail.com"
+    let [EMAIL, setEMAIL] = useState('')
+
     let AUFTRAGGEBER = query.param2
 
-    function Erstellen(VALUE){
-        () => CREATE2(VALUE)
-        const CREATE2 = async () => {
-            const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}`, {
-                method: 'POST'
-            })
-            const data = await response.json()
-
-            console.log(data)
-            Router.reload()
-        }
+    const getEmail = async () => {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?kurzzeichenOrName=${AUFTRAGNEHMER}`, {
+            method: 'GET'
+        })
+        const data = await response.json()
+        setEMAIL(data[0].EMAIL)
     }
-    
+
+    const CREATE2 = async () => {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}`, {
+            method: 'POST'
+        })
+        const data = await response.json()
+        console.log(data)
+    }
+
+    const MAIL = async () => {
+        const response = await fetch(`http://localhost:8090/api/Email/Send?email=${EMAIL}`, {
+            method: 'POST'
+        })
+        const data = await response.json()
+
+        console.log(data)
+        Router.reload()
+    }
+
+    const sigCanvasRef = useRef({});
+    const clear = () => sigCanvasRef.current.clear();
+    const save = () =>
+    console.log(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
+
     return (
         <form className={classes.h}>
-
             <div>
-
                 <div className={classes.e}>
                     <div>
                         <Button color="inherit" className={classes.BTN}
@@ -242,45 +131,62 @@ export default function Formular() {
                 </div>
 
                 <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
-
-
-                    <Fab variant="extended" color="primary" aria-label="add">
-                        <CreateIcon /> Unterschreiben
-                    </Fab>
-
-                    <Fab variant="extended" onClick={() => CREATE2()} color="secondary" aria-label="add">
+                    <Fab onClick={()=>getEmail()} variant="extended" color="primary" aria-label="add">
+                            <CreateIcon /> Mail
+                        </Fab>
+                        <Fab onClick={()=>MAIL()} variant="extended" color="primary" aria-label="add">
+                            <CreateIcon /> EMail
+                        </Fab>
+                    <Popup modal trigger={
+                        <Fab variant="extended" color="primary" aria-label="add">
+                            <CreateIcon /> Unterschreiben
+                        </Fab>
+                    }closeOnDocumentClick={false}>
+                        {close => (
+                            <div className={sigCanvas.signatureCanvas} >
+                                <SignaturePad
+                                    ref={sigCanvasRef}
+                                    canvasProps={
+                                        {
+                                            style: { background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
+                                        }
+                                    } />
+                                <div className={classes.SignatureBTNRow}>
+                                    <Button color="primary" variant="contained" onClick={close}>Zurück</Button>
+                                    <Button color="primary" variant="contained" onClick={clear}>Leeren</Button>
+                                    <Button color="primary" variant="contained" onClick={() => {save }} >Speichern</Button>
+                                </div>
+                            </div>
+                        )}
+                    </Popup>
+                    <Fab variant="extended" onClick={() => {CREATE2(); MAIL()}} color="secondary" aria-label="add">
                         <AddIcon /> Erstellen
                     </Fab>
-
                 </Box>
             </div>
             <Grid>
-                <div className={classes.f}>
-                <Grid className={classes.g} item xs={6}>
-                    <TextField  fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)} inputProps={{ maxLength: 30 } } ></TextField>
+                <div className={classes.g}>
+                <Grid className={classes.h} item xs={6}>
+                    <TextField fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField  fullWidth variant="outlined" label="Auftragnehmer" onChange={e => setAUFTRAGNEHMER(e.target.value)}></TextField>
+                    <TextField fullWidth variant="outlined" label="Auftragnehmer" onChange={e => setAUFTRAGNEHMER(e.target.value)}></TextField>
                 </Grid>
                 </div>
-                <div className={classes.f}>
-                <Grid className={classes.g} item xs={6}>
-                    <TextField  fullWidth variant="outlined" label="KSV" onChange={e => setKSV(e.target.value)}></TextField>
+                <div className={classes.g} >
+                <Grid className={classes.h} item xs={6}>
+                    <TextField fullWidth variant="outlined" label="KSV" onChange={e => setKSV(e.target.value)}></TextField>
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField  fullWidth variant="outlined" label="Sperren" onChange={e => setSPERREN(e.target.value)}></TextField>
+                    <TextField fullWidth variant="outlined" label="Sperren" onChange={e => setSPERREN(e.target.value)}></TextField>
                 </Grid>
                 </div>
-                <div className={classes.f}>
-                <Grid item xs={12}>
-                    <TextField  fullWidth variant="outlined" label="Kommentar" onChange={e => setKOMMENTAR(e.target.value)}></TextField>
-                </Grid>
-                </div>
-                <div className={classes.f}>
+                <div className={classes.g}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <Grid className={classes.g} item xs={6}>
+                    <Grid className={classes.h} item xs={6}>
                         <Stack>
                             <MobileDateTimePicker
+
                                 ampm={false}
                                 value={value}
                                 onChange={(newValue) => {
@@ -288,43 +194,33 @@ export default function Formular() {
                                 }}
                                 label="Von"
                                 inputFormat="yyyy/MM/dd HH:mm"
-
                                 renderInput={(params) => <TextField onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
                             />
                         </Stack>
                     </Grid>
-                    <Grid className={classes.h} item xs={6}>
+                    <Grid item xs={6}>
                         <Stack>
                             <MobileDateTimePicker
                                 ampm={false}
                                 label="24hours"
-                               
                                 value={value1}
                                 onChange={(newValue1) => {
                                     setValue1(newValue1)
                                 }}
                                 label="Bis"
                                 inputFormat="yyyy/MM/dd HH:mm"
-
                                 renderInput={(params) => <TextField onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
                             />
                         </Stack>
                     </Grid>
                 </LocalizationProvider>
                 </div>
-
-                
-                
-
-                
-            
-
-                
-
-                
-                
+                <div className={classes.g}>
+                <Grid item xs={12}>
+                    <TextField fullWidth variant="outlined" label="Kommentar" onChange={e => setKOMMENTAR(e.target.value)}></TextField>
+                </Grid>
+                </div>
             </Grid>
-
         </form>
     )
 
@@ -400,13 +296,24 @@ const useStyles = makeStyles({
         display: 'flex',
     },
 
-    f: {
-        display: 'flex',
-        padding: 10,
+    SignatureBTNRow: {
+        display: "flex",
+        textAlign: "center",
+        margin: "auto",
+        justifyContent: "center",
     },
 
     g: {
-        paddingRight: 10,
+        padding: 10,
     },
+
+    h: {
+        paddingLeft: 10,
+    },
+
+
+
+
+
 
 });

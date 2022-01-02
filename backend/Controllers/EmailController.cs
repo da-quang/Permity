@@ -33,7 +33,7 @@ namespace backend.Controllers
                 message.IsBodyHtml = true;
                 client.Send(message);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 throw;
             }

@@ -21,13 +21,14 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
-        private async Task Confirmation(int id)
+        private async Task<int> Confirmation(int id)
         {
-            var TaskA = Task.Run(() => BestätigtAsync(id));
-            var TaskB = Task.Run(() => nichtAngenommenAsync(id));
+            Task<int> BestätigtTask = BestätigtAsync(id);
+            Task<int> nichtAngenommenTask = nichtAngenommenAsync(id);
+            return 0;
         }
 
-        private void BestätigtAsync(int id)
+        public async Task<int> BestätigtAsync(int id)
         {
             do
             {
@@ -46,11 +47,12 @@ namespace backend.Controllers
                     }
                 }
             } while (true);
+            return 0;
         }
 
-        private void nichtAngenommenAsync(int id)
+        public async Task<int> nichtAngenommenAsync(int id)
         {
-            Task.Delay(2000).Wait();
+            Task.Delay(1200000).Wait();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
             using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
             {
@@ -59,6 +61,7 @@ namespace backend.Controllers
                 query.Parameters.AddWithValue("@id", id);
                 query.ExecuteScalar();
             }
+            return 0;
         }
 
         private int getId(string name)

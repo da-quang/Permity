@@ -23,7 +23,7 @@ namespace backend.Controllers
 
         private async Task Confirmation(int id)
         {
-            async Task.Run(() =>
+            Task.Run(() =>
             {
                 do
                 {
@@ -44,7 +44,7 @@ namespace backend.Controllers
                 } while (true);
             });
 
-            async Task.Run(() =>
+            Task.Run(() =>
             {
                 Task.Delay(20000).Wait();
                 string sqlDataSource = _configuration.GetConnectionString("AppCon");

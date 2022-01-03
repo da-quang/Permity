@@ -31,11 +31,10 @@ namespace backend.Controllers
                 NpgsqlCommand query = new NpgsqlCommand(@"update ""Auftrag"" set ""STATUS"" = 'nicht angenommen' where ""ID"" = @id and ""STATUS"" = 'Offen'", myCon);
                 query.Parameters.AddWithValue("@id", id);
                 query.ExecuteScalar();
-            }
-           
+            }           
         }
 
-        protected int getId(string name)
+        private int getId(string name)
         {
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
             using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))

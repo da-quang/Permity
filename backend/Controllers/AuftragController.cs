@@ -34,14 +34,15 @@ namespace backend.Controllers
             }           
         }
 
-        private int getId(string name)
+        private int getId(string auftraggeber, string auftragnehmer)
         {
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
             using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
             {
                 myCon.Open();
-                NpgsqlCommand query = new NpgsqlCommand(@"select ""ID"" from ""Auftrag"" where ""AUFTRAGGEBER"" = @name order by ""ID"" desc limit 1", myCon);
-                query.Parameters.AddWithValue("@name", name);
+                NpgsqlCommand query = new NpgsqlCommand(@"select ""ID"" from ""Auftrag"" where ""AUFTRAGGEBER"" = @auftraggeber and ""AUFTRAGNEHMER"" = @auftragnehmer order by ""ID"" desc limit 1", myCon);
+                query.Parameters.AddWithValue("@auftraggeber", auftraggeber);
+                query.Parameters.AddWithValue("@auftragnehmer", auftragnehmer);
                 int id = (int)query.ExecuteScalar();
                 return id;   
             }
@@ -151,7 +152,7 @@ namespace backend.Controllers
                     myCon.Close();
                 }
             }
-            Confirmation(getId(auftragnehmer));
+            Confirmation(getId(auftraggeber, auftragnehmer));
             return new JsonResult("Added successfully");
         }
 

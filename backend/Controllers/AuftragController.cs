@@ -23,44 +23,17 @@ namespace backend.Controllers
 
         private async Task Confirmation(int id)
         {
-            BestätigtAsync(id);
-            nichtAngenommenAsync(id);
-        }
-
-        private async Task<int> BestätigtAsync(int id)
-        {
-            do
+            await Task.Run(() =>
             {
-                Task.Delay(10000).Wait();
                 string sqlDataSource = _configuration.GetConnectionString("AppCon");
                 using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
                 {
                     myCon.Open();
-                    NpgsqlCommand query = new NpgsqlCommand(@"select exists (select ""ID"" from ""Auftrag"" where ""ID"" = @id and ""STATUS"" = 'Bestätigt')", myCon);
+                    NpgsqlCommand query = new NpgsqlCommand(@"update ""Auftrag"" set ""STATUS"" = 'nicht angenommen' where ""ID"" = @id and ""STATUS"" = 'Offen'", myCon);
                     query.Parameters.AddWithValue("@id", id);
-
-                    Boolean flag = (Boolean)query.ExecuteScalar();
-                    if (flag == true)
-                    {
-                        break;
-                    }
+                    query.ExecuteScalar();
                 }
-            } while (true);
-            return 0;
-        }
-
-        private async Task<int> nichtAngenommenAsync(int id)
-        {
-            Task.Delay(10000).Wait();
-            string sqlDataSource = _configuration.GetConnectionString("AppCon");
-            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                NpgsqlCommand query = new NpgsqlCommand(@"update ""Auftrag"" set ""STATUS"" = 'nicht angenommen' where ""ID"" = @id and ""STATUS"" = 'Offen'", myCon);
-                query.Parameters.AddWithValue("@id", id);
-                query.ExecuteScalar();
-            }
-            return 0;
+            });
         }
 
         protected int getId(string name)

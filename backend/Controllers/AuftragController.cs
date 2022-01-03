@@ -51,7 +51,7 @@ namespace backend.Controllers
 
         private async Task<int> nichtAngenommenAsync(int id)
         {
-            Task.Delay(1200000).Wait();
+            Task.Delay(50000).Wait();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
             using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
             {

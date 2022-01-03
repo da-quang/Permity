@@ -1,4 +1,5 @@
-import { Button, TextField, Grid, Fab, Link, Typography } from "@material-ui/core";
+import {TextField, Grid, Fab, Link, Typography } from "@material-ui/core";
+import Button from '@mui/material/Button';
 import React, { Fragment, useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
@@ -75,6 +76,7 @@ export default function Formular() {
         })
         const data = await response.json()
         setEMAIL(data[0].EMAIL)
+        console.log(EMAIL)
         MAIL();
     }
 
@@ -99,7 +101,8 @@ export default function Formular() {
     const sigCanvasRef = useRef({});
     const clear = () => sigCanvasRef.current.clear();
     const save = () => {
-        setAUFTRAGGEBER_UNTERSCHRIFT(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
+        //setAUFTRAGGEBER_UNTERSCHRIFT(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
+        console.log(AUFTRAGGEBER_UNTERSCHRIFT)
     }
    
 

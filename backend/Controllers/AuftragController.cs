@@ -21,13 +21,19 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
-        private async Task Confirmation(int id)
+        private void Confirmation(int id)
         {
-            Task<int> BestätigtTask = BestätigtAsync(id);
-            Task<int> nichtAngenommenTask = nichtAngenommenAsync(id);
+            ThreadStart ts1 = new ThreadStart(BestätigtAsync(id));
+            ThreadStart ts2 = new ThreadStart(nichtAngenommenAsync(id));
+
+            Thread t1 = new Thread(ts1);
+            Thread t2 = new Thread(ts2);
+
+            t1.Start();
+            t2.Start();
         }
 
-        public async Task<int> BestätigtAsync(int id)
+        public void BestätigtAsync(int id)
         {
             do
             {
@@ -46,10 +52,9 @@ namespace backend.Controllers
                     }
                 }
             } while (true);
-            return 0;
         }
 
-        public async Task<int> nichtAngenommenAsync(int id)
+        public void nichtAngenommenAsync(int id)
         {
             Task.Delay(20000).Wait();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -60,10 +65,9 @@ namespace backend.Controllers
                 query.Parameters.AddWithValue("@id", id);
                 query.ExecuteScalar();
             }
-            return 0;
         }
 
-        private int getId(string name)
+        private void getId(string name)
         {
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
             using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))

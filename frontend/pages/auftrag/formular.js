@@ -85,7 +85,7 @@ export default function Formular() {
     }
 
     const MAIL = async () => {
-        const response = await fetch(`http://localhost:8090/api/Email/Send?email=${EMAIL}`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/Send?email=${EMAIL}`, {
             method: 'POST'
         })
         const data = await response.json()

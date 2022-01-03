@@ -21,7 +21,7 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
-        private async Task Confirmation(int id)
+        private void Confirmation(int id)
         {
             
             string sqlDataSource = _configuration.GetConnectionString("AppCon");

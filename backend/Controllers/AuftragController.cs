@@ -21,9 +21,9 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
-        private void Confirmation(int id)
+        private async Task Confirmation(int id)
         {
-            
+            await Task.Delay(50000);
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
             using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
             {

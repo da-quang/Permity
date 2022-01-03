@@ -187,7 +187,7 @@ export default function Startseite() {
                         <ListItem> <Button className={filter == "Offen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Offen")} variant="contained">Offen </Button></ListItem>
                         <ListItem> <Button className={filter == "Bestätigt" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Bestätigt")} variant="contained" >Bestätigt </Button></ListItem>
                         <ListItem> <Button className={filter == "Abgeschlossen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Abgeschlossen")} variant="contained">Abgeschlossen</Button></ListItem>
-                        <ListItem> <Button className={filter == "nicht angenommen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("nicht angenommen")} variant="contained">nicht angenommen</Button></ListItem>
+                        <ListItem> <Button className={filter == "Nicht angenommen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("nicht angenommen")} variant="contained">nicht angenommen</Button></ListItem>
 
                         <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
                         <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
@@ -199,7 +199,7 @@ export default function Startseite() {
             </div>
 
             <div >
-                {data && data.map((auftrag, id) => data[id].STATUS.includes(filter) && data[id].STATUS.includes(filter3) && data[id].SPERREN.includes(filter2) && <ul className={auftrag.STATUS == "Abgeschlossen" ? classes.Abgeschlossen : auftrag.STATUS == "Bestätigt" ? classes.Bestätigt : auftrag.STATUS == "Offen" ? classes.Offen : auftrag.STATUS == "nicht angenommen" ? classes.Abgelehnt : null} key={id}>
+                {data && data.map((auftrag, id) => data[id].STATUS.includes(filter) && data[id].STATUS.includes(filter3) && data[id].SPERREN.includes(filter2) && <ul className={auftrag.STATUS == "Abgeschlossen"} className={auftrag.STATUS == "Bestätigt"} className={auftrag.STATUS == "Offen"} className={auftrag.STATUS == "Nicht angenommen"} key={id}>
                     <details className={classes.details}>
                         <summary
                             className={classes.summary}

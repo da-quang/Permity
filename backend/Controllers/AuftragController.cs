@@ -23,12 +23,12 @@ namespace backend.Controllers
 
         private async Task Confirmation(int id)
         {
-            await Task.Delay(1200000);
+            await Task.Delay(10000);
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
             using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
             {
                 myCon.Open();
-                NpgsqlCommand query = new NpgsqlCommand(@"update ""Auftrag"" set ""STATUS"" = 'nicht angenommen' where ""ID"" = @id and ""STATUS"" = 'Offen'", myCon);
+                NpgsqlCommand query = new NpgsqlCommand(@"update ""Auftrag"" set ""STATUS"" = 'Nicht angenommen' where ""ID"" = @id and ""STATUS"" = 'Offen'", myCon);
                 query.Parameters.AddWithValue("@id", id);
                 query.ExecuteScalar();
             }           

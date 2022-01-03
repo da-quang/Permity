@@ -128,7 +128,9 @@ export default function Startseite() {
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
 
-
+    function x() {
+        console.log("Hallo")
+    }
 
     return (
         <form className={classes.h}>
@@ -164,7 +166,6 @@ export default function Startseite() {
                 <Typography variant="h6" className={classes.typoh6}>{query.param}</Typography>
             </div>
 
-
             <div className={classes.FilterAdd}>
                 <div className={classes.searchContainer}>
                     <Button color="inherit" className={classes.BTN}
@@ -173,7 +174,7 @@ export default function Startseite() {
                         aria-haspopup="true"
                         aria-expanded={open2 ? 'true' : undefined}
                         onClick={handleClick2}>
-                    <FilterAltIcon className={classes.searchIcon} /> <Typography> Filter </Typography>
+                        <FilterAltIcon className={classes.searchIcon}/> <Typography> Filter </Typography>
                     </Button>
                     <Menu
                     id="basic-menu"
@@ -197,136 +198,154 @@ export default function Startseite() {
                     </Menu>
                 </div>
             </div>
-
+            
             <div>
-                <h3 className={classes.Status}>Offen</h3>
-                {data && data.map((auftrag, id) => <ul key={id}>
-                    {auftrag.STATUS == "Offen" &&
-                    <div className={classes.Offen}>
-                        <details className={classes.details}>
-                            <summary className={classes.summary}>
-                                {auftrag.ID} | {auftrag.AUFTRAG}
-                                <Popup modal trigger={
-                                    <Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                        <CreateIcon />
-                                    </Button>
-                                }closeOnDocumentClick={false}>
-                                {close => (
-                                    <div className={sigCanvas.signatureCanvas} >
-                                        <SignaturePad
-                                            ref={sigCanvasRef}
-                                            canvasProps={
-                                                {
-                                                    style: { background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
-                                                }
-                                            } />
-                                        <div className={classes.SignatureBTNRow}>
-                                            <Button variant="contained" onClick={close}>Zurück</Button>
-                                            <Button variant="contained" onClick={clear}>Leeren</Button>
-                                            <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
+                <details className={classes.details}>
+                    <summary className={classes.summary2}>
+                        <div className={classes.Status}>Offen</div>
+                    </summary>
+                    {data && data.map((auftrag, id) => <ul key={id}>
+                        {auftrag.STATUS == "Offen" &&
+                        <div className={classes.Offen}>
+                            <details className={classes.details}>
+                                <summary className={classes.summary}>
+                                    {auftrag.ID} | {auftrag.AUFTRAG}
+                                    <Popup modal trigger={
+                                        <Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                            <CreateIcon />
+                                        </Button>
+                                    }closeOnDocumentClick={false}>
+                                    {close => (
+                                        <div className={sigCanvas.signatureCanvas} >
+                                            <SignaturePad
+                                                ref={sigCanvasRef}
+                                                canvasProps={
+                                                    {
+                                                        style: { background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
+                                                    }
+                                                } />
+                                            <div className={classes.SignatureBTNRow}>
+                                                <Button variant="contained" onClick={close}>Zurück</Button>
+                                                <Button variant="contained" onClick={clear}>Leeren</Button>
+                                                <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                                </Popup>
-                            </summary>
-                            <div className={classes.InsideCard}>
-                                <Typography className={classes.p}>KSV: {auftrag.KSV}</Typography>
-                                <Typography className={classes.p}>Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
-                                <Typography className={classes.p}>Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
-                                <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
-                                <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
-                                <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
-                                <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
-                                <Typography className={classes.p}>Bis: {auftrag.BIS}</Typography>
-                            </div>
-                        </details>
-                    </div>}
-                </ul>)}
-                
-                <br/>
-                <h3 className={classes.Status}>Bestätigt</h3>
-                {data && data.map((auftrag, id) => <ul key={id}>
-                    {auftrag.STATUS == "Bestätigt" &&
-                    <div className={classes.Bestätigt}>
-                        <details className={classes.details}>
-                            <summary className={classes.summary}>
-                                {auftrag.ID} | {auftrag.AUFTRAG}
-                            </summary>
-                            <div className={classes.InsideCard}>
-                                <Typography className={classes.p}>KSV: {auftrag.KSV}</Typography>
-                                <Typography className={classes.p}>Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
-                                <Typography className={classes.p}>Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
-                                <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
-                                <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
-                                <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
-                                <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
-                                <Typography className={classes.p}>Bis: {auftrag.BIS}</Typography>
-                            </div>
-                        </details>
-                    </div>}
-                </ul>)}
+                                    )}
+                                    </Popup>
+                                </summary>
+                                <div className={classes.InsideCard}>
+                                    <Typography> KSV: {auftrag.KSV}</Typography>
+                                    <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
+                                    <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
+                                    <Typography> Sperren: {auftrag.SPERREN}</Typography>
+                                    <Typography> Kommentar: {auftrag.KOMMENTAR}</Typography>
+                                    <Typography> Status: {auftrag.STATUS}</Typography>
+                                    <Typography> Von: {auftrag.VON}</Typography>
+                                    <Typography> Bis: {auftrag.BIS}</Typography>
+                                </div>
+                            </details>
+                        </div>}
+                    </ul>)}
+                    <div className={classes.br}></div>
+                </details>
 
-                <br/>
-                <h3 className={classes.Status}>Abgelehnt</h3>
-                {data && data.map((auftrag, id) => <ul key={id}>
-                    {auftrag.STATUS == "Nicht angenommen" &&
-                    <div className={classes.Abgelehnt}>
-                        <details className={classes.details}>
-                            <summary className={classes.summary}>
-                                {auftrag.ID} | {auftrag.AUFTRAG}
-                                <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                    <DeleteIcon />
-                                </Button>
-                            </summary>
-                            <div className={classes.InsideCard}>
-                                <Typography className={classes.p}>KSV: {auftrag.KSV}</Typography>
-                                <Typography className={classes.p}>Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
-                                <Typography className={classes.p}>Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
-                                <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
-                                <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
-                                <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
-                                <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
-                                <Typography className={classes.p}>Bis: {auftrag.BIS}</Typography>
-                            </div>
-                        </details>
-                    </div>}
-                </ul>)}
+                <details className={classes.details}>
+                    <summary className={classes.summary2}>
+                        <div className={classes.Status}>Bestätigt</div>
+                    </summary>
+                    {data && data.map((auftrag, id) => <ul key={id}>
+                        {auftrag.STATUS == "Bestätigt" &&
+                        <div className={classes.Bestätigt}>
+                            <details className={classes.details}>
+                                <summary className={classes.summary}>
+                                    {auftrag.ID} | {auftrag.AUFTRAG}
+                                </summary>
+                                <div className={classes.InsideCard}>
+                                <Typography> KSV: {auftrag.KSV}</Typography>
+                                    <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
+                                    <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
+                                    <Typography> Sperren: {auftrag.SPERREN}</Typography>
+                                    <Typography> Kommentar: {auftrag.KOMMENTAR}</Typography>
+                                    <Typography> Status: {auftrag.STATUS}</Typography>
+                                    <Typography> Von: {auftrag.VON}</Typography>
+                                    <Typography> Bis: {auftrag.BIS}</Typography>
+                                </div>
+                            </details>
+                        </div>}
+                    </ul>)}
+                    <div className={classes.br}></div>
+                </details>
 
-                <br/>                              
-                <h3 className={classes.Status}>Abgeschlossen</h3>
-                {data && data.map((auftrag, id) => <ul key={id}>
-                    {auftrag.STATUS == "Abeschlossen" &&
-                    <div className={classes.Abgelehnt}>
-                        <details className={classes.details}>
-                            <summary className={classes.summary}>
-                                {auftrag.ID} | {auftrag.AUFTRAG}
-                                <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                    <DeleteIcon />
-                                </Button>
-                            </summary>
-                            <div className={classes.InsideCard}>
-                                <Typography className={classes.p}>KSV: {auftrag.KSV}</Typography>
-                                <Typography className={classes.p}>Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
-                                <Typography className={classes.p}>Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
-                                <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
-                                <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
-                                <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
-                                <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
-                                <Typography className={classes.p}>Bis: {auftrag.BIS}</Typography>
-                            </div>
-                        </details>
-                    </div>}
-                </ul>)}
+               <details className={classes.details}>
+                    <summary className={classes.summary2}>
+                        <div className={classes.Status}>Abgelehnt</div>
+                    </summary>
+                    {data && data.map((auftrag, id) => <ul key={id}>
+                        {auftrag.STATUS == "Nicht angenommen" &&
+                        <div className={classes.Abgelehnt}>
+                            <details className={classes.details}>
+                                <summary className={classes.summary}>
+                                    {auftrag.ID} | {auftrag.AUFTRAG}
+                                    <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                        <DeleteIcon />
+                                    </Button>
+                                </summary>
+                                <div className={classes.InsideCard}>
+                                    <Typography> KSV: {auftrag.KSV}</Typography>
+                                    <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
+                                    <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
+                                    <Typography> Sperren: {auftrag.SPERREN}</Typography>
+                                    <Typography> Kommentar: {auftrag.KOMMENTAR}</Typography>
+                                    <Typography> Status: {auftrag.STATUS}</Typography>
+                                    <Typography> Von: {auftrag.VON}</Typography>
+                                    <Typography> Bis: {auftrag.BIS}</Typography>
+                                </div>
+                            </details>
+                        </div>}
+                    </ul>)}
+                    <div className={classes.br}></div>
+                </details>
 
+                                            
+                <details className={classes.details}>
+                    <summary className={classes.summary2}>
+                        <div className={classes.Status}>Abgeschlossen</div>
+                    </summary>
+                    {data && data.map((auftrag, id) => <ul key={id}>
+                        {auftrag.STATUS == "Abeschlossen" &&
+                        <div className={classes.Abgelehnt}>
+                            <details className={classes.details}>
+                                <summary className={classes.summary}>
+                                    {auftrag.ID} | {auftrag.AUFTRAG}
+                                    <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                        <DeleteIcon />
+                                    </Button>
+                                </summary>
+                                <div className={classes.InsideCard}>
+                                    <Typography> KSV: {auftrag.KSV}</Typography>
+                                    <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
+                                    <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
+                                    <Typography> Sperren: {auftrag.SPERREN}</Typography>
+                                    <Typography> Kommentar: {auftrag.KOMMENTAR}</Typography>
+                                    <Typography> Status: {auftrag.STATUS}</Typography>
+                                    <Typography> Von: {auftrag.VON}</Typography>
+                                    <Typography> Bis: {auftrag.BIS}</Typography>
+                                </div>
+                            </details>
+                        </div>}
+                    </ul>)}
+                    <div className={classes.br}></div>
+                </details>
                 {error && <div>Error fetching data.</div>}
             </div>
         </form>
     )
 }
 
-
-
 const useStyles = makeStyles({
+    br:{
+        marginBottom: 40,
+    },
 
     FilterAdd: {
         marginTop: "10%",
@@ -359,9 +378,11 @@ const useStyles = makeStyles({
     SummaryBTNDisabled: {
         display: 'none',
     },
+
     typoh4: {
         fontWeight: "bold",
     },
+
     typoh6: {
         width: 60,
         height: 30,
@@ -379,9 +400,9 @@ const useStyles = makeStyles({
         position: "fixed",
         right: "8%",
         bottom: "5%",
-
         zIndex: "999",
     },
+
     b: {
         height: 40,
         width: 280,
@@ -391,14 +412,25 @@ const useStyles = makeStyles({
     c: {
         marginLeft: "30%",
         textAlign: "center",
+    },
 
-
+    InsideCard: {
+        paddingBottom: 10,
     },
 
     d: {
         color: "green",
         textAlign: 'center',
         marginTop: 40,
+    },
+
+    z: {
+        background: "grey",
+        height: 30,
+        width: "100%",
+        borderRadius: 15,
+        marginLeft: 40,
+        marginRight: 40,
     },
 
     e: {
@@ -422,14 +454,26 @@ const useStyles = makeStyles({
     },
 
     summary: {
-        fontWeight: "bold",
         lineHeight: 3,
         display: 'flex',
         justifyContent: 'space-between',
     },
 
+    summary2: {
+        marginTop: 25,
+        marginLeft: 40,
+        marginRight: 40,
+        display: 'flex',
+        height: 35,
+        widht: "100%",
+        background: "#143968",
+        borderRadius: 10,       
+        color: 'white',
+    },
+
     Status: {
-        paddingLeft: 50,
+        paddingLeft: 15,
+        paddingTop: 7,
     },
 
     Offen: {

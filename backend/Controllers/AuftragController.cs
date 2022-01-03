@@ -123,10 +123,10 @@ namespace backend.Controllers
 
         //api/Auftrag/create
         [HttpPost("create")]
-        public JsonResult CreateAuftrag(string ksv, string auftrag, string auftraggeber, string auftragnehmer, string sperren, string kommentar, string von, string bis)
+        public JsonResult CreateAuftrag(string ksv, string auftrag, string auftraggeber, string auftragnehmer, string sperren, string kommentar, string von, string bis, string auftraggeber_unterschrift)
         {
-            string query = @"insert into ""Auftrag"" (""KSV"", ""AUFTRAG"", ""AUFTRAGGEBER"", ""AUFTRAGNEHMER"", ""SPERREN"", ""KOMMENTAR"", ""VON"", ""BIS"", ""STATUS"") 
-                                            values (@ksv, @auftrag, @auftraggeber, @auftragnehmer, @sperren, @kommentar, @von, @bis , 'Offen')";
+            string query = @"insert into ""Auftrag"" (""KSV"", ""AUFTRAG"", ""AUFTRAGGEBER"", ""AUFTRAGNEHMER"", ""SPERREN"", ""KOMMENTAR"", ""VON"", ""BIS"", ""STATUS"", ""AUFTRAGGEBER_UNTERSCHRIFT"") 
+                                            values (@ksv, @auftrag, @auftraggeber, @auftragnehmer, @sperren, @kommentar, @von, @bis , 'Offen', @auftraggeber_unterschrift)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -144,6 +144,7 @@ namespace backend.Controllers
                     myCommand.Parameters.AddWithValue("@kommentar", kommentar);
                     myCommand.Parameters.AddWithValue("@von", DateTimeOffset.Parse(von));
                     myCommand.Parameters.AddWithValue("@bis", DateTimeOffset.Parse(bis));
+                    myCommand.Parameters.AddWithValue("@auftraggeber_unterschrift", auftraggeber_unterschrift);
        
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);

@@ -65,6 +65,7 @@ export default function Formular() {
     let [SPERREN, setSPERREN] = useState('')
     let [AUFTRAG, setAUFTRAG] = useState('')
     let [EMAIL, setEMAIL] = useState('')
+    let [AUFTRAGGEBER_UNTERSCHRIFT, setAUFTRAGGEBER_UNTERSCHRIFT] = useState('')
 
     let AUFTRAGGEBER = query.param2
 
@@ -74,10 +75,11 @@ export default function Formular() {
         })
         const data = await response.json()
         setEMAIL(data[0].EMAIL)
+        MAIL();
     }
 
     const CREATE2 = async () => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
             method: 'POST'
         })
         const data = await response.json()
@@ -96,8 +98,10 @@ export default function Formular() {
 
     const sigCanvasRef = useRef({});
     const clear = () => sigCanvasRef.current.clear();
-    const save = () =>
-    console.log(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
+    const save = () => {
+        setAUFTRAGGEBER_UNTERSCHRIFT(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
+    }
+   
 
     return (
         <form>
@@ -131,12 +135,6 @@ export default function Formular() {
                 </div>
 
                 <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
-                    <Fab onClick={()=>getEmail()} variant="extended" color="primary" aria-label="add">
-                            <CreateIcon /> Mail
-                        </Fab>
-                        <Fab onClick={()=>MAIL()} variant="extended" color="primary" aria-label="add">
-                            <CreateIcon /> EMail
-                        </Fab>
                     <Popup modal trigger={
                         <Fab variant="extended" color="primary" aria-label="add">
                             <CreateIcon /> Unterschreiben
@@ -154,12 +152,12 @@ export default function Formular() {
                                 <div className={classes.SignatureBTNRow}>
                                     <Button color="primary" variant="contained" onClick={close}>Zurück</Button>
                                     <Button color="primary" variant="contained" onClick={clear}>Leeren</Button>
-                                    <Button color="primary" variant="contained" onClick={() => {save }} >Speichern</Button>
+                                    <Button color="primary" variant="contained" onClick={() => save()} >Speichern</Button>
                                 </div>
                             </div>
                         )}
                     </Popup>
-                    <Fab variant="extended" onClick={() => {CREATE2(); MAIL()}} color="secondary" aria-label="add">
+                    <Fab variant="extended" onClick={() => {CREATE2(); getEmail()}} color="secondary" aria-label="add">
                         <AddIcon /> Erstellen
                     </Fab>
                 </Box>

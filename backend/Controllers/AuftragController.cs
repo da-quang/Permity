@@ -23,7 +23,35 @@ namespace backend.Controllers
 
         private async Task Confirmation(int id)
         {
-            Task.Delay(10000).Wait();
+            // Task<int> BestätigtTask = BestätigtAsync(id);
+            Task<int> nichtAngenommenTask = nichtAngenommenAsync(id);
+        }
+
+        // private async Task<int> BestätigtAsync(int id)
+        // {
+        //     do
+        //     {
+        //         Task.Delay(10000).Wait();
+        //         string sqlDataSource = _configuration.GetConnectionString("AppCon");
+        //         using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+        //         {
+        //             myCon.Open();
+        //             NpgsqlCommand query = new NpgsqlCommand(@"select exists (select ""ID"" from ""Auftrag"" where ""ID"" = @id and ""STATUS"" = 'Bestätigt')", myCon);
+        //             query.Parameters.AddWithValue("@id", id);
+
+        //             Boolean flag = (Boolean)query.ExecuteScalar();
+        //             if (flag == true)
+        //             {
+        //                 break;
+        //             }
+        //         }
+        //     } while (true);
+        //     return 0;
+        // }
+
+        private async Task<int> nichtAngenommenAsync(int id)
+        {
+            Task.Delay(20000).Wait();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
             using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
             {
@@ -32,6 +60,7 @@ namespace backend.Controllers
                 query.Parameters.AddWithValue("@id", id);
                 query.ExecuteScalar();
             }
+            return 0;
         }
 
         private int getId(string name)

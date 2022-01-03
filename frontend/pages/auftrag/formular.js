@@ -122,7 +122,7 @@ export default function Formular() {
                                 'aria-labelledby': 'basic-button',
                             }}
                         >
-                            <MenuItem onClick={() => router.push(`/Mitarbeiter/login?param`)}><LogoutIcon />Logout </MenuItem>
+                            <MenuItem onClick={() => router.push(`/mitarbeiter/login`)}><LogoutIcon />Logout </MenuItem>
                             <MenuItem onClick={() => router.back()}><HomeIcon />Startseite</MenuItem>
                         </Menu>
                     </div>

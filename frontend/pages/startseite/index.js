@@ -72,15 +72,14 @@ export default function Startseite() {
             setfilter2(se);
         }
     };
-    const
-        handleSearchChange = (se) => {
-            if (filter == se) {
-                setfilter("");
-            }
-            else {
-                setfilter(se);
-            }
-        };
+    const handleSearchChange = (se) => {
+        if (filter == se) {
+            setfilter("");
+        }
+        else {
+            setfilter(se);
+        }
+    };
 
     const sigCanvasRef = useRef({});
     const clear = () => sigCanvasRef.current.clear();
@@ -127,11 +126,12 @@ export default function Startseite() {
     }
 
     const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false)
+    const handleCloseModal = () => setOpenModal(false);
+
+
 
     return (
         <form className={classes.h}>
-
             <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
                 <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)} aria-label="add" color="primary">
                     <AddIcon />
@@ -187,7 +187,7 @@ export default function Startseite() {
                         <ListItem> <Button className={filter == "Offen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Offen")} variant="contained">Offen </Button></ListItem>
                         <ListItem> <Button className={filter == "Bestätigt" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Bestätigt")} variant="contained" >Bestätigt </Button></ListItem>
                         <ListItem> <Button className={filter == "Abgeschlossen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Abgeschlossen")} variant="contained">Abgeschlossen</Button></ListItem>
-                        <ListItem> <Button className={filter == "Nicht angenommen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("nicht angenommen")} variant="contained">nicht angenommen</Button></ListItem>
+                        <ListItem> <Button className={filter == "Nicht angenommen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Nicht angenommen")} variant="contained">Nicht angenommen</Button></ListItem>
 
                         <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
                         <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
@@ -198,21 +198,19 @@ export default function Startseite() {
                 </div>
             </div>
 
-            <div >
-                {data && data.map((auftrag, id) => data[id].STATUS.includes(filter) && data[id].STATUS.includes(filter3) && data[id].SPERREN.includes(filter2) && <ul className={auftrag.STATUS == "Abgeschlossen"} className={auftrag.STATUS == "Bestätigt"} className={auftrag.STATUS == "Offen"} className={auftrag.STATUS == "Nicht angenommen"} key={id}>
-                    <details className={classes.details}>
-                        <summary
-                            className={classes.summary}
-
-
-                        >{auftrag.ID} | {auftrag.AUFTRAG} <a id="Erfüllen"></a>
-                            <Popup modal trigger={
-                                <a className={auftrag.STATUS == "Bestätigt" || auftrag.STATUS == "Abgeschlossen" ? classes.SummaryBTNDisabled : classes.SummaryButton}>
+            <div>
+                <h3 className={classes.Status}>Offen</h3>
+                {data && data.map((auftrag, id) => <ul key={id}>
+                    {auftrag.STATUS == "Offen" &&
+                    <div className={classes.Offen}>
+                        <details className={classes.details}>
+                            <summary className={classes.summary}>
+                                {auftrag.ID} | {auftrag.AUFTRAG}
+                                <Popup modal trigger={
                                     <Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                         <CreateIcon />
                                     </Button>
-                                </a>
-                            }closeOnDocumentClick={false}>
+                                }closeOnDocumentClick={false}>
                                 {close => (
                                     <div className={sigCanvas.signatureCanvas} >
                                         <SignaturePad
@@ -229,32 +227,97 @@ export default function Startseite() {
                                         </div>
                                     </div>
                                 )}
-                            </Popup>
-                            <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Bestätigt" ? classes.SummaryBTNDisabled : null}>
+                                </Popup>
+                            </summary>
+                            <div className={classes.InsideCard}>
+                                <Typography className={classes.p}>KSV: {auftrag.KSV}</Typography>
+                                <Typography className={classes.p}>Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
+                                <Typography className={classes.p}>Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
+                                <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
+                                <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
+                                <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
+                                <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
+                                <Typography className={classes.p}>Bis: {auftrag.BIS}</Typography>
+                            </div>
+                        </details>
+                    </div>}
+                </ul>)}
+                
+                <br/>
+                <h3 className={classes.Status}>Bestätigt</h3>
+                {data && data.map((auftrag, id) => <ul key={id}>
+                    {auftrag.STATUS == "Bestätigt" &&
+                    <div className={classes.Bestätigt}>
+                        <details className={classes.details}>
+                            <summary className={classes.summary}>
+                                {auftrag.ID} | {auftrag.AUFTRAG}
+                            </summary>
+                            <div className={classes.InsideCard}>
+                                <Typography className={classes.p}>KSV: {auftrag.KSV}</Typography>
+                                <Typography className={classes.p}>Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
+                                <Typography className={classes.p}>Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
+                                <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
+                                <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
+                                <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
+                                <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
+                                <Typography className={classes.p}>Bis: {auftrag.BIS}</Typography>
+                            </div>
+                        </details>
+                    </div>}
+                </ul>)}
+
+                <br/>
+                <h3 className={classes.Status}>Abgelehnt</h3>
+                {data && data.map((auftrag, id) => <ul key={id}>
+                    {auftrag.STATUS == "Nicht angenommen" &&
+                    <div className={classes.Abgelehnt}>
+                        <details className={classes.details}>
+                            <summary className={classes.summary}>
+                                {auftrag.ID} | {auftrag.AUFTRAG}
                                 <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                     <DeleteIcon />
                                 </Button>
-                            </a>
-                            <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Abgeschlossen" || auftrag.AUFTRAGNEHMER == query.param2 ? classes.Check : null}>
-                                <Button onClick={() => Update2(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                    <HowToRegIcon />
-                                </Button>
-                            </a>
-                        </summary>
-
-                        <div className={classes.InsideCard}>
-                            <Typography className={classes.p}>KSV: {auftrag.KSV}</Typography>
-                            <Typography className={classes.p}>Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
-                            <Typography className={classes.p}>Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
-                            <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
-                            <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
-                            <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
-                            <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
-                            <Typography className={classes.p}>Bis: {auftrag.BIS}</Typography>
-                            <img src={auftrag.auftragnehmer_unterschrift} />
-                        </div>
-                    </details>
+                            </summary>
+                            <div className={classes.InsideCard}>
+                                <Typography className={classes.p}>KSV: {auftrag.KSV}</Typography>
+                                <Typography className={classes.p}>Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
+                                <Typography className={classes.p}>Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
+                                <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
+                                <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
+                                <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
+                                <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
+                                <Typography className={classes.p}>Bis: {auftrag.BIS}</Typography>
+                            </div>
+                        </details>
+                    </div>}
                 </ul>)}
+
+                <br/>                              
+                <h3 className={classes.Status}>Abgeschlossen</h3>
+                {data && data.map((auftrag, id) => <ul key={id}>
+                    {auftrag.STATUS == "Abeschlossen" &&
+                    <div className={classes.Abgelehnt}>
+                        <details className={classes.details}>
+                            <summary className={classes.summary}>
+                                {auftrag.ID} | {auftrag.AUFTRAG}
+                                <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                    <DeleteIcon />
+                                </Button>
+                            </summary>
+                            <div className={classes.InsideCard}>
+                                <Typography className={classes.p}>KSV: {auftrag.KSV}</Typography>
+                                <Typography className={classes.p}>Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
+                                <Typography className={classes.p}>Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
+                                <Typography className={classes.p}>Sperren: {auftrag.SPERREN}</Typography>
+                                <Typography className={classes.p}>Kommentar: {auftrag.KOMMENTAR}</Typography>
+                                <Typography className={classes.p}>Status: {auftrag.STATUS}</Typography>
+                                <Typography className={classes.p}>Von: {auftrag.VON}</Typography>
+                                <Typography className={classes.p}>Bis: {auftrag.BIS}</Typography>
+                            </div>
+                        </details>
+                    </div>}
+                </ul>)}
+
                 {error && <div>Error fetching data.</div>}
             </div>
         </form>
@@ -365,52 +428,41 @@ const useStyles = makeStyles({
         justifyContent: 'space-between',
     },
 
+    Status: {
+        paddingLeft: 50,
+    },
+
     Offen: {
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        background: '#143968',
-        marginRight: "10%",
-        marginLeft: "10%",
+        paddingLeft: 15,
+        paddingRight: 5,
+        marginRight: 40,
+        borderRadius: 15,
+        background: '#2163b8',
         color: "white",
-        backgroundColor: "#1769aa",
     },
 
     Bestätigt: {
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
+        paddingLeft: 15,
+        marginRight: 40,
+        borderRadius: 15,
         background: '#143968',
-        marginRight: "10%",
-        marginLeft: "10%",
         color: "white",
-        backgroundColor: "linear-gradient(45deg, #143968 30%, #143968 90%)",
     },
 
 
     Abgeschlossen: {
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        background: '#143968',
-        marginRight: "10%",
-        marginLeft: "10%",
+        paddingLeft: 15,
+        marginRight: 40,
+        borderRadius: 15,
+        background: '#4a4a49',
         color: "white",
-        backgroundColor: "grey",
     },
 
     Abgelehnt: {
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        background: '#143968',
-        marginRight: "10%",
-        marginLeft: "10%",
+        paddingLeft: 15,
+        marginRight: 40,
+        borderRadius: 15,
+        background: '#c92a35',
         color: "white",
-        backgroundColor: "grey",
     },
 })

@@ -23,35 +23,35 @@ namespace backend.Controllers
 
         private async Task Confirmation(int id)
         {
-            // Task<int> BestätigtTask = BestätigtAsync(id);
-            Task<int> nichtAngenommenTask = nichtAngenommenAsync(id);
+            BestätigtAsync(id);
+            nichtAngenommenAsync(id);
         }
 
-        // private async Task<int> BestätigtAsync(int id)
-        // {
-        //     do
-        //     {
-        //         Task.Delay(10000).Wait();
-        //         string sqlDataSource = _configuration.GetConnectionString("AppCon");
-        //         using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
-        //         {
-        //             myCon.Open();
-        //             NpgsqlCommand query = new NpgsqlCommand(@"select exists (select ""ID"" from ""Auftrag"" where ""ID"" = @id and ""STATUS"" = 'Bestätigt')", myCon);
-        //             query.Parameters.AddWithValue("@id", id);
+        private async Task<int> BestätigtAsync(int id)
+        {
+            do
+            {
+                Task.Delay(10000).Wait();
+                string sqlDataSource = _configuration.GetConnectionString("AppCon");
+                using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+                {
+                    myCon.Open();
+                    NpgsqlCommand query = new NpgsqlCommand(@"select exists (select ""ID"" from ""Auftrag"" where ""ID"" = @id and ""STATUS"" = 'Bestätigt')", myCon);
+                    query.Parameters.AddWithValue("@id", id);
 
-        //             Boolean flag = (Boolean)query.ExecuteScalar();
-        //             if (flag == true)
-        //             {
-        //                 break;
-        //             }
-        //         }
-        //     } while (true);
-        //     return 0;
-        // }
+                    Boolean flag = (Boolean)query.ExecuteScalar();
+                    if (flag == true)
+                    {
+                        break;
+                    }
+                }
+            } while (true);
+            return 0;
+        }
 
         private async Task<int> nichtAngenommenAsync(int id)
         {
-            Task.Delay(20000).Wait();
+            Task.Delay(1200000).Wait();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
             using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
             {
@@ -63,7 +63,7 @@ namespace backend.Controllers
             return 0;
         }
 
-        private int getId(string name)
+        protected int getId(string name)
         {
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
             using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))

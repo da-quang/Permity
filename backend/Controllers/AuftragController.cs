@@ -21,47 +21,41 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
-        private async Task<int> Confirmation(int id)
+        private async Task Confirmation(int id)
         {
-            Task<int> BestätigtTask = BestätigtAsync();
-            Task<int> nichtAngenommenTask = nichtAngenommenAsync();
-            return 0;
-        }
+            async Task.Run(() =>
+            {
+                do
+                {
+                    Task.Delay(10000).Wait();
+                    string sqlDataSource = _configuration.GetConnectionString("AppCon");
+                    using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+                    {
+                        myCon.Open();
+                        NpgsqlCommand query = new NpgsqlCommand(@"select exists (select ""ID"" from ""Auftrag"" where ""ID"" = @id and ""STATUS"" = 'Bestätigt')", myCon);
+                        query.Parameters.AddWithValue("@id", id);
 
-        public async Task<int> BestätigtAsync()
-        {
-            // do
-            // {
-            //     Task.Delay(10000).Wait();
-            //     string sqlDataSource = _configuration.GetConnectionString("AppCon");
-            //     using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
-            //     {
-            //         myCon.Open();
-            //         NpgsqlCommand query = new NpgsqlCommand(@"select exists (select ""ID"" from ""Auftrag"" where ""ID"" = @id and ""STATUS"" = 'Bestätigt')", myCon);
-            //         query.Parameters.AddWithValue("@id", id);
+                        Boolean flag = (Boolean)query.ExecuteScalar();
+                        if (flag == true)
+                        {
+                            break;
+                        }
+                    }
+                } while (true);
+            });
 
-            //         Boolean flag = (Boolean)query.ExecuteScalar();
-            //         if (flag == true)
-            //         {
-            //             break;
-            //         }
-            //     }
-            // } while (true);
-            return 0;
-        }
-
-        public async Task<int> nichtAngenommenAsync()
-        {
-            // Task.Delay(10000).Wait();
-            // string sqlDataSource = _configuration.GetConnectionString("AppCon");
-            // using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
-            // {
-            //     myCon.Open();
-            //     NpgsqlCommand query = new NpgsqlCommand(@"update ""Auftrag"" set ""STATUS"" = 'nicht angenommen' where ""ID"" = @id and ""STATUS"" = 'Offen'", myCon);
-            //     query.Parameters.AddWithValue("@id", id);
-            //     query.ExecuteScalar();
-            // }
-            return 0;
+            async Task.Run(() =>
+            {
+                Task.Delay(20000).Wait();
+                string sqlDataSource = _configuration.GetConnectionString("AppCon");
+                using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+                {
+                    myCon.Open();
+                    NpgsqlCommand query = new NpgsqlCommand(@"update ""Auftrag"" set ""STATUS"" = 'nicht angenommen' where ""ID"" = @id and ""STATUS"" = 'Offen'", myCon);
+                    query.Parameters.AddWithValue("@id", id);
+                    query.ExecuteScalar();
+                }
+            });
         }
 
         private int getId(string name)

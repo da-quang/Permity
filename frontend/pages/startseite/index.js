@@ -48,6 +48,7 @@ export default function Startseite() {
     const [filter, setfilter] = useState("");
     const [filter2, setfilter2] = useState("");
     const [filter3, setfilter3] = useState("");
+    const [AUFTRAGNEHMER_UNTERSCHRIFT, setAUFTRAGNEHMER_UNTERSCHRIFT] = useState("null");
 
 
     const handleSearchChange3 = (se) => {
@@ -83,7 +84,6 @@ export default function Startseite() {
 
     const sigCanvasRef = useRef({});
     const clear = () => sigCanvasRef.current.clear();
-    const save = () => console.log(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
 
     const { query } = useRouter()
     const router = useRouter()
@@ -107,13 +107,15 @@ export default function Startseite() {
     }
 
     const Update = async auftragID => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${auftragID}&status=Bestätigt&auftragnehmer_unterschrift=${sigCanvasRef.current.getTrimmedCanvas().toDataURL()}`, {
+        let base64 = sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png");
+        let blob = dataURItoBlob(base64);
+        const blobUrl = URL.createObjectURL(blob);
+        setAUFTRAGNEHMER_UNTERSCHRIFT(blobUrl);
+        console.log("Unterschrift wurde gespeichert!")
+        console.log(auftragID)
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${auftragID}&status=Bestätigt&auftragnehmer_unterschrift=${AUFTRAGNEHMER_UNTERSCHRIFT}`, {
             method: 'PUT'
         })
-        const data = await response.json()
-        console.log(data)
-        console.log(sigCanvasRef.current.getTrimmedCanvas().toDataURL())
-
     }
 
     const Update2 = async auftragID => {
@@ -130,6 +132,36 @@ export default function Startseite() {
 
     function x() {
         console.log("Hallo")
+    }
+
+    function dataURItoBlob(dataURI) {
+        // convert base64 to raw binary data held in a string
+        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+        var byteString = atob(dataURI.split(',')[1]);
+    
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+        // write the bytes of the string to an ArrayBuffer
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        var blob = null;
+        // TypeError old chrome and FF
+        window.BlobBuilder = window.BlobBuilder || 
+                             window.WebKitBlobBuilder || 
+                             window.MozBlobBuilder || 
+                             window.MSBlobBuilder;
+        if(window.BlobBuilder){
+             var bb = new BlobBuilder();
+             bb.append(ab);
+             blob = bb.getBlob(mimeString);
+        }else{
+             blob = new Blob([ab], {type : mimeString});
+        }
+        return blob;
     }
 
     return (
@@ -211,7 +243,7 @@ export default function Startseite() {
                                 <summary className={classes.summary}>
                                     {auftrag.ID} | {auftrag.AUFTRAG}
                                     <Popup modal trigger={
-                                        <Button style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                        <Button style={{float:'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                             <CreateIcon />
                                         </Button>
                                     }closeOnDocumentClick={false}>
@@ -227,7 +259,7 @@ export default function Startseite() {
                                             <div className={classes.SignatureBTNRow}>
                                                 <Button variant="contained" onClick={close}>Zurück</Button>
                                                 <Button variant="contained" onClick={clear}>Leeren</Button>
-                                                <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
+                                                <Button variant="contained" onClick={() => { Update(auftrag.ID)}}>Unterschreiben</Button>
                                             </div>
                                         </div>
                                     )}
@@ -286,7 +318,7 @@ export default function Startseite() {
                             <details className={classes.details}>
                                 <summary className={classes.summary}>
                                     {auftrag.ID} | {auftrag.AUFTRAG}
-                                    <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                    <Button style={{float:'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                         <DeleteIcon />
                                     </Button>
                                 </summary>
@@ -317,7 +349,7 @@ export default function Startseite() {
                             <details className={classes.details}>
                                 <summary className={classes.summary}>
                                     {auftrag.ID} | {auftrag.AUFTRAG}
-                                    <Button onClick={() => Delete(auftrag.ID)} style={{ maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                    <Button style={{float:'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                         <DeleteIcon />
                                     </Button>
                                 </summary>
@@ -454,9 +486,10 @@ const useStyles = makeStyles({
     },
 
     summary: {
-        lineHeight: 3,
         display: 'flex',
         justifyContent: 'space-between',
+        lineHeight: '2.5',
+        fontWeight: "bold",
     },
 
     summary2: {

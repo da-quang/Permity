@@ -20,6 +20,7 @@ import Popup from 'reactjs-popup';
 import "../startseite/sigCanvas.module.css";
 import sigCanvas from '../startseite/sigCanvas.module.css';
 import SignaturePad from "react-signature-canvas";
+import { Alert } from "@mui/material";
 console.log("--> Formular")
 
 export default function Formular() {
@@ -65,22 +66,10 @@ export default function Formular() {
     let [AUFTRAGNEHMER, setAUFTRAGNEHMER] = useState('')
     let [SPERREN, setSPERREN] = useState('')
     let [AUFTRAG, setAUFTRAG] = useState('')
-    let [EMAIL, setEMAIL] = useState('')
-    let [AUFTRAGGEBER_UNTERSCHRIFT, setAUFTRAGGEBER_UNTERSCHRIFT] = useState('')
+    let [AUFTRAGGEBER_UNTERSCHRIFT, setAUFTRAGGEBER_UNTERSCHRIFT] = useState('null')
 
     let AUFTRAGGEBER = query.param2
-
-    const getEmail = async () => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?kurzzeichenOrName=${AUFTRAGNEHMER}`, {
-            method: 'GET'
-        })
-        const data = await response.json()
-        setEMAIL(data[0].EMAIL)
-        console.log(EMAIL)
-        MAIL();
-    }
-
-    const CREATE2 = async () => {
+        const CREATE2 = async () => {
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
             method: 'POST'
         })
@@ -89,22 +78,57 @@ export default function Formular() {
     }
 
     const MAIL = async () => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/Send?email=${EMAIL}`, {
+        const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?kurzzeichenOrName=${AUFTRAGNEHMER}`, {
+            method: 'GET'
+        })
+        const email = await getEmail.json()
+
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/Send?email=${email[0].EMAIL}`, {
             method: 'POST'
         })
-        const data = await response.json()
 
-        console.log(data)
-        Router.reload()
+        console.log("Email wurde versendet")
     }
 
     const sigCanvasRef = useRef({});
     const clear = () => sigCanvasRef.current.clear();
     const save = () => {
-        //setAUFTRAGGEBER_UNTERSCHRIFT(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
-        console.log(AUFTRAGGEBER_UNTERSCHRIFT)
+        let base64 = sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png");
+        let blob = dataURItoBlob(base64);
+        const blobUrl = URL.createObjectURL(blob);
+        setAUFTRAGGEBER_UNTERSCHRIFT(blobUrl);
+        console.log("Unterschrift wurde gespeichert!")
     }
    
+    function dataURItoBlob(dataURI) {
+        // convert base64 to raw binary data held in a string
+        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+        var byteString = atob(dataURI.split(',')[1]);
+    
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+        // write the bytes of the string to an ArrayBuffer
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        var blob = null;
+        // TypeError old chrome and FF
+        window.BlobBuilder = window.BlobBuilder || 
+                             window.WebKitBlobBuilder || 
+                             window.MozBlobBuilder || 
+                             window.MSBlobBuilder;
+        if(window.BlobBuilder){
+             var bb = new BlobBuilder();
+             bb.append(ab);
+             blob = bb.getBlob(mimeString);
+        }else{
+             blob = new Blob([ab], {type : mimeString});
+        }
+        return blob;
+    }
 
     return (
         <form>
@@ -160,7 +184,7 @@ export default function Formular() {
                             </div>
                         )}
                     </Popup>
-                    <Fab variant="extended" onClick={() => {CREATE2(); getEmail()}} color="secondary" aria-label="add">
+                    <Fab variant="extended" onClick={() => {CREATE2(); MAIL()}} color="secondary" aria-label="add">
                         <AddIcon /> Erstellen
                     </Fab>
                 </Box>

@@ -67,7 +67,6 @@ namespace backend.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ksv", "%" + ksv + "%");
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 

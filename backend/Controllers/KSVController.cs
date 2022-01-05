@@ -56,7 +56,7 @@ namespace backend.Controllers
         [HttpGet("ksv")]
         public JsonResult ksv(string ksv)
         {
-            string query = @"select ""KSV"", ""BEZEICHNUNG"", ""EBENE"" from ""KSV_Struktur"" where ""KSV"" like @ksv or ""BEZEICHNUNG"" like @ksv and ""EBENE"" <= 5";
+            string query = @"select ""KSV"", ""BEZEICHNUNG"", ""EBENE"" from ""KSV_Struktur"" where ""EBENE"" <= 5";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");

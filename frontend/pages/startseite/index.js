@@ -22,6 +22,7 @@ import {ListItem } from '@mui/material';
 import Slide from '@mui/material/Slide';
 import Popup from 'reactjs-popup';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 
 console.log("--> Startseite")
 
@@ -48,7 +49,7 @@ export default function Startseite() {
     const [filter, setfilter] = useState("");
     const [filter2, setfilter2] = useState("");
     const [filter3, setfilter3] = useState("");
-    const [AUFTRAGNEHMER_UNTERSCHRIFT, setAUFTRAGNEHMER_UNTERSCHRIFT] = useState("null");
+    const [AUFTRAGNEHMER_UNTERSCHRIFT, setAUFTRAGNEHMER_UNTERSCHRIFT] = useState('');
 
 
     const handleSearchChange3 = (se) => {
@@ -84,6 +85,13 @@ export default function Startseite() {
 
     const sigCanvasRef = useRef({});
     const clear = () => sigCanvasRef.current.clear();
+    const save = () => {
+        let base64 = sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png");
+        let blob = dataURItoBlob(base64);
+        const blobUrl = URL.createObjectURL(blob);
+        setAUFTRAGNEHMER_UNTERSCHRIFT(blobUrl);
+        console.log("Unterschrift wurde gespeichert!")
+    }
 
     const { query } = useRouter()
     const router = useRouter()
@@ -107,15 +115,10 @@ export default function Startseite() {
     }
 
     const Update = async auftragID => {
-        let base64 = sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png");
-        let blob = dataURItoBlob(base64);
-        const blobUrl = URL.createObjectURL(blob);
-        setAUFTRAGNEHMER_UNTERSCHRIFT(blobUrl);
-        console.log("Unterschrift wurde gespeichert!")
-        console.log(auftragID)
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${auftragID}&status=Bestätigt&auftragnehmer_unterschrift=${AUFTRAGNEHMER_UNTERSCHRIFT}`, {
             method: 'PUT'
         })
+        console.log(AUFTRAGNEHMER_UNTERSCHRIFT)
     }
 
     const Update2 = async auftragID => {
@@ -242,38 +245,16 @@ export default function Startseite() {
                             <details className={classes.details}>
                                 <summary className={classes.summary}>
                                     {auftrag.ID} | {auftrag.AUFTRAG}
-                                    <Popup modal trigger={
-                                        <Button style={{float:'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                            <CreateIcon />
-                                        </Button>
-                                    }closeOnDocumentClick={false}>
-                                    {close => (
-                                        <div className={sigCanvas.signatureCanvas} >
-                                            <SignaturePad
-                                                ref={sigCanvasRef}
-                                                canvasProps={
-                                                    {
-                                                        style: { background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
-                                                    }
-                                                } />
-                                            <div className={classes.SignatureBTNRow}>
-                                                <Button variant="contained" onClick={close}>Zurück</Button>
-                                                <Button variant="contained" onClick={clear}>Leeren</Button>
-                                                <Button variant="contained" onClick={() => { Update(auftrag.ID)}}>Unterschreiben</Button>
-                                            </div>
-                                        </div>
-                                    )}
-                                    </Popup>
                                 </summary>
                                 <div className={classes.InsideCard}>
                                     <Typography> KSV: {auftrag.KSV}</Typography>
                                     <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
+                                    
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
-                                    <Typography> Kommentar: {auftrag.KOMMENTAR}</Typography>
-                                    <Typography> Status: {auftrag.STATUS}</Typography>
-                                    <Typography> Von: {auftrag.VON}</Typography>
-                                    <Typography> Bis: {auftrag.BIS}</Typography>
+                                    <Button style={{float:'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px', paddingBottom: 100}} color="inherit">
+                                        <DoubleArrowIcon/>
+                                    </Button>
                                 </div>
                             </details>
                         </div>}
@@ -293,14 +274,10 @@ export default function Startseite() {
                                     {auftrag.ID} | {auftrag.AUFTRAG}
                                 </summary>
                                 <div className={classes.InsideCard}>
-                                <Typography> KSV: {auftrag.KSV}</Typography>
+                                    <Typography> KSV: {auftrag.KSV}</Typography>
                                     <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
-                                    <Typography> Kommentar: {auftrag.KOMMENTAR}</Typography>
-                                    <Typography> Status: {auftrag.STATUS}</Typography>
-                                    <Typography> Von: {auftrag.VON}</Typography>
-                                    <Typography> Bis: {auftrag.BIS}</Typography>
                                 </div>
                             </details>
                         </div>}
@@ -327,10 +304,6 @@ export default function Startseite() {
                                     <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
-                                    <Typography> Kommentar: {auftrag.KOMMENTAR}</Typography>
-                                    <Typography> Status: {auftrag.STATUS}</Typography>
-                                    <Typography> Von: {auftrag.VON}</Typography>
-                                    <Typography> Bis: {auftrag.BIS}</Typography>
                                 </div>
                             </details>
                         </div>}
@@ -358,10 +331,6 @@ export default function Startseite() {
                                     <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
-                                    <Typography> Kommentar: {auftrag.KOMMENTAR}</Typography>
-                                    <Typography> Status: {auftrag.STATUS}</Typography>
-                                    <Typography> Von: {auftrag.VON}</Typography>
-                                    <Typography> Bis: {auftrag.BIS}</Typography>
                                 </div>
                             </details>
                         </div>}

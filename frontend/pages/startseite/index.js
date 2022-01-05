@@ -249,12 +249,14 @@ export default function Startseite() {
                                 <div className={classes.InsideCard}>
                                     <Typography> KSV: {auftrag.KSV}</Typography>
                                     <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
-                                    <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     
+                                    <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
-                                    <Button style={{float:'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px', paddingBottom: 100}} color="inherit">
-                                        <DoubleArrowIcon/>
-                                    </Button>
+                                    <div style={{marginBottom: 30}}>
+                                        <Button onClick={() => router.push(`/Auftrag/Details`)} style={{position: 'absolute', right: 45, color: 'white'}}>
+                                            Details <DoubleArrowIcon/>
+                                        </Button>   
+                                    </div>                         
                                 </div>
                             </details>
                         </div>}
@@ -511,4 +513,8 @@ const useStyles = makeStyles({
         background: '#c92a35',
         color: "white",
     },
+
+    Details: {
+        color: "white",
+    }
 })

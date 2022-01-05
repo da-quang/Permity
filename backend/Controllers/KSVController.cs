@@ -54,7 +54,7 @@ namespace backend.Controllers
 
        //api/KSV/all
         [HttpGet("ksv")]
-        public JsonResult ksv(string ksv)
+        public JsonResult ksv()
         {
             string query = @"select ""KSV"", ""BEZEICHNUNG"", ""EBENE"" from ""KSV_Struktur"" where ""EBENE"" <= 5";
 

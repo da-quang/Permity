@@ -44,61 +44,7 @@ export default function Start() {
                 <Typography variant="h4"> Auftrag </Typography>
                 <Typography variant="h6" className={classes.kopfInfo}>{query.param}</Typography>
             </div>
-            <TableContainer component={Paper}>
-                <TableBody>
-                    <TableRow>
-                        <TableCell> ID </TableCell>
-                        <TableCell> AUFTRAG </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell> {data[0].ID} </TableCell>
-                        <TableCell> {data[0].AUFTRAG} </TableCell>
-                    </TableRow>
-
-                    <TableRow>
-                        <TableCell> KSV </TableCell>
-                        <TableCell> SPERRE </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell> {data[0].KSV} </TableCell>
-                        <TableCell> {data[0].SPERRE} </TableCell>
-                    </TableRow>
-
-                    <TableRow>
-                        <TableCell> VON </TableCell>
-                        <TableCell> BIS </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell> {data[0].VON} </TableCell>
-                        <TableCell> {data[0].BIS} </TableCell>
-                    </TableRow>
-
-                    <TableRow>
-                        <TableCell> KOMMENTAR </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell> {data[0].KOMMENTAR} </TableCell>
-                    </TableRow>
-
-                    <TableRow>
-                        <TableCell> AUFTRAGGEBER </TableCell>
-                        <TableCell> AUFTRAGNEHMER </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell> {data[0].AUFTRAGGEBER} </TableCell>
-                        <TableCell> {data[0].AUFTRAGNEHMER} </TableCell>
-                    </TableRow>
-
-                    <TableRow>
-                        <TableCell> UNTERSCHRIFT </TableCell>
-                        <TableCell> UNTERSCHRIFT </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell> <img src={data[0].AUFTRAGGEBER_UNTERSCHRIFT}/> </TableCell>
-                        <TableCell> <img src={data[0].AUFTRAGNEHMER_UNTERSCHRIFT}/> </TableCell>
-                    </TableRow>
-                </TableBody>
-            </TableContainer>
+            
         </div>
     )
 }

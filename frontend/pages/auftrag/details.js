@@ -44,20 +44,6 @@ export default function Start() {
                 <Typography variant="h4"> Auftrag </Typography>
                 <Typography variant="h6" className={classes.kopfInfo}>{query.param}</Typography>
             </div>
-            <div>
-                <div>{data[0].ID}</div>
-                <div>{data[0].AUFTRAG}</div>
-                <div>{data[0].KSV}</div>
-                <div>{data[0].SPERREN}</div>
-                <div>{data[0].VON}</div>
-                <div>{data[0].BIS}</div>
-                <div>{data[0].STATUS}</div>
-                <div>{data[0].KOMMENTAR}</div>
-                <div>{data[0].AUFTRAGGEBER}</div>
-                <img className={classes.unterschrift} src={data[0].AUFTRAGGEBER_UNTERSCHRIFT}/>
-                <div>{data[0].AUFTRAGNEHMER}</div>
-                <img className={classes.unterschrift} src={data[0].AUFTRAGNEHMER_UNTERSCHRIFT}/>
-            </div>
             <TableContainer component={Paper}>
                 <TableBody>
                     <TableRow>
@@ -70,39 +56,46 @@ export default function Start() {
                     </TableRow>
 
                     <TableRow>
-                        <TableCell> ID </TableCell>
-                        <TableCell> AUFTRAG </TableCell>
+                        <TableCell> KSV </TableCell>
+                        <TableCell> SPERRE </TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell> {data[0].ID} </TableCell>
-                        <TableCell> {data[0].AUFTRAG} </TableCell>
-                    </TableRow>
-
-                    <TableRow>
-                        <TableCell> ID </TableCell>
-                        <TableCell> AUFTRAG </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell> {data[0].ID} </TableCell>
-                        <TableCell> {data[0].AUFTRAG} </TableCell>
+                        <TableCell> {data[0].KSV} </TableCell>
+                        <TableCell> {data[0].SPERRE} </TableCell>
                     </TableRow>
 
                     <TableRow>
-                        <TableCell> ID </TableCell>
-                        <TableCell> AUFTRAG </TableCell>
+                        <TableCell> VON </TableCell>
+                        <TableCell> BIS </TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell> {data[0].ID} </TableCell>
-                        <TableCell> {data[0].AUFTRAG} </TableCell>
+                        <TableCell> {data[0].VON} </TableCell>
+                        <TableCell> {data[0].BIS} </TableCell>
                     </TableRow>
 
                     <TableRow>
-                        <TableCell> ID </TableCell>
-                        <TableCell> AUFTRAG </TableCell>
+                        <TableCell> KOMMENTAR </TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell> {data[0].ID} </TableCell>
-                        <TableCell> {data[0].AUFTRAG} </TableCell>
+                        <TableCell> {data[0].KOMMENTAR} </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                        <TableCell> AUFTRAGGEBER </TableCell>
+                        <TableCell> AUFTRAGNEHMER </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell> {data[0].AUFTRAGGEBER} </TableCell>
+                        <TableCell> {data[0].AUFTRAGNEHMER} </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                        <TableCell> UNTERSCHRIFT </TableCell>
+                        <TableCell> UNTERSCHRIFT </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell> <img src={data[0].AUFTRAGGEBER_UNTERSCHRIFT}/> </TableCell>
+                        <TableCell> <img src={data[0].AUFTRAGNEHMER_UNTERSCHRIFT}/> </TableCell>
                     </TableRow>
                 </TableBody>
             </TableContainer>

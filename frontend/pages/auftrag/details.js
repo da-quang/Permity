@@ -1,4 +1,3 @@
-import { TextField, Grid, Box, Typography } from '@material-ui/core';
 import {useState} from "react";
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -6,77 +5,141 @@ import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import SaveIcon from '@mui/icons-material/Save';
 import { autocompleteClasses } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import useSWR from "swr";
+import MenuIcon from '@mui/icons-material/Menu';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import * as React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
-
-console.log("--> Start")
+const fetcher = (...args) => fetch(...args).then((response) => response.json())
+console.log("--> Details")
 export default function Start() {
+    const { query } = useRouter()
     const router = useRouter()
+    let id = query.param;
+    console.log(id)
+    const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/find?id=${id}`, fetcher);
 
-    function start(){
-      router.push(`/mitarbeiter/login`) 
-    }
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
 
     const classes = useStyles();
     return(
-        <div className={classes.b}>
-          <Button className={classes.a} onClick={() => start()}>Starten</Button>
+        <div>
+            <div className={classes.kopf}>
+                <div>
+                    <Button color="inherit">
+                        <MenuIcon fontSize="large" />
+                    </Button>
+                </div>                  
+                <Typography variant="h4"> Auftrag </Typography>
+                <Typography variant="h6" className={classes.kopfInfo}>{query.param}</Typography>
+            </div>
+            <div>
+                <div>{data[0].ID}</div>
+                <div>{data[0].AUFTRAG}</div>
+                <div>{data[0].KSV}</div>
+                <div>{data[0].SPERREN}</div>
+                <div>{data[0].VON}</div>
+                <div>{data[0].BIS}</div>
+                <div>{data[0].STATUS}</div>
+                <div>{data[0].KOMMENTAR}</div>
+                <div>{data[0].AUFTRAGGEBER}</div>
+                <img className={classes.unterschrift} src={data[0].AUFTRAGGEBER_UNTERSCHRIFT}/>
+                <div>{data[0].AUFTRAGNEHMER}</div>
+                <img className={classes.unterschrift} src={data[0].AUFTRAGNEHMER_UNTERSCHRIFT}/>
+            </div>
+            <TableContainer component={Paper}>
+                <TableHead>
+                    <TableRow>
+                        <TableCell> ID </TableCell>
+                        <TableCell> AUFTRAG </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell> {data[0].ID} </TableCell>
+                        <TableCell> {data[0].AUFTRAG} </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    
+                </TableBody>
+                
+                <TableHead>
+                    <TableRow>
+                        <TableCell> KSV </TableCell>
+                        <TableCell> SPERRE </TableCell>
+                    </TableRow>
+                </TableHead>
+
+                <TableHead>
+                    <TableRow>
+                        <TableCell> VON </TableCell>
+                        <TableCell> BIS </TableCell>
+                    </TableRow>
+                </TableHead>
+
+                <TableHead>
+                    <TableRow>
+                        <TableCell> KOMMENTAR </TableCell>
+                    </TableRow>
+                </TableHead>
+
+                <TableHead>
+                    <TableRow>
+                        <TableCell> AUFTRAGGEBER </TableCell>
+                        <TableCell> AUFTRAGNEHMER </TableCell>
+                    </TableRow>
+                </TableHead>
+
+                <TableHead>
+                    <TableRow>
+                        <TableCell> UNTERSCHRIFT </TableCell>
+                        <TableCell> UNTERSCHRIFT </TableCell>
+                    </TableRow>
+                </TableHead>
+            </TableContainer>
         </div>
-        
     )
 }
 
 const useStyles = makeStyles({
-    a: {
-      background: 'linear-gradient(45deg, #143968  30%, #143968  90%)',
-      borderRadius: 3,
-      boxShadow: '0 2px 5px 2px rgba(50, 50, 50, .3)',
-      color: 'white',
-      height: 80,
-      width: "70%",
-      padding: '0 30px',
-      textAlign: 'center',
-      marginTop: "10%",
-      
+    unterschrift:{
+        width: 150,
+        height: 150,
     },
-
-    b: {
-        display: 'block',
-        marginLeft: 'auto',
-        marginTop: 'auto'
-    },
-
-    c: {
-        display: 'inline-block'
-    },
-
-    d: {
-        color: "green",
-        textAlign: 'center',
-        marginTop: 40,
-    },
-
-    e: {
-        background: 'linear-gradient(45deg, #143968  30%, #143968  90%)',
-        boxShadow: '0 3px 5px 2px rgba(70, 175, 219, .3)',
+    kopf: {
+        background: 'linear-gradient(45deg, #143968 30%, #143968 90%)',
+        boxShadow: '0 3px 5px 2px rgba(20, 57, 104, .3)',
         marginTop: 0,
-        paddingTop: 60,
-        marginBottom: 100,
-        fontSize: 40,
-        height: 110,
+        paddingTop: 15,
+        marginBottom: "5%",
+        height: 60,
         color: 'white',
-        fontWeight: 'bold',
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
+        justifyContent: 'space-between',
+        display: 'flex',
     },
-
-    f: {
-        background: 'linear-gradient(45deg, #455a64 30%, #546e7a 90%)',
-        boxShadow: '0 3px 5px 2px rgba(70, 175, 219, .3)',
-        height: 75,
-    },
-
-    g: {
-        marginTop:"40%"
+    kopfInfo: {
+        width: 60,
+        height: 30,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        textAlign: 'center',
+        position: 'relative',
+        right: '2%',
+        top: '15%'
     },
 })
 

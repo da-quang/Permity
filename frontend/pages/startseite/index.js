@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import useSWR from "swr"
+import useSWR from "swr";
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SignaturePad from "react-signature-canvas";
@@ -249,11 +249,10 @@ export default function Startseite() {
                                 <div className={classes.InsideCard}>
                                     <Typography> KSV: {auftrag.KSV}</Typography>
                                     <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
-                                    
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
                                     <div style={{marginBottom: 30}}>
-                                        <Button onClick={() => router.push(`/Auftrag/Details`)} style={{position: 'absolute', right: 45, color: 'white'}}>
+                                        <Button onClick={() => router.push(`/auftrag/details?param=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
                                             Details <DoubleArrowIcon/>
                                         </Button>   
                                     </div>                         

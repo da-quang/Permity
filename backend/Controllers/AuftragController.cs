@@ -208,6 +208,32 @@ namespace backend.Controllers
             return new JsonResult("Updated successfully");
         }
 
+    //api/Auftrag/update
+        [HttpPut("abgeschlossen")]
+        public JsonResult UpdateAuftrag(int id, string auftragnehmer_unterschrift, string status)
+        {
+            string query = @"update ""Auftrag"" set ""STATUS"" = @status where ""ID"" = @id";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("AppCon");
+            NpgsqlDataReader myReader;
+            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@id", id);
+                    myCommand.Parameters.AddWithValue("@status", status);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Updated successfully");
+        }
+
         //api/Auftrag/update
         [HttpPut("unterschrift")]
         public JsonResult UpdateAuftrag(int id, string auftraggeber_unterschrift)

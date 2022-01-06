@@ -210,7 +210,7 @@ namespace backend.Controllers
 
     //api/Auftrag/update
         [HttpPut("abgeschlossen")]
-        public JsonResult UpdateAuftrag(int id, string auftragnehmer_unterschrift, string status)
+        public JsonResult abgeschlossenAuftrag(int id, string auftragnehmer_unterschrift, string status)
         {
             string query = @"update ""Auftrag"" set ""STATUS"" = @status where ""ID"" = @id";
 

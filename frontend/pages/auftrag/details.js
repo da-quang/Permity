@@ -59,7 +59,7 @@ export default function Start() {
                 <img className={classes.unterschrift} src={data[0].AUFTRAGNEHMER_UNTERSCHRIFT}/>
             </div>
             <TableContainer component={Paper}>
-                <TableHead>
+                <TableBody>
                     <TableRow>
                         <TableCell> ID </TableCell>
                         <TableCell> AUFTRAG </TableCell>
@@ -68,44 +68,43 @@ export default function Start() {
                         <TableCell> {data[0].ID} </TableCell>
                         <TableCell> {data[0].AUFTRAG} </TableCell>
                     </TableRow>
-                </TableHead>
-                <TableBody>
-                    
+
+                    <TableRow>
+                        <TableCell> ID </TableCell>
+                        <TableCell> AUFTRAG </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell> {data[0].ID} </TableCell>
+                        <TableCell> {data[0].AUFTRAG} </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                        <TableCell> ID </TableCell>
+                        <TableCell> AUFTRAG </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell> {data[0].ID} </TableCell>
+                        <TableCell> {data[0].AUFTRAG} </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                        <TableCell> ID </TableCell>
+                        <TableCell> AUFTRAG </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell> {data[0].ID} </TableCell>
+                        <TableCell> {data[0].AUFTRAG} </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                        <TableCell> ID </TableCell>
+                        <TableCell> AUFTRAG </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell> {data[0].ID} </TableCell>
+                        <TableCell> {data[0].AUFTRAG} </TableCell>
+                    </TableRow>
                 </TableBody>
-                
-                <TableHead>
-                    <TableRow>
-                        <TableCell> KSV </TableCell>
-                        <TableCell> SPERRE </TableCell>
-                    </TableRow>
-                </TableHead>
-
-                <TableHead>
-                    <TableRow>
-                        <TableCell> VON </TableCell>
-                        <TableCell> BIS </TableCell>
-                    </TableRow>
-                </TableHead>
-
-                <TableHead>
-                    <TableRow>
-                        <TableCell> KOMMENTAR </TableCell>
-                    </TableRow>
-                </TableHead>
-
-                <TableHead>
-                    <TableRow>
-                        <TableCell> AUFTRAGGEBER </TableCell>
-                        <TableCell> AUFTRAGNEHMER </TableCell>
-                    </TableRow>
-                </TableHead>
-
-                <TableHead>
-                    <TableRow>
-                        <TableCell> UNTERSCHRIFT </TableCell>
-                        <TableCell> UNTERSCHRIFT </TableCell>
-                    </TableRow>
-                </TableHead>
             </TableContainer>
         </div>
     )

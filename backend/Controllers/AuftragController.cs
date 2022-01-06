@@ -122,7 +122,7 @@ namespace backend.Controllers
         }
 
         //api/Auftrag/create
-        [HttpGet("create")]
+        [HttpPost("create")]
         public JsonResult CreateAuftrag(string ksv, string auftrag, string auftraggeber, string auftragnehmer, string sperren, string kommentar, string von, string bis, string auftraggeber_unterschrift)
         {
             string query = @"insert into ""Auftrag"" (""KSV"", ""AUFTRAG"", ""AUFTRAGGEBER"", ""AUFTRAGNEHMER"", ""SPERREN"", ""KOMMENTAR"", ""VON"", ""BIS"", ""STATUS"", ""AUFTRAGGEBER_UNTERSCHRIFT"") 

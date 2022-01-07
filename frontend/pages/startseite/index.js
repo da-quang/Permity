@@ -252,7 +252,7 @@ export default function Startseite() {
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
                                     <div style={{marginBottom: 30}}>
-                                        <Button onClick={() => router.push(`/auftrag/details?param=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
+                                        <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
                                             Details <DoubleArrowIcon/>
                                         </Button>   
                                     </div>                         
@@ -280,7 +280,7 @@ export default function Startseite() {
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
                                     <div style={{marginBottom: 30}}>
-                                        <Button onClick={() => router.push(`/auftrag/details?param=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
+                                        <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
                                             Details <DoubleArrowIcon/>
                                         </Button>   
                                     </div>       
@@ -311,7 +311,7 @@ export default function Startseite() {
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
                                     <div style={{marginBottom: 30}}>
-                                        <Button onClick={() => router.push(`/auftrag/details?param=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
+                                        <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
                                             Details <DoubleArrowIcon/>
                                         </Button>   
                                     </div>       
@@ -343,7 +343,7 @@ export default function Startseite() {
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
                                     <div style={{marginBottom: 30}}>
-                                        <Button onClick={() => router.push(`/auftrag/details?param=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
+                                        <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
                                             Details <DoubleArrowIcon/>
                                         </Button>   
                                     </div>       

@@ -18,6 +18,11 @@ import Fab from "@material-ui/core/Fab";
 import sigCanvas from '../startseite/sigCanvas.module.css';
 import SignaturePad from "react-signature-canvas";
 import { useRef } from 'react';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
+import { MenuList } from "@mui/material";
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json())
 console.log("--> Details")
@@ -25,13 +30,14 @@ console.log("--> Details")
 export default function Start() {
     const { query } = useRouter()
     const router = useRouter()
-    let id = query.param;
+    let kurzzeichen = query.param;
+    let id = query.param2;
 
     const [von, setVon] = useState();
     const [bis, setBis] = useState();
     const [AUFTRAGNEHMER_UNTERSCHRIFT, setAUFTRAGNEHMER_UNTERSCHRIFT] = useState('')
-
-    const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/find?id=${id}`, fetcher);    
+   
+    const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/find?id=${id}`, fetcher);
 
     const sigCanvasRef = useRef({});
     const clear = () => sigCanvasRef.current.clear();
@@ -80,8 +86,38 @@ export default function Start() {
         return blob;
     }
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+
     function deleteAuftrag() {
-        let x;
+        //löschfunktion machen AMIR#########################
+        //löschfunktion machen AMIR#########################
+        //löschfunktion machen AMIR#########################
+        //löschfunktion machen AMIR#########################
+        //löschfunktion machen AMIR#########################
+        //löschfunktion machen AMIR#########################
+
+        // asdaskldfjalskd 
+        // asdaskldfjalskddfasd
+        // fasdf
+        // asdaskldfjalskddfasdfasdfasdf
+        // asd
+        // fasdff
+        // asdaskldfjalskddfasdfasdfasdffas
+        // fadasd
+        // fasd
+        // fasd
+        // fasfasdf
+        // as
+        // dfa
+
     }
 
     const [signatureMode, setSignatureMode] = useState(false);
@@ -94,32 +130,37 @@ export default function Start() {
         }
     }
 
-    const [offen, setOffen] = useState(false);
-
-    function changeOffen() {
-        if(offen == false){
-            setOffen(true)
-        } else {
-            setOffen(false)
-        }
-    }
-
-
     const classes = useStyles();
     return(
         <div>
             <div className={classes.kopf}>
                 <div>
-                    <Button color="inherit">
+                <div>
+                    <Button
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                    >
                         <MenuIcon fontSize="large" />
                     </Button>
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        <MenuList>
+                            <MenuItem onClick={() => router.push(`/mitarbeiter/login`)}><LogoutIcon />Logout </MenuItem>
+                            <MenuItem onClick={() => router.back()}><HomeIcon />Startseite</MenuItem>
+                        </MenuList>
+                    </Menu>
+                    </div>
                 </div>                  
-                <Typography variant="h4"> Auftrag </Typography>
-                <Typography variant="h6" className={classes.kopfInfo}>{query.param}</Typography>
+                <Typography variant="h4"> Details </Typography>
+                <Typography variant="h6" className={classes.kopfInfo}>{kurzzeichen}</Typography>
             </div>
-            <Button onClick={() => changeOffen()}>Filter Offen</Button>
-            {offen == false ? <div> Offen Auftrag </div> : null}
-
             {signatureMode == false ? <div>
             {data && data.map((auftrag) =>                    
             <div className={classes.container}>
@@ -128,8 +169,8 @@ export default function Start() {
                     <div className={classes.contentInfo}>Auftrag</div>
                 </div>
                 <div className={classes.box2}>
-                    <TextField className={classes.contentAuftrag} disabled defaultValue={auftrag.ID} variant="standard" size="small"/>                 
-                    <TextField className={classes.contentAuftrag} disabled defaultValue={auftrag.AUFTRAG} variant="standard" size="small"/>
+                    <TextField className={classes.contentAuftrag} defaultValue={auftrag.ID} variant="standard" size="small" inputProps={{ readOnly: true, }}/>                 
+                    <TextField className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAG} variant="standard" size="small" inputProps={{ readOnly: true, }}/>
                 </div>
 
                 <div className={classes.box}>
@@ -137,28 +178,28 @@ export default function Start() {
                     <div className={classes.contentInfo}>Sperren</div>
                 </div>
                 <div className={classes.box2}>
-                    <TextField className={classes.contentAuftrag} disabled defaultValue={auftrag.KSV} variant="standard" size="small"/>                 
-                    <TextField className={classes.contentAuftrag} disabled defaultValue={auftrag.SPERREN} variant="standard" size="small"/>
+                    <TextField className={classes.contentAuftrag} defaultValue={auftrag.KSV} variant="standard" size="small" inputProps={{ readOnly: true, }}/>                 
+                    <TextField className={classes.contentAuftrag} defaultValue={auftrag.SPERREN} variant="standard" size="small" inputProps={{ readOnly: true, }}/>
                 </div>
 
                 <div className={classes.box}>
-                    <div className={classes.contentInfo}>Von</div>
+                    <div className={classes.contentInfo}>Von - Bis</div>
                 </div>
                 <div className={classes.box}>
-                    <TextField className={classes.contentDate} disabled defaultValue={auftrag.VON.split('T')[0].split('-')[2] + '-' + auftrag.VON.split('-')[1] + '-' + auftrag.VON.split('-')[0] + ' um ' + auftrag.VON.split('T')[1].split(':')[0] + ':' + auftrag.VON.split('T')[1].split(':')[1]} variant="standard" size="small"/>                 
+                    <TextField className={classes.contentDate} defaultValue={auftrag.VON.split('T')[0].split('-')[2] + '-' + auftrag.VON.split('-')[1] + '-' + auftrag.VON.split('-')[0] + ' um ' + auftrag.VON.split('T')[1].split(':')[0] + ':' + auftrag.VON.split('T')[1].split(':')[1]} variant="standard" size="small" inputProps={{ readOnly: true, }}/>                 
                 </div>
                 <div className={classes.box}>
-                    <div className={classes.contentInfo}>Bis</div>
+                    
                 </div>
                 <div className={classes.box2}>
-                    <TextField className={classes.contentDate} disabled defaultValue={auftrag.BIS.split('T')[0].split('-')[2] + '-' + auftrag.BIS.split('-')[1] + '-' + auftrag.BIS.split('-')[0] + ' um ' + auftrag.BIS.split('T')[1].split(':')[0] + ':' + auftrag.BIS.split('T')[1].split(':')[1]} variant="standard" size="small"/>                 
+                    <TextField className={classes.contentDate} defaultValue={auftrag.BIS.split('T')[0].split('-')[2] + '-' + auftrag.BIS.split('-')[1] + '-' + auftrag.BIS.split('-')[0] + ' um ' + auftrag.BIS.split('T')[1].split(':')[0] + ':' + auftrag.BIS.split('T')[1].split(':')[1]} variant="standard" size="small" inputProps={{ readOnly: true, }}/>                 
                 </div>
 
                 <div className={classes.box}>
                     <div className={classes.contentInfo}>Kommentar</div>
                 </div>
                 <div className={classes.box2}>         
-                    <TextareaAutosize className={classes.contentKommentar} disabled defaultValue={auftrag.KOMMENTAR} variant="standard" size="small"/>
+                    <TextareaAutosize className={classes.contentKommentar} defaultValue={auftrag.KOMMENTAR} variant="standard" size="small" readOnly/>
                 </div>
 
                 <div className={classes.box}>
@@ -166,8 +207,8 @@ export default function Start() {
                     <div className={classes.contentInfo}>Auftragnehmer</div>
                 </div>
                 <div className={classes.box2}>
-                    <TextField className={classes.contentAuftrag} disabled defaultValue={auftrag.AUFTRAGGEBER} variant="standard" size="small"/>                 
-                    <TextField className={classes.contentAuftrag} disabled defaultValue={auftrag.AUFTRAGNEHMER} variant="standard" size="small"/>
+                    <TextField className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAGGEBER} variant="standard" size="small" inputProps={{ readOnly: true, }}/>                 
+                    <TextField className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAGNEHMER} variant="standard" size="small" inputProps={{ readOnly: true, }}/>
                 </div>
 
                 <div className={classes.box}>
@@ -181,18 +222,19 @@ export default function Start() {
             </div>
             )}
             <div>
-                <Fab onClick={() => deleteAuftrag()} variant="extended" color="primary">
-                    <DeleteIcon />Löschen
+                
+                <Fab className={classes.buttons} onClick={() => changeMode()} variant="extended" color="primary">
+                    Unterschreiben<Fingerprint />
                 </Fab>
-                <Fab onClick={() => changeMode()} variant="extended" color="primary">
-                    <Fingerprint /> Unterschreiben
+                <Fab className={classes.buttons} onClick={() => deleteAuftrag()} variant="extended" color="primary">
+                    Löschen<DeleteIcon/>
                 </Fab>
             </div>
             </div> : <div>
                 <SignaturePad ref={sigCanvasRef} 
                 canvasProps={
                     {
-                        style: { display: 'flex', alignContent: 's', background: '#e0e0e0', width: '100%', minHeight: '600px'}
+                        style: { border:'solid', borderWidth: '7px', borderRadius: '5px', margin: 'auto', borderColor: '#143968', display: 'flex', alignContent: 's', background: '#e0e0e0', width: '90%', minHeight: '600px'}
                     }
                 }/>
                 <div className={classes.buttons}>
@@ -272,6 +314,7 @@ const useStyles = makeStyles({
         fontSize: 15,
         background: 'white',
         fontFamily: 'Arial',
+        color: 'green'
     },
 
     box: {
@@ -285,8 +328,8 @@ const useStyles = makeStyles({
     },
 
     buttons: {
-        marginTop: 20,
-        marginLeft: 20,
+        marginRight: 20,
+        float: 'right'
     }
 })
 

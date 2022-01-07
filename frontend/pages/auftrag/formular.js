@@ -1,4 +1,7 @@
-import {TextField, Grid, Fab, Link, Typography } from "@material-ui/core";
+import Typography from '@mui/material/Typography';
+import Fab from '@mui/material/Fab';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import React, { Fragment, useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -20,15 +23,22 @@ import Popup from 'reactjs-popup';
 import "../startseite/sigCanvas.module.css";
 import sigCanvas from '../startseite/sigCanvas.module.css';
 import SignaturePad from "react-signature-canvas";
-import { Alert } from "@mui/material";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import { Autocomplete } from "@mui/material";
 console.log("--> Formular")
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function Formular() {
 
     const { query } = useRouter()
     const classes = useStyles();
 
-    let [ksv, setKsv] = useState('')
+    
     let [von, setVon] = useState(new Date())
     let [bis, setBis] = useState(new Date())
     let status = 'offen'
@@ -130,6 +140,34 @@ export default function Formular() {
         return blob;
     }
 
+    const [open1, setOpen1] = React.useState(false);
+
+    const handleClick1 = () => {
+        setOpen1(true);
+    };
+
+    const handleClose1 = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen1(false);
+    };
+
+    let [Ksv, setKsv] = useState('')
+
+    useEffect(() => {
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/ksv`)
+            .then((response) => response.json())
+            .then((ksv) => setKsv(ksv));
+    }, []);
+
+
+    const Sperren = [{
+        label: "Durchführungserlaubnis"}, {label: "Freigabe zur Arbeit"},
+        {label: "Freigabe zur Sperre"}, {label: "Prüfungserlaubnis"
+    }];
+
     return (
         <form>
             <div>
@@ -161,92 +199,128 @@ export default function Formular() {
                     <Typography variant="h6" className={classes.typoh6}>{query.param}</Typography>
                 </div>
 
-                <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
-                    <Popup modal trigger={
-                        <Fab variant="extended" color="primary" aria-label="add">
-                            <CreateIcon /> Unterschreiben
-                        </Fab>
-                    }closeOnDocumentClick={false}>
-                        {close => (
-                            <div className={sigCanvas.signatureCanvas} >
-                                <SignaturePad
-                                    ref={sigCanvasRef}
-                                    canvasProps={
-                                        {
-                                            style: { background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
-                                        }
-                                    } />
-                                <div className={classes.SignatureBTNRow}>
-                                    <Button color="primary" variant="contained" onClick={close}>Zurück</Button>
-                                    <Button color="primary" variant="contained" onClick={clear}>Leeren</Button>
-                                    <Button color="primary" variant="contained" onClick={() => save()} >Speichern</Button>
-                                </div>
-                            </div>
-                        )}
-                    </Popup>
-                    <Fab variant="extended" onClick={() => {CREATE2(); MAIL()}} color="secondary" aria-label="add">
-                        <AddIcon /> Erstellen
-                    </Fab>
-                </Box>
+
+
+
+
             </div>
             <Grid>
                 <div className={classes.g}>
-                <Grid className={classes.h} item xs={6}>
-                    <TextField fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField fullWidth variant="outlined" label="Auftragnehmer" onChange={e => setAUFTRAGNEHMER(e.target.value)}></TextField>
-                </Grid>
-                </div>
-                <div className={classes.g} >
-                <Grid className={classes.h} item xs={6}>
-                    <TextField fullWidth variant="outlined" label="KSV" onChange={e => setKSV(e.target.value)}></TextField>
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField fullWidth variant="outlined" label="Sperren" onChange={e => setSPERREN(e.target.value)}></TextField>
-                </Grid>
-                </div>
-                <div className={classes.g}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <Grid className={classes.h} item xs={6}>
-                        <Stack>
-                            <MobileDateTimePicker
-
-                                ampm={false}
-                                value={value}
-                                onChange={(newValue) => {
-                                    setValue(newValue)
-                                }}
-                                label="Von"
-                                inputFormat="dd/MM/yyyy HH:mm"
-                                renderInput={(params) => <TextField onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
-                            />
-                        </Stack>
+                        <TextField fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
                     </Grid>
                     <Grid item xs={6}>
-                        <Stack>
-                            <MobileDateTimePicker
-                                ampm={false}
-                                label="24hours"
-                                value={value1}
-                                onChange={(newValue1) => {
-                                    setValue1(newValue1)
-                                }}
-                                label="Bis"
-                                inputFormat="dd/MM/yyyy HH:mm"
-                                renderInput={(params) => <TextField onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
-                            />
-                        </Stack>
+                        <TextField fullWidth variant="outlined" label="Auftragnehmer" onChange={e => setAUFTRAGNEHMER(e.target.value)}></TextField>
                     </Grid>
-                </LocalizationProvider>
+                </div>
+                <div className={classes.g} >
+                    <Grid className={classes.h} item xs={6}>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={Ksv}
+                            getOptionLabel={(option) => option.KSV}
+                            onChange={(event, value) => setKSV(value.KSV)}
+                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                    <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={Sperren}
+                            getOptionLabel={(option) => option.label}
+                            onChange={(event, value) => setSPERREN(value.label)}
+                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Sperre" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.label === value.label}
+                        />
+                    </Grid>
                 </div>
                 <div className={classes.g}>
-                <Grid item xs={12}>
-                    <TextField fullWidth variant="outlined" label="Kommentar" onChange={e => setKOMMENTAR(e.target.value)}></TextField>
-                </Grid>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <Grid className={classes.h} item xs={6}>
+                            <Stack>
+                                <MobileDateTimePicker
+
+                                    ampm={false}
+                                    value={value}
+                                    onChange={(newValue) => {
+                                        setValue(newValue)
+                                    }}
+                                    label="Von"
+                                    inputFormat="yyyy/MM/dd HH:mm"
+                                    renderInput={(params) => <TextField onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
+                                />
+                            </Stack>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Stack>
+                                <MobileDateTimePicker
+                                    ampm={false}
+                                    label="24hours"
+                                    value={value1}
+                                    onChange={(newValue1) => {
+                                        setValue1(newValue1)
+                                    }}
+                                    label="Bis"
+                                    inputFormat="yyyy/MM/dd HH:mm"
+                                    renderInput={(params) => <TextField onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
+                                />
+                            </Stack>
+                        </Grid>
+                    </LocalizationProvider>
+                </div>
+                <div className={classes.g}>
+                    <Grid item xs={12}>
+                        <TextField fullWidth variant="outlined" label="Kommentar" onChange={e => setKOMMENTAR(e.target.value)}></TextField>
+                    </Grid>
+                </div>
+                <div className={classes.BTNGroup}>
+                    <Grid item xs={12}>
+                        <Popup modal trigger={
+
+                            <Button size='large' className={classes.SignBTN} disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && KSV != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"} variant="contained">
+                                <Typography variant="h6">Unterschreiben</Typography>
+                            </Button>
+
+                        } closeOnDocumentClick={false}>
+                            {close => (
+                                <div className={sigCanvas.signatureCanvas} >
+                                    <SignaturePad
+                                        ref={sigCanvasRef}
+                                        canvasProps={
+                                            {
+                                                style: { border: 'solid', background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
+                                            }
+                                        } />
+                                    <div className={classes.SignatureBTNRow}>
+                                        <Button color="primary" variant="contained" onClick={close}>Zurück</Button>
+                                        <Button color="primary" variant="contained" onClick={clear}>Leeren</Button>
+                                        <Button color="primary" variant="contained" onClick={() => save()} >Speichern</Button>
+                                    </div>
+                                </div>
+                            )}
+                        </Popup>
+                    </Grid>
+                    <Grid item xs={12}>
+
+                        <Button size='large' className={classes.CreateBTN} disabled={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? false : true} variant="contained" onClick={() => { CREATE2(); MAIL(); handleClick1() }} color="primary">
+                            <Typography variant="h6">Erstellen</Typography>
+                        </Button>
+                        <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose1}>
+                            <Alert severity="success">
+                                <AlertTitle>Auftrag erstellt</AlertTitle>
+                                20 Minuten Zeit zum Bestätigen
+                            </Alert>
+                        </Snackbar>
+
+
+                    </Grid>
                 </div>
             </Grid>
         </form>
+
     )
 }
 
@@ -255,6 +329,29 @@ export default function Formular() {
 
 
 const useStyles = makeStyles({
+    CreateBTN: {
+        width: "80%",
+        marginTop: "20%",
+
+    },
+
+    SignBTN: {
+        width: "80%",
+
+    },
+
+    BTNGroup: {
+        fontWeight: "bold",
+        height: "60px",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+
+
+
+    },
+
+
     typoh4: {
         fontWeight: "bold",
     },

@@ -279,6 +279,11 @@ export default function Startseite() {
                                     <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
+                                    <div style={{marginBottom: 30}}>
+                                        <Button onClick={() => router.push(`/auftrag/details?param=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
+                                            Details <DoubleArrowIcon/>
+                                        </Button>   
+                                    </div>       
                                 </div>
                             </details>
                         </div>}
@@ -305,6 +310,11 @@ export default function Startseite() {
                                     <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
+                                    <div style={{marginBottom: 30}}>
+                                        <Button onClick={() => router.push(`/auftrag/details?param=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
+                                            Details <DoubleArrowIcon/>
+                                        </Button>   
+                                    </div>       
                                 </div>
                             </details>
                         </div>}
@@ -332,6 +342,11 @@ export default function Startseite() {
                                     <Typography> Auftraggeber: {auftrag.AUFTRAGGEBER}</Typography>
                                     <Typography> Auftragnehmer: {auftrag.AUFTRAGNEHMER}</Typography>
                                     <Typography> Sperren: {auftrag.SPERREN}</Typography>
+                                    <div style={{marginBottom: 30}}>
+                                        <Button onClick={() => router.push(`/auftrag/details?param=${auftrag.ID}`) } style={{position: 'absolute', right: 45, color: 'white'}}>
+                                            Details <DoubleArrowIcon/>
+                                        </Button>   
+                                    </div>       
                                 </div>
                             </details>
                         </div>}
@@ -492,7 +507,7 @@ const useStyles = makeStyles({
         paddingLeft: 15,
         marginRight: 40,
         borderRadius: 15,
-        background: '#143968',
+        background: '#1DB954',
         color: "white",
     },
 

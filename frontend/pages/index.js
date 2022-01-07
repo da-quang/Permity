@@ -21,7 +21,6 @@ export default function Start() {
         <div className={classes.b}>
           <Button className={classes.a} onClick={() => start()}>Starten</Button>
         </div>
-        
     )
 }
 

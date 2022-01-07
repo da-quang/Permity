@@ -58,8 +58,8 @@ export default function Formular() {
         setx(e.target.value)
     };
 
-    let VON = `${value.getFullYear()}.${value.getMonth() + 1}.${value.getDate()}`;
-    let BIS = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()}`;
+    let VON = `${value.getFullYear()}.${value.getMonth() + 1}.${value.getDate()} ${value.getHours()}:${value.getMinutes()}`;
+    let BIS = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()} ${value1.getHours()}:${value1.getMinutes()}`;
 
     let [KSV, setKSV] = useState('')
     let [KOMMENTAR, setKOMMENTAR] = useState('')
@@ -218,7 +218,7 @@ export default function Formular() {
                                     setValue(newValue)
                                 }}
                                 label="Von"
-                                inputFormat="yyyy/MM/dd HH:mm"
+                                inputFormat="dd/MM/yyyy HH:mm"
                                 renderInput={(params) => <TextField onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
                             />
                         </Stack>
@@ -233,7 +233,7 @@ export default function Formular() {
                                     setValue1(newValue1)
                                 }}
                                 label="Bis"
-                                inputFormat="yyyy/MM/dd HH:mm"
+                                inputFormat="dd/MM/yyyy HH:mm"
                                 renderInput={(params) => <TextField onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
                             />
                         </Stack>

@@ -45,7 +45,7 @@ export default function Login() {
                 <div className={classes.d}><TextField className={classes.b} id="standard-basic" variant="outlined" label="Name" onChange={e => setName(e.target.value)}></TextField></div>
                 <div className={classes.d}><TextField className={classes.b} id="standard-basic" variant="outlined" label="Kürzel" onChange={e => setKurzzeichen(e.target.value)}></TextField></div>
       
-                <div className={classes.c}><Button variant="contained" color="inherit" disabled={kurzzeichen != "" && name != "" ? false : true} className={classes.a} onClick={() => {login(); handleToggle()}}  ><Typography variant="h6">Anmelden</Typography></Button></div>
+                <div className={classes.c}><Button variant="contained" color="primary" disabled={kurzzeichen != "" && name != "" ? false : true} className={classes.a} onClick={() => {login(); handleToggle()}}  ><Typography variant="h6">Anmelden</Typography></Button></div>
                 
                 <Backdrop
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -61,13 +61,8 @@ export default function Login() {
 
 const useStyles = makeStyles({
     a: {
-
-
-
-       
         height: 80,
         width: "70%",
-        background: 'linear-gradient(45deg, #143968  30%, #143968  90%)',
         textAlign: 'center',
         marginTop: "10%",
     },
@@ -75,7 +70,7 @@ const useStyles = makeStyles({
     b: {
         height: 40,
         width: 280,
-        padding: '0 30px',
+        
     },
 
     c: {

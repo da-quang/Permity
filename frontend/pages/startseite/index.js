@@ -571,5 +571,11 @@ const useStyles = makeStyles({
 
     Details: {
         color: "white",
-    }
+    },
+
+    InsideCard: {
+        paddingBottom: 10,
+    },
+
+
 })

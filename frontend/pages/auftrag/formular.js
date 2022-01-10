@@ -350,7 +350,7 @@ export default function Formular() {
                                                 ref={sigCanvasRef}
                                                 canvasProps={
                                                     {
-                                                        style: { background: 'white', width: '100%', minHeight: '600px' }
+                                                        style: { background: 'white', width: '100%', minHeight: '99%', border: 'solid' }
                                                     }
                                                 } />
                                         </div>

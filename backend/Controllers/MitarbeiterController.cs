@@ -99,5 +99,30 @@ namespace backend.Controllers
             }
             return new JsonResult(table);
         }
+
+         //api/Mitarbeiter/login
+        [HttpGet("all")]
+        public JsonResult All()
+        {
+            string query = @"select ""NAME"" from ""Mitarbeiter""";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("AppCon");
+            NpgsqlDataReader myReader;
+
+            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
     }
 }

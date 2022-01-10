@@ -2,10 +2,18 @@
     
     
     margin-top: 20%;
-    min-height: 600px;
+    min-height: 500px;
     background-color: white;
     padding:20px;
- 
+    margin-bottom: 70%;
    justify-Content: center;
   }
   
+
+  .signatureCanvas2 {
+    border: solid;
+    background: white;
+    width: 100%;
+    min-Height: 500px,;
+    margin-Bottom: 0px,;
+  }

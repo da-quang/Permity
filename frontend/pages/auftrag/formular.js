@@ -27,10 +27,22 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { Autocomplete } from "@mui/material";
+import Dialog from '@mui/material/Dialog';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+
+
 console.log("--> Formular")
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function Formular() {
@@ -38,12 +50,9 @@ export default function Formular() {
     const { query } = useRouter()
     const classes = useStyles();
 
-    
+
     let [von, setVon] = useState(new Date())
     let [bis, setBis] = useState(new Date())
-    let status = 'offen'
-    let betreff = "Freigabe"
-    let mailtext = "Bitte erledigen"
 
     //Menü
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -79,7 +88,7 @@ export default function Formular() {
     let [AUFTRAGGEBER_UNTERSCHRIFT, setAUFTRAGGEBER_UNTERSCHRIFT] = useState('null')
 
     let AUFTRAGGEBER = query.param2
-        const CREATE2 = async () => {
+    const CREATE2 = async () => {
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
             method: 'POST'
         })
@@ -109,12 +118,12 @@ export default function Formular() {
         setAUFTRAGGEBER_UNTERSCHRIFT(blobUrl);
         console.log("Unterschrift wurde gespeichert!")
     }
-   
+
     function dataURItoBlob(dataURI) {
         // convert base64 to raw binary data held in a string
         // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
         var byteString = atob(dataURI.split(',')[1]);
-    
+
         // separate out the mime component
         var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
 
@@ -126,16 +135,16 @@ export default function Formular() {
         }
         var blob = null;
         // TypeError old chrome and FF
-        window.BlobBuilder = window.BlobBuilder || 
-                             window.WebKitBlobBuilder || 
-                             window.MozBlobBuilder || 
-                             window.MSBlobBuilder;
-        if(window.BlobBuilder){
-             var bb = new BlobBuilder();
-             bb.append(ab);
-             blob = bb.getBlob(mimeString);
-        }else{
-             blob = new Blob([ab], {type : mimeString});
+        window.BlobBuilder = window.BlobBuilder ||
+            window.WebKitBlobBuilder ||
+            window.MozBlobBuilder ||
+            window.MSBlobBuilder;
+        if (window.BlobBuilder) {
+            var bb = new BlobBuilder();
+            bb.append(ab);
+            blob = bb.getBlob(mimeString);
+        } else {
+            blob = new Blob([ab], { type: mimeString });
         }
         return blob;
     }
@@ -162,11 +171,30 @@ export default function Formular() {
             .then((ksv) => setKsv(ksv));
     }, []);
 
+    let [Name, setName] = useState('')
+
+    useEffect(() => {
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/all`)
+            .then((response) => response.json())
+            .then((name) => setName(name));
+    }, []);
 
     const Sperren = [{
-        label: "Durchführungserlaubnis"}, {label: "Freigabe zur Arbeit"},
-        {label: "Freigabe zur Sperre"}, {label: "Prüfungserlaubnis"
+        label: "Durchführungserlaubnis"
+    }, { label: "Freigabe zur Arbeit" },
+    { label: "Freigabe zur Sperre" }, {
+        label: "Prüfungserlaubnis"
     }];
+
+    const [open2, setOpen2] = React.useState(false);
+
+    const handleClickOpen2 = () => {
+        setOpen2(true);
+    };
+
+    const handleClose2 = () => {
+        setOpen2(false);
+    };
 
     return (
         <form>
@@ -210,7 +238,15 @@ export default function Formular() {
                         <TextField fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField fullWidth variant="outlined" label="Auftragnehmer" onChange={e => setAUFTRAGNEHMER(e.target.value)}></TextField>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={Name}
+                            getOptionLabel={(option) => option.NAME}
+                            onChange={(event, value) => setAUFTRAGNEHMER(value.NAME)}
+                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Auftragnehmer" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.NAME === value.NAME}
+                        />
                     </Grid>
                 </div>
                 <div className={classes.g} >
@@ -219,14 +255,14 @@ export default function Formular() {
                             disablePortal
                             id="combo-box-demo"
                             options={Ksv}
-                            getOptionLabel={(option) => option.KSV}
-                            onChange={(event, value) => setKSV(value.KSV)}
+                            getOptionLabel={(option) => option.BEZEICHNUNG}
+                            onChange={(event, value) => setKSV(value.BEZEICHNUNG)}
                             renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
-                            isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
+                            isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
                         />
                     </Grid>
                     <Grid item xs={6}>
-                    <Autocomplete
+                        <Autocomplete
                             disablePortal
                             id="combo-box-demo"
                             options={Sperren}
@@ -278,7 +314,53 @@ export default function Formular() {
                 </div>
                 <div className={classes.BTNGroup}>
                     <Grid item xs={12}>
-                        <Popup modal trigger={
+
+                        <Button onClick={handleClickOpen2} size='large' className={classes.SignBTN} disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && KSV != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"} variant="contained">
+                            <Typography variant="h6">Unterschreiben</Typography>
+                        </Button>
+                        <Dialog
+                                    fullScreen
+                                    open={open2}
+                                    onClose={handleClose2}
+                                    TransitionComponent={Transition}
+                                >
+                                    <AppBar className={classes.Unterschrift} sx={{ position: 'relative' }}>
+                                        <Toolbar >
+                                            <IconButton
+                                                edge="start"
+                                                color="inherit"
+                                                onClick={handleClose2}
+                                                aria-label="close"
+
+                                            >
+                                                <CloseIcon />
+                                            </IconButton>
+                                            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                                Unterschrift
+                                            </Typography>
+                                            <div className={classes.c}>
+                                                <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
+                                                <Button color="inherit" autoFocus onClick={() => save()}>Speichern</Button>
+                                            </div>
+                                        </Toolbar>
+                                    </AppBar>
+                                    <>
+                                        <div className={sigCanvas.signatureCanvas} >
+                                            <SignaturePad
+                                                ref={sigCanvasRef}
+                                                canvasProps={
+                                                    {
+                                                        style: { background: 'white', width: '100%', minHeight: '600px' }
+                                                    }
+                                                } />
+                                        </div>
+
+
+
+                                    </>
+                                </Dialog>
+
+                        {/* <Popup modal trigger={
 
                             <Button size='large' className={classes.SignBTN} disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && KSV != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"} variant="contained">
                                 <Typography variant="h6">Unterschreiben</Typography>
@@ -288,10 +370,11 @@ export default function Formular() {
                             {close => (
                                 <div className={sigCanvas.signatureCanvas} >
                                     <SignaturePad
+                                        className={sigCanvas.signatureCanvas2}
                                         ref={sigCanvasRef}
                                         canvasProps={
                                             {
-                                                style: { border: 'solid', background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
+                                                style: { border: 'solid', background: 'white', width: '100%', minHeight: '400px', marginBottom: '0px', }
                                             }
                                         } />
                                     <div className={classes.SignatureBTNRow}>
@@ -301,7 +384,7 @@ export default function Formular() {
                                     </div>
                                 </div>
                             )}
-                        </Popup>
+                        </Popup> */}
                     </Grid>
                     <Grid item xs={12}>
 

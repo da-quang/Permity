@@ -309,7 +309,7 @@ export default function Formular() {
                 </div>
                 <div className={classes.g}>
                     <Grid item xs={12}>
-                        <TextField fullWidth variant="outlined" label="Kommentar" onChange={e => setKOMMENTAR(e.target.value)}></TextField>
+                        <TextField multiline maxRows={4} fullWidth variant="outlined" label="Kommentar" onChange={e => setKOMMENTAR(e.target.value)}></TextField>
                     </Grid>
                 </div>
                 <div className={classes.BTNGroup}>

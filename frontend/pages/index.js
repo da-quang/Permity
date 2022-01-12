@@ -18,7 +18,7 @@ export default function Start() {
 
     const classes = useStyles();
 
-    const router = useRouter()
+    
 
     router.push("mitarbeiter/login")
 

@@ -174,38 +174,14 @@ export default function Startseite() {
     }
 
     return (
-        <form className={classes.h}>
+
+        <form style={{ background: '#143968' }} className={classes.h}>
             <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
                 <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)} aria-label="add" color="primary">
                     <AddIcon />
                 </Fab>
             </Box>
-            <Accordion style={{background: 'red',}}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography>Accordion 1</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                <Accordion style={{background: 'grey',}}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography>Accordion 1</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                        malesuada lacus ex, sit amet blandit leo lobortis eget.
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-                </AccordionDetails>
-            </Accordion>
+
             <div className={classes.e}>
                 <div>
                     <Button color="inherit" className={classes.BTN}
@@ -231,203 +207,235 @@ export default function Startseite() {
                 <Typography variant="h4" className={classes.typoh4}> Startseite </Typography>
                 <Typography variant="h6" className={classes.typoh6}>{query.param}</Typography>
             </div>
+            <div style={{background: 'white', borderTopLeftRadius: '18px', borderTopRightRadius: '18px' }}>
+                <div className={classes.FilterAdd}>
+                    <div className={classes.searchContainer}>
+                        <Button style={{ marginTop: '10%' }} color="inherit" className={classes.BTN}
+                            id="basic-button"
+                            aria-controls="basic-menu"
+                            aria-haspopup="true"
+                            aria-expanded={open2 ? 'true' : undefined}
+                            onClick={handleClick2}>
+                            <FilterAltIcon className={classes.searchIcon} /> <Typography> Filter </Typography>
+                        </Button>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorE2}
+                            open={open2}
+                            onClose={handleClose2}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}>
+                            <ListItem background='red'> <Typography variant='h6' fontWeight='bold' > STATUS </Typography></ListItem>
+                            <ListItem> <Button className={filter == "Offen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Offen")} variant="contained">Offen </Button></ListItem>
+                            <ListItem> <Button className={filter == "Bestätigt" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Bestätigt")} variant="contained" >Bestätigt </Button></ListItem>
+                            <ListItem> <Button className={filter == "Abgeschlossen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Abgeschlossen")} variant="contained">Abgeschlossen</Button></ListItem>
+                            <ListItem> <Button className={filter == "Nicht angenommen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Nicht angenommen")} variant="contained">Nicht angenommen</Button></ListItem>
 
-            <div className={classes.FilterAdd}>
-                <div className={classes.searchContainer}>
-                    <Button color="inherit" className={classes.BTN}
-                        id="basic-button"
-                        aria-controls="basic-menu"
-                        aria-haspopup="true"
-                        aria-expanded={open2 ? 'true' : undefined}
-                        onClick={handleClick2}>
-                        <FilterAltIcon className={classes.searchIcon} /> <Typography> Filter </Typography>
-                    </Button>
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorE2}
-                        open={open2}
-                        onClose={handleClose2}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                        }}>
-                        <ListItem background='red'> <Typography variant='h6' fontWeight='bold' > STATUS </Typography></ListItem>
-                        <ListItem> <Button className={filter == "Offen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Offen")} variant="contained">Offen </Button></ListItem>
-                        <ListItem> <Button className={filter == "Bestätigt" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Bestätigt")} variant="contained" >Bestätigt </Button></ListItem>
-                        <ListItem> <Button className={filter == "Abgeschlossen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Abgeschlossen")} variant="contained">Abgeschlossen</Button></ListItem>
-                        <ListItem> <Button className={filter == "Nicht angenommen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Nicht angenommen")} variant="contained">Nicht angenommen</Button></ListItem>
-
-                        <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
-                        <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
-                        <ListItem> <Button className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
-                        <ListItem> <Button className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
-                        <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
-                    </Menu>
+                            <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
+                            <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
+                            <ListItem> <Button className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
+                            <ListItem> <Button className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
+                            <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
+                        </Menu>
+                    </div>
                 </div>
-            </div>
 
-            <div>
+
                 <div className={classes.SummaryWrapper}>
-                    <details className={classes.details}>
-                        <summary className={classes.summary2}>
-                            Offen
-                        </summary>
-                        {data && data.map((auftrag, id) => <ul key={id}>
-                            {auftrag.STATUS == "Offen" &&
-                                <div className={classes.Offen}>
-                                    <details className={classes.details}>
-                                        <summary className={classes.summary}>
-                                            {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <Popup modal trigger={
-                                                <a className={auftrag.AUFTRAGGEBER == query.param2 ? classes.Check : null}>
-                                                    <IconButton style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                        <CreateIcon />
+                    <Accordion style={{ marginLeft: '3%', marginRight: '3%', padding: '0%', borderRadius: '15px', backgroundColor: '#143968', color: 'white' }}>
+                        <AccordionSummary
+
+                            expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography style={{ fontWeight: 'bold' }}>Offen</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails style={{ padding: '0px' }}>
+                            {data && data.map((auftrag, id) => <ul key={id}>
+                                {auftrag.STATUS == "Offen" &&
+                                    <div className={classes.Offen}>
+                                        <details className={classes.details}>
+                                            <summary className={classes.summary}>
+                                                {auftrag.ID} | {auftrag.AUFTRAG}
+                                                <Popup modal trigger={
+                                                    <a className={auftrag.AUFTRAGGEBER == query.param2 ? classes.Check : null}>
+                                                        <IconButton style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                            <CreateIcon />
+                                                        </IconButton>
+                                                    </a>
+                                                } closeOnDocumentClick={false}>
+                                                    {close => (
+                                                        <div className={sigCanvas.signatureCanvas} >
+                                                            <SignaturePad
+                                                                ref={sigCanvasRef}
+                                                                canvasProps={
+                                                                    {
+                                                                        style: { background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
+                                                                    }
+                                                                } />
+                                                            <div className={classes.SignatureBTNRow}>
+                                                                <Button variant="contained" onClick={close}>Zurück</Button>
+                                                                <Button variant="contained" onClick={clear}>Leeren</Button>
+                                                                <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </Popup>
+                                            </summary>
+                                            <div className={classes.InsideCard}>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                                <div style={{ marginBottom: 30 }}>
+                                                    <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
+                                                        Details <DoubleArrowIcon />
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </details>
+                                    </div>}
+                            </ul>)}
+                        </AccordionDetails>
+                    </Accordion>
+
+
+                </div>
+
+                <div className={classes.SummaryWrapper}>
+                    <Accordion style={{ marginLeft: '3%', marginRight: '3%', padding: '0%', borderRadius: '15px', backgroundColor: '#143968', color: 'white' }}>
+                        <AccordionSummary
+
+                            expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography style={{ fontWeight: 'bold' }}>Bestätigt</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails style={{padding:'0px'}}>
+                            {data && data.map((auftrag, id) => <ul key={id}>
+                                {auftrag.STATUS == "Bestätigt" &&
+                                    <div className={classes.Bestätigt}>
+                                        <details className={classes.details}>
+                                            <summary className={classes.summary}>
+                                                {auftrag.ID} | {auftrag.AUFTRAG}
+                                                <a className={auftrag.AUFTRAGNEHMER == query.param2 ? classes.Check : null}>
+                                                    <IconButton onClick={() => Update2(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                        <HowToRegIcon />
                                                     </IconButton>
                                                 </a>
-                                            } closeOnDocumentClick={false}>
-                                                {close => (
-                                                    <div className={sigCanvas.signatureCanvas} >
-                                                        <SignaturePad
-                                                            ref={sigCanvasRef}
-                                                            canvasProps={
-                                                                {
-                                                                    style: { background: 'white', width: '100%', minHeight: '600px', marginBottom: '0px', }
-                                                                }
-                                                            } />
-                                                        <div className={classes.SignatureBTNRow}>
-                                                            <Button variant="contained" onClick={close}>Zurück</Button>
-                                                            <Button variant="contained" onClick={clear}>Leeren</Button>
-                                                            <Button variant="contained" onClick={() => { Update(auftrag.ID); save }} >Speichern</Button>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </Popup>
-                                        </summary>
-                                        <div className={classes.InsideCard}>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
-                                            <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
-                                                    Details <DoubleArrowIcon />
-                                                </Button>
+                                            </summary>
+                                            <div className={classes.InsideCard}>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                                <div style={{ marginBottom: 30 }}>
+                                                    <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
+                                                        Details <DoubleArrowIcon />
+                                                    </Button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </details>
-                                </div>}
-                        </ul>)}
-                        <div className={classes.br}></div>
-                    </details>
+                                        </details>
+                                    </div>}
+                            </ul>)}
+                        </AccordionDetails>
+                    </Accordion>
+                    
+
                 </div>
 
                 <div className={classes.SummaryWrapper}>
-                    <details className={classes.details}>
-                        <summary className={classes.summary2}>
-                            Bestätigt
-                        </summary>
-                        {data && data.map((auftrag, id) => <ul key={id}>
-                            {auftrag.STATUS == "Bestätigt" &&
-                                <div className={classes.Bestätigt}>
-                                    <details className={classes.details}>
-                                        <summary className={classes.summary}>
-                                            {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <a className={auftrag.AUFTRAGNEHMER == query.param2 ? classes.Check : null}>
-                                                <IconButton onClick={() => Update2(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                    <HowToRegIcon />
-                                                </IconButton>
-                                            </a>
-                                        </summary>
-                                        <div className={classes.InsideCard}>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
-                                            <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
-                                                    Details <DoubleArrowIcon />
-                                                </Button>
+                    <Accordion style={{ marginLeft: '3%', marginRight: '3%', padding: '0%', borderRadius: '15px', backgroundColor: '#143968', color: 'white' }}>
+                        <AccordionSummary
+
+                            expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography style={{ fontWeight: 'bold' }}>Abgelehnt</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails style={{padding:'0px'}}>
+                            {data && data.map((auftrag, id) => <ul style={{listStyleType: 'none'}} key={id}>
+                                {auftrag.STATUS == "Nicht angenommen" &&
+                                    <div className={classes.Abgelehnt}>
+                                        <details className={classes.details}>
+                                            <summary className={classes.summary}>
+                                                {auftrag.ID} | {auftrag.AUFTRAG}
+                                                <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Bestätigt" ? classes.SummaryBTNDisabled : null}>
+                                                    <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </a>
+                                            </summary>
+                                            <div className={classes.InsideCard}>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                                <div style={{ marginBottom: 30 }}>
+                                                    <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
+                                                        Details <DoubleArrowIcon />
+                                                    </Button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </details>
-                                </div>}
-                        </ul>)}
-                        <div className={classes.br}></div>
-                    </details>
+                                        </details>
+                                    </div>}
+                            </ul>)}
+                        </AccordionDetails>
+                    </Accordion>
+                    
+
                 </div>
 
                 <div className={classes.SummaryWrapper}>
-                    <details className={classes.details}>
-                        <summary className={classes.summary2}>
-                            Abgelehnt
-                        </summary>
-                        {data && data.map((auftrag, id) => <ul key={id}>
-                            {auftrag.STATUS == "Nicht angenommen" &&
-                                <div className={classes.Abgelehnt}>
-                                    <details className={classes.details}>
-                                        <summary className={classes.summary}>
-                                            {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Bestätigt" ? classes.SummaryBTNDisabled : null}>
+                    <Accordion style={{ marginLeft: '3%', marginRight: '3%', padding: '0%', borderRadius: '15px', backgroundColor: '#143968', color: 'white' }}>
+                        <AccordionSummary
+
+                            expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography style={{ fontWeight: 'bold' }}>Abgeschlossen</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails style={{padding:'0px'}}>
+                            {data && data.map((auftrag, id) => <ul key={id}>
+                                {auftrag.STATUS == "Abgeschlossen" &&
+                                    <div className={classes.Abgeschlossen}>
+                                        <details className={classes.details}>
+                                            <summary className={classes.summary}>
+                                                {auftrag.ID} | {auftrag.AUFTRAG}
                                                 <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                     <DeleteIcon />
                                                 </IconButton>
-                                            </a>
-                                        </summary>
-                                        <div className={classes.InsideCard}>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
-                                            <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
-                                                    Details <DoubleArrowIcon />
-                                                </Button>
+                                            </summary>
+                                            <div className={classes.InsideCard}>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                                <div style={{ marginBottom: 30 }}>
+                                                    <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
+                                                        Details <DoubleArrowIcon />
+                                                    </Button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </details>
-                                </div>}
-                        </ul>)}
-                        <div className={classes.br}></div>
-                    </details>
-                </div>
+                                        </details>
+                                    </div>}
+                            </ul>)}
+                        </AccordionDetails>
+                    </Accordion>
+                   
 
-                <div className={classes.SummaryWrapper}>
-                    <details className={classes.details}>
-
-                        <summary className={classes.summary2}>
-                            Abgeschlossen
-                        </summary>
-
-                        {data && data.map((auftrag, id) => <ul key={id}>
-                            {auftrag.STATUS == "Abgeschlossen" &&
-                                <div className={classes.Abgeschlossen}>
-                                    <details className={classes.details}>
-                                        <summary className={classes.summary}>
-                                            {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </summary>
-                                        <div className={classes.InsideCard}>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
-                                            <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
-                                                    Details <DoubleArrowIcon />
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </details>
-                                </div>}
-                        </ul>)}
-                        <div className={classes.br}></div>
-                    </details>
                 </div>
 
                 {error && <div>Error fetching data.</div>}
             </div>
+
         </form>
+
     )
 }
 
@@ -437,7 +445,7 @@ const useStyles = makeStyles({
     },
 
     FilterAdd: {
-        marginTop: "10%",
+
         marginBottom: "10%",
         display: "flex",
         marginLeft: "10%",
@@ -522,10 +530,8 @@ const useStyles = makeStyles({
 
     e: {
         background: 'linear-gradient(45deg, #143968 30%, #143968 90%)',
-        boxShadow: '0 3px 5px 2px rgba(20, 57, 104, .3)',
         marginTop: 0,
         paddingTop: 15,
-        marginBottom: "5%",
         height: 60,
         color: 'white',
         borderBottomLeftRadius: 15,
@@ -566,12 +572,10 @@ const useStyles = makeStyles({
     SummaryWrapper: {
         borderRadius: 15,
         color: "white",
+        marginBottom: "5%",
     },
 
-    Pfusch: {
-        background: "red",
-        marginRight: "20px"
-    },
+ 
 
     Status: {
         paddingLeft: 15,

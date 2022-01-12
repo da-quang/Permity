@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import SaveIcon from '@mui/icons-material/Save';
 import { autocompleteClasses } from '@mui/material';
-
+import Router from "next/router";
 
 console.log("--> Start")
 export default function Start() {
@@ -17,6 +17,11 @@ export default function Start() {
     }
 
     const classes = useStyles();
+
+    const router = useRouter()
+
+    router.push("mitarbeiter/login")
+
     return(
         <div className={classes.b}>
           <Button className={classes.a} onClick={() => start()}>Starten</Button>

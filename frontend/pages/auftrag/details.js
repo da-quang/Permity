@@ -216,7 +216,7 @@ export default function Start() {
                     <div className={classes.contentInfo}>Unterschrift</div>
                 </div>
                 <div className={classes.box2}>
-                    <img className={classes.unterschrift} src={auftrag.AUFTRAGGEBER_UNTERSCHRIFT}/>
+                    
                     <img className={classes.unterschrift} src={auftrag.AUFTRAGNEHMER_UNTERSCHRIFT}/>
                 </div>
             </div>

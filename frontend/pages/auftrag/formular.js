@@ -33,7 +33,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-
+import axios from 'axios';
 
 console.log("--> Formular")
 
@@ -89,6 +89,46 @@ export default function Formular() {
 
     let AUFTRAGGEBER = query.param2
     const CREATE2 = async () => {
+        // console.log(AUFTRAGGEBER_UNTERSCHRIFT)
+        // axios.post('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
+        //     ksv: KSV,
+        //     auftrag: AUFTRAG,
+        //     auftraggeber: AUFTRAGGEBER,
+        //     auftragnehmer: AUFTRAGNEHMER,
+        //     sperren: SPERREN,
+        //     kommentar: KOMMENTAR,
+        //     von: VON,
+        //     bis: BIS,
+        //     auftraggeber_unterschrift: "1123",
+        // })
+        //     .then(function (response) {
+        //         console.log(response);
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
+
+        fetch('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept' : '*/*',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Origin, X-Requested-With'
+            },
+            body: JSON.stringify({
+                ksv: KSV,
+                auftrag: AUFTRAG,
+                auftraggeber: AUFTRAGGEBER,
+                auftragnehmer: AUFTRAGNEHMER,
+                sperren: SPERREN,
+                kommentar: KOMMENTAR,
+                von: VON,
+                bis: BIS,
+                auftraggeber_unterschrift: AUFTRAGGEBER_UNTERSCHRIFT,
+            })
+        })
+
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
             method: 'POST'
         })
@@ -112,11 +152,14 @@ export default function Formular() {
     const sigCanvasRef = useRef({});
     const clear = () => sigCanvasRef.current.clear();
     const save = () => {
-        let base64 = sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png");
-        let blob = dataURItoBlob(base64);
-        const blobUrl = URL.createObjectURL(blob);
-        setAUFTRAGGEBER_UNTERSCHRIFT(blobUrl);
-        console.log("Unterschrift wurde gespeichert!")
+
+        setAUFTRAGGEBER_UNTERSCHRIFT(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
+
+        // let base64 = sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png");
+        // let blob = dataURItoBlob(base64);
+        // const blobUrl = URL.createObjectURL(blob);
+        // setAUFTRAGGEBER_UNTERSCHRIFT(blobUrl);
+        // console.log("Unterschrift wurde gespeichert!")
     }
 
     function dataURItoBlob(dataURI) {
@@ -319,46 +362,46 @@ export default function Formular() {
                             <Typography variant="h6">Unterschreiben</Typography>
                         </Button>
                         <Dialog
-                                    fullScreen
-                                    open={open2}
-                                    onClose={handleClose2}
-                                    TransitionComponent={Transition}
-                                >
-                                    <AppBar className={classes.Unterschrift} sx={{ position: 'relative' }}>
-                                        <Toolbar >
-                                            <IconButton
-                                                edge="start"
-                                                color="inherit"
-                                                onClick={handleClose2}
-                                                aria-label="close"
+                            fullScreen
+                            open={open2}
+                            onClose={handleClose2}
+                            TransitionComponent={Transition}
+                        >
+                            <AppBar className={classes.Unterschrift} sx={{ position: 'relative' }}>
+                                <Toolbar >
+                                    <IconButton
+                                        edge="start"
+                                        color="inherit"
+                                        onClick={handleClose2}
+                                        aria-label="close"
 
-                                            >
-                                                <CloseIcon />
-                                            </IconButton>
-                                            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                                                Unterschrift
-                                            </Typography>
-                                            <div className={classes.c}>
-                                                <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
-                                                <Button color="inherit" autoFocus onClick={() => save()}>Speichern</Button>
-                                            </div>
-                                        </Toolbar>
-                                    </AppBar>
-                                    <>
-                                        <div className={sigCanvas.signatureCanvas} >
-                                            <SignaturePad
-                                                ref={sigCanvasRef}
-                                                canvasProps={
-                                                    {
-                                                        style: { background: 'white', width: '100%', minHeight: '99%', border: 'solid' }
-                                                    }
-                                                } />
-                                        </div>
+                                    >
+                                        <CloseIcon />
+                                    </IconButton>
+                                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                        Unterschrift
+                                    </Typography>
+                                    <div className={classes.c}>
+                                        <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
+                                        <Button color="inherit" autoFocus onClick={() => save()}>Speichern</Button>
+                                    </div>
+                                </Toolbar>
+                            </AppBar>
+                            <>
+                                <div className={sigCanvas.signatureCanvas} >
+                                    <SignaturePad
+                                        ref={sigCanvasRef}
+                                        canvasProps={
+                                            {
+                                                style: { background: 'white', width: '100%', minHeight: '99%', border: 'solid' }
+                                            }
+                                        } />
+                                </div>
 
 
 
-                                    </>
-                                </Dialog>
+                            </>
+                        </Dialog>
 
                         {/* <Popup modal trigger={
 

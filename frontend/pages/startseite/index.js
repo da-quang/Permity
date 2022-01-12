@@ -24,6 +24,11 @@ import Popup from 'reactjs-popup';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import IconButton from '@mui/material/IconButton';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 
 console.log("--> Startseite")
 
@@ -175,7 +180,32 @@ export default function Startseite() {
                     <AddIcon />
                 </Fab>
             </Box>
-
+            <Accordion style={{background: 'red',}}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography>Accordion 1</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                <Accordion style={{background: 'grey',}}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography>Accordion 1</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                        malesuada lacus ex, sit amet blandit leo lobortis eget.
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+                </AccordionDetails>
+            </Accordion>
             <div className={classes.e}>
                 <div>
                     <Button color="inherit" className={classes.BTN}
@@ -362,7 +392,7 @@ export default function Startseite() {
 
                 <div className={classes.SummaryWrapper}>
                     <details className={classes.details}>
-                    
+
                         <summary className={classes.summary2}>
                             Abgeschlossen
                         </summary>
@@ -532,14 +562,15 @@ const useStyles = makeStyles({
 
     },
 
+
     SummaryWrapper: {
         borderRadius: 15,
         color: "white",
     },
 
     Pfusch: {
-        background:"red",
-       marginRight: "20px"
+        background: "red",
+        marginRight: "20px"
     },
 
     Status: {

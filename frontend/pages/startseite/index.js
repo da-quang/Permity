@@ -30,6 +30,8 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
+
+
 console.log("--> Startseite")
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json())
@@ -175,7 +177,7 @@ export default function Startseite() {
 
     return (
 
-        <form style={{ background: '#143968' }} className={classes.h}>
+        <form style={{ background: 'white' }} className={classes.h}>
             <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
                 <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)} aria-label="add" color="primary">
                     <AddIcon />
@@ -207,7 +209,7 @@ export default function Startseite() {
                 <Typography variant="h4" className={classes.typoh4}> Startseite </Typography>
                 <Typography variant="h6" className={classes.typoh6}>{query.param}</Typography>
             </div>
-            <div style={{background: 'white', borderTopLeftRadius: '18px', borderTopRightRadius: '18px' }}>
+           
                 <div className={classes.FilterAdd}>
                     <div className={classes.searchContainer}>
                         <Button style={{ marginTop: '10%' }} color="inherit" className={classes.BTN}
@@ -253,7 +255,7 @@ export default function Startseite() {
                             <Typography style={{ fontWeight: 'bold' }}>Offen</Typography>
                         </AccordionSummary>
                         <AccordionDetails style={{ padding: '0px' }}>
-                            {data && data.map((auftrag, id) => <ul key={id}>
+                            {data && data.map((auftrag, id) => <a key={id}>
                                 {auftrag.STATUS == "Offen" &&
                                     <div className={classes.Offen}>
                                         <details className={classes.details}>
@@ -297,10 +299,11 @@ export default function Startseite() {
                                             </div>
                                         </details>
                                     </div>}
-                            </ul>)}
+                            </a>)}
                         </AccordionDetails>
                     </Accordion>
 
+                    <div className={classes.br}></div>
 
                 </div>
 
@@ -314,8 +317,8 @@ export default function Startseite() {
                         >
                             <Typography style={{ fontWeight: 'bold' }}>Bestätigt</Typography>
                         </AccordionSummary>
-                        <AccordionDetails style={{padding:'0px'}}>
-                            {data && data.map((auftrag, id) => <ul key={id}>
+                        <AccordionDetails style={{ padding: '0px' }}>
+                            {data && data.map((auftrag, id) => <a key={id}>
                                 {auftrag.STATUS == "Bestätigt" &&
                                     <div className={classes.Bestätigt}>
                                         <details className={classes.details}>
@@ -340,10 +343,10 @@ export default function Startseite() {
                                             </div>
                                         </details>
                                     </div>}
-                            </ul>)}
+                            </a>)}
                         </AccordionDetails>
                     </Accordion>
-                    
+                    <div className={classes.br}></div>
 
                 </div>
 
@@ -357,8 +360,8 @@ export default function Startseite() {
                         >
                             <Typography style={{ fontWeight: 'bold' }}>Abgelehnt</Typography>
                         </AccordionSummary>
-                        <AccordionDetails style={{padding:'0px'}}>
-                            {data && data.map((auftrag, id) => <ul style={{listStyleType: 'none'}} key={id}>
+                        <AccordionDetails style={{ padding: '0px' }}>
+                            {data && data.map((auftrag, id) => <a style={{ listStyleType: 'none' }} key={id}>
                                 {auftrag.STATUS == "Nicht angenommen" &&
                                     <div className={classes.Abgelehnt}>
                                         <details className={classes.details}>
@@ -383,10 +386,10 @@ export default function Startseite() {
                                             </div>
                                         </details>
                                     </div>}
-                            </ul>)}
+                            </a>)}
                         </AccordionDetails>
                     </Accordion>
-                    
+                    <div className={classes.br}></div>
 
                 </div>
 
@@ -400,8 +403,8 @@ export default function Startseite() {
                         >
                             <Typography style={{ fontWeight: 'bold' }}>Abgeschlossen</Typography>
                         </AccordionSummary>
-                        <AccordionDetails style={{padding:'0px'}}>
-                            {data && data.map((auftrag, id) => <ul key={id}>
+                        <AccordionDetails style={{ padding: '0px' }}>
+                            {data && data.map((auftrag, id) => <a key={id}>
                                 {auftrag.STATUS == "Abgeschlossen" &&
                                     <div className={classes.Abgeschlossen}>
                                         <details className={classes.details}>
@@ -424,7 +427,7 @@ export default function Startseite() {
                                             </div>
                                         </details>
                                     </div>}
-                            </ul>)}
+                            </a>)}
                         </AccordionDetails>
                     </Accordion>
                    
@@ -432,7 +435,7 @@ export default function Startseite() {
                 </div>
 
                 {error && <div>Error fetching data.</div>}
-            </div>
+            
 
         </form>
 
@@ -530,8 +533,10 @@ const useStyles = makeStyles({
 
     e: {
         background: 'linear-gradient(45deg, #143968 30%, #143968 90%)',
+        boxShadow: '0 3px 5px 2px rgba(20, 57, 104, .3)',
         marginTop: 0,
         paddingTop: 15,
+
         height: 60,
         color: 'white',
         borderBottomLeftRadius: 15,
@@ -572,10 +577,9 @@ const useStyles = makeStyles({
     SummaryWrapper: {
         borderRadius: 15,
         color: "white",
-        marginBottom: "5%",
     },
 
- 
+
 
     Status: {
         paddingLeft: 15,
@@ -584,36 +588,43 @@ const useStyles = makeStyles({
 
     Offen: {
         paddingLeft: 15,
-        paddingRight: 5,
-        marginRight: 40,
+        marginLeft: '5%',
+        marginRight: '5%',
         borderRadius: 15,
         background: '#2163b8',
         color: "white",
+        marginBottom: "3%"
     },
 
     Bestätigt: {
         paddingLeft: 15,
-        marginRight: 40,
+        marginLeft: '5%',
+        marginRight: '5%',
         borderRadius: 15,
         background: '#1DB954',
         color: "white",
+        marginBottom: "3%"
     },
 
 
     Abgeschlossen: {
         paddingLeft: 15,
-        marginRight: 40,
+        marginLeft: '5%',
+        marginRight: '5%',
         borderRadius: 15,
         background: '#4a4a49',
         color: "white",
+        marginBottom: "3%"
     },
 
     Abgelehnt: {
         paddingLeft: 15,
-        marginRight: 40,
+        marginLeft: '5%',
+        marginRight: '5%',
         borderRadius: 15,
         background: '#c92a35',
         color: "white",
+        marginBottom: "3%"
     },
 
     Details: {

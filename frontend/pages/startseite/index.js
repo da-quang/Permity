@@ -555,6 +555,7 @@ const useStyles = makeStyles({
         lineHeight: '2.5',
         justifyContent: 'space-between',
         fontWeight: "bold",
+        outline: 'none',
     },
 
     summary2: {

@@ -123,7 +123,7 @@ namespace backend.Controllers
 
 //api/Auftrag/create
         [HttpPost("abi")]
-        public JsonResult CreateAuftrag1(string id, string name)
+        public JsonResult CreateAuftrag1(int id, string name)
         {
             string query = @"insert into ""Test"" (""id"", ""name"") values (@id, @name);";
 

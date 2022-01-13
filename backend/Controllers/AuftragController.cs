@@ -121,6 +121,33 @@ namespace backend.Controllers
             return new JsonResult(table);
         }
 
+//api/Auftrag/create
+        [HttpPost("abi")]
+        public JsonResult CreateAuftrag1(string ksv)
+        {
+            string query = @"insert into ""Auftrag"" (""KSV"") 
+                                            values (@ksv)";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("AppCon");
+            NpgsqlDataReader myReader;
+            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ksv", ksv);
+
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added successfully");
+        }
+
         //api/Auftrag/create
         [HttpPost("create")]
         public JsonResult CreateAuftrag(string ksv, string auftrag, string auftraggeber, string auftragnehmer, string sperren, string kommentar, string von, string bis, string auftraggeber_unterschrift)

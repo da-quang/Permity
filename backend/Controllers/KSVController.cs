@@ -21,7 +21,14 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
-
+        /*
+        * Get all ksv from employee
+        *
+        * return all ksv as json-format
+        *
+        * edit by David Nguyen
+        * 15.01.2022
+        */
         //api/KSV/all
         [HttpGet("all")]
         public JsonResult all(string kurzzeichen)
@@ -52,6 +59,14 @@ namespace backend.Controllers
             return new JsonResult(table);
         }
 
+        /*
+        * Get all ksv up to stage 5
+        *
+        * return all ksv as json-format
+        *
+        * edit by David Nguyen
+        * 15.01.2022
+        */
        //api/KSV/all
         [HttpGet("ksv")]
         public JsonResult ksv()
@@ -77,6 +92,14 @@ namespace backend.Controllers
             return new JsonResult(table);
         }
 
+        /*
+        * Get ksv by ksv and stage
+        *
+        * return all ksv as json-format
+        *
+        * edit by David Nguyen
+        * 15.01.2022
+        */
         //api/KSV/select
         [HttpGet("select")]
         public JsonResult getKSV(string ksv, int ebene)
@@ -104,6 +127,14 @@ namespace backend.Controllers
             return new JsonResult(table);
         }
 
+        /*
+        * find ksv by title
+        *
+        * return all ksv as json-format
+        *
+        * edit by David Nguyen
+        * 15.01.2022
+        */
         //api/KSV/find
         [HttpGet("find")]
         public JsonResult findKSV(string bezeichnung)

@@ -156,6 +156,7 @@ const useStyles = makeStyles({
         width: "70%",
         textAlign: 'center',
         marginTop: "10%",
+        
     },
 
     b: {

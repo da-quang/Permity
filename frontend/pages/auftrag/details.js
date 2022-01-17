@@ -132,6 +132,9 @@ export default function Start() {
 
     }
 
+    console.log({AUFTRAGNEHMER_UNTERSCHRIFT})
+  
+
     const [signatureMode, setSignatureMode] = useState(false);
 
     function changeMode() {
@@ -149,6 +152,7 @@ export default function Start() {
                 <div>
                 <div>
                     <Button
+                    color="inherit"
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
@@ -191,21 +195,23 @@ export default function Start() {
                     <div className={classes.contentInfo}>Sperren</div>
                 </div>
                 <div className={classes.box2}>
-                    <TextField  style={{marginRight: '5px'}} multiline className={classes.contentAuftrag} defaultValue={auftrag.KSV} variant="filled" inputProps={{ readOnly: true, }}/>                 
+                    <TextField  style={{marginRight: '5px'}} multiline className={classes.contentAuftrag} defaultValue={auftrag.KSV} variant="filled" size="small" inputProps={{ readOnly: true, }}/>                 
                     <TextField multiline className={classes.contentAuftrag} defaultValue={auftrag.SPERREN} variant="filled" size="small" inputProps={{ readOnly: true, }}/>
                 </div>
 
                 <div className={classes.box}>
-                    <div className={classes.contentInfo}>Von - Bis</div>
+                    <div className={classes.contentInfo}>Von</div>
+                    <div className={classes.contentInfo}>Bis</div>
                 </div>
                 <div className={classes.box2}>
-                    <TextField fullWidth className={classes.contentDate} defaultValue={auftrag.VON.split('T')[0].split('-')[2] + '-' + auftrag.VON.split('-')[1] + '-' + auftrag.VON.split('-')[0] + ' um ' + auftrag.VON.split('T')[1].split(':')[0] + ':' + auftrag.VON.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }}/>                 
-                </div>
+                    <TextField fullWidth style={{marginRight: '5px'}} className={classes.contentDate} defaultValue={auftrag.VON.split('T')[0].split('-')[2] + '-' + auftrag.VON.split('-')[1] + '-' + auftrag.VON.split('-')[0] + ' um ' + auftrag.VON.split('T')[1].split(':')[0] + ':' + auftrag.VON.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }}/>                 
+                    <TextField  fullWidth className={classes.contentDate} defaultValue={auftrag.BIS.split('T')[0].split('-')[2] + '-' + auftrag.BIS.split('-')[1] + '-' + auftrag.BIS.split('-')[0] + ' um ' + auftrag.BIS.split('T')[1].split(':')[0] + ':' + auftrag.BIS.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }}/>
+ </div>
                 <div className={classes.box}>
                     
                 </div>
                 <div className={classes.box2}>
-                    <TextField  fullWidth className={classes.contentDate} defaultValue={auftrag.BIS.split('T')[0].split('-')[2] + '-' + auftrag.BIS.split('-')[1] + '-' + auftrag.BIS.split('-')[0] + ' um ' + auftrag.BIS.split('T')[1].split(':')[0] + ':' + auftrag.BIS.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }}/>                 
+                                    
                 </div>
 
                 <div className={classes.box}>
@@ -229,9 +235,11 @@ export default function Start() {
                     <div className={classes.contentInfo}>Unterschrift</div>
                 </div>
                 <div className={classes.box2}>
-                    
+                <img className={classes.unterschrift} src={auftrag.AUFTRAGGEBER_UNTERSCHRIFT}/>
+                
                     <img className={classes.unterschrift} src={auftrag.AUFTRAGNEHMER_UNTERSCHRIFT}/>
                 </div>
+                
                </CardContent>
                <Divider></Divider>
                <CardActions style={{display: 'flex'}}>
@@ -263,6 +271,8 @@ export default function Start() {
 }
 
 const useStyles = makeStyles({
+
+    
 
 disabled: {
     display: 'none',
@@ -338,7 +348,7 @@ disabled: {
 
     box: {
         display: 'flex',
-        marginRight: 10,
+        marginLeft:"10px",
     },
 
     box2: {

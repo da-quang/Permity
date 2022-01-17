@@ -108,17 +108,32 @@ export default function Formular() {
         //         console.log(error);
         //     });
 
-        axios.post('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
-            ksv: KSV,
-            auftrag: AUFTRAG,
-            auftraggeber: AUFTRAGGEBER,
-            auftragnehmer: AUFTRAGNEHMER,
-            sperren: SPERREN,
-            kommentar: KOMMENTAR,
-            von: VON,
-            bis: BIS,
-            auftraggeber_unterschrift: AUFTRAGGEBER_UNTERSCHRIFT,
-        }).then((response) => console.log(response))
+        fetch('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept' : '*/*',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Origin, X-Requested-With'
+            },
+            body: JSON.stringify({
+                ksv: KSV,
+                auftrag: AUFTRAG,
+                auftraggeber: AUFTRAGGEBER,
+                auftragnehmer: AUFTRAGNEHMER,
+                sperren: SPERREN,
+                kommentar: KOMMENTAR,
+                von: VON,
+                bis: BIS,
+                auftraggeber_unterschrift: AUFTRAGGEBER_UNTERSCHRIFT,
+            })
+        })
+
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
+            method: 'POST'
+        })
+        const data = await response.json()
+        console.log(data)
     }
 
     const MAIL = async () => {
@@ -266,15 +281,39 @@ export default function Formular() {
                         <TextField fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField fullWidth variant="outlined" label="Auftragnehmer" onChange={e => setAUFTRAGNEHMER(e.target.value)}></TextField>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={Name}
+                            getOptionLabel={(option) => option.NAME}
+                            onChange={(event, value) => setAUFTRAGNEHMER(value.NAME)}
+                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Auftragnehmer" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.NAME === value.NAME}
+                        />
                     </Grid>
-                    </div>
-                    <div className={classes.g} >
+                </div>
+                <div className={classes.g} >
                     <Grid className={classes.h} item xs={6}>
-                        <TextField fullWidth variant="outlined" label="KSV" onChange={e => setKSV(e.target.value)}></TextField>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={Ksv}
+                            getOptionLabel={(option) => option.BEZEICHNUNG}
+                            onChange={(event, value) => setKSV(value.BEZEICHNUNG)}
+                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
+                        />
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField fullWidth variant="outlined" label="Sperren" onChange={e => setSPERREN(e.target.value)}></TextField>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={Sperren}
+                            getOptionLabel={(option) => option.label}
+                            onChange={(event, value) => setSPERREN(value.label)}
+                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Sperre" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.label === value.label}
+                        />
                     </Grid>
                 </div>
                 <div className={classes.g}>

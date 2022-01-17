@@ -149,7 +149,7 @@ export default function Startseite() {
     }
 
     const Update2 = async auftragID => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/abgeschlossen?id=${auftragID}&status=Abgeschlossen`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/close?id=${auftragID}`, {
             method: 'PUT'
         })
         const data = await response.json()

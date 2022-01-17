@@ -77,7 +77,7 @@ namespace backend.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@kurzzeichenOrName", kurzzeichenOrName);
+                    myCommand.Parameters.AddWithValue("@name", name);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 

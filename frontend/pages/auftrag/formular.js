@@ -137,12 +137,12 @@ export default function Formular() {
     }
 
     const MAIL = async () => {
-        const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?kurzzeichenOrName=${AUFTRAGNEHMER}`, {
+        const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${AUFTRAGNEHMER}`, {
             method: 'GET'
         })
         const email = await getEmail.json()
 
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/Send?email=${email[0].EMAIL}`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${email[0].EMAIL}`, {
             method: 'POST'
         })
 

@@ -63,7 +63,7 @@ export default function Start() {
     }
     
     const unterschreiben = async () => {
-        const updateBestätigt = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${id}&status=Bestätigt&auftragnehmer_unterschrift=${AUFTRAGNEHMER_UNTERSCHRIFT}`, {
+        const updateBestätigt = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${id}&auftragnehmer_unterschrift=${AUFTRAGNEHMER_UNTERSCHRIFT}`, {
             method: 'PUT'
         })
     }

@@ -13,7 +13,14 @@ namespace backend.Controllers
     [ApiController]
     public class EmailController : Controller
     {
-        [HttpPost("Send")]
+        /*
+        * Sending a Mail
+        *
+        * edit by David Nguyen
+        * 15.01.2022
+        */
+        //api/Email/send
+        [HttpPost("send")]
         public void send(string email)
         {
             try

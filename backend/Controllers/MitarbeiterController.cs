@@ -13,7 +13,6 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //Samir
     public class MitarbeiterController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -23,11 +22,19 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
+        /*
+        * Get employee by name
+        *
+        * return all ksv as json-format
+        *
+        * edit by David Nguyen
+        * 15.01.2022
+        */
         //api/Mitarbeiter/find
         [HttpGet("find")]
-        public JsonResult FindById(string kurzzeichenOrName)
+        public JsonResult FindById(string name)
         {
-            string query = @"select ""NAME"" from ""Mitarbeiter"" where ""KURZZEICHEN"" = @kurzzeichenOrName or ""NAME"" = @kurzzeichenOrName ";
+            string query = @"select ""NAME"" from ""Mitarbeiter"" where ""KURZZEICHEN"" = @name or ""NAME"" = @name ";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -37,7 +44,7 @@ namespace backend.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@kurzzeichenOrName", kurzzeichenOrName);
+                    myCommand.Parameters.AddWithValue("@name", name);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -48,11 +55,19 @@ namespace backend.Controllers
             return new JsonResult(table);
         }
 
+        /*
+        * Get email from employee by name
+        *
+        * return all ksv as json-format
+        *
+        * edit by David Nguyen
+        * 15.01.2022
+        */
         //api/Mitarbeiter/email
         [HttpGet("email")]
-        public JsonResult GetEmail(string kurzzeichenOrName)
+        public JsonResult GetEmail(string name)
         {
-            string query = @"select ""EMAIL"" from ""Mitarbeiter"" where ""KURZZEICHEN"" = @kurzzeichenOrName or ""NAME"" = @kurzzeichenOrName ";
+            string query = @"select ""EMAIL"" from ""Mitarbeiter"" where ""KURZZEICHEN"" = @name or ""NAME"" = @name ";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -73,6 +88,14 @@ namespace backend.Controllers
             return new JsonResult(table);
         }
 
+        /*
+        * Check if name and password is true
+        *
+        * return status message as json-format
+        *
+        * edit by David Nguyen
+        * 15.01.2022
+        */
         //api/Mitarbeiter/login
         [HttpGet("login")]
         public JsonResult Login(string name, string kurzzeichen)
@@ -100,9 +123,17 @@ namespace backend.Controllers
             return new JsonResult(table);
         }
 
-         //api/Mitarbeiter/login
+        /*
+        * Get all names from employees
+        *
+        * return status message as json-format
+        *
+        * edit by David Nguyen
+        * 15.01.2022
+        */
+        //api/Mitarbeiter/all
         [HttpGet("all")]
-        public JsonResult All()
+        public JsonResult AllEmployees()
         {
             string query = @"select ""NAME"" from ""Mitarbeiter""";
 

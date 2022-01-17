@@ -204,7 +204,6 @@ namespace backend.Controllers
             }
             return new JsonResult("Deleted successfully");
         }
-        
 
         /*
         * Update status from task to 'Bestätigt' after signing

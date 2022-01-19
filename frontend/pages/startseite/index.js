@@ -33,9 +33,9 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CloseIcon from '@mui/icons-material/Close';
 import { setISODay } from 'date-fns';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import Badge from '@mui/material/Badge';
 
-
-console.log("--> Startseite")
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json())
 console.log("--> Übersicht")
@@ -145,11 +145,27 @@ export default function Startseite() {
         const data = await response.json()
         console.log(data)
 
+        console.log(AUFTRAGNEHMER_UNTERSCHRIFT)
+
+        // fetch('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update', {
+        //     method: 'PUT',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Accept': '*/*',
+        //         'Access-Control-Allow-Origin': '*',
+        //         'Access-Control-Allow-Headers': 'Origin, X-Requested-With'
+        //     },
+        //     body: JSON.stringify({
+        //         id: Id,
+        //         auftragnehmer_unterschrift: AUFTRAGNEHMER_UNTERSCHRIFT,
+        //     })
+        // })
+
         
     }
 
     const Update2 = async auftragID => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/close?id=${auftragID}`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/abgeschlossen?id=${auftragID}&status=Abgeschlossen`, {
             method: 'PUT'
         })
         const data = await response.json()
@@ -194,7 +210,23 @@ export default function Startseite() {
         return blob;
     }
 
+    let Count1 = 0
+    let Count2 = 0
+    let Count3 = 0
+    let Count4 = 0
 
+    let Offen = data.filter(item => item.STATUS === 'Offen')
+    let Bestätigt = data.filter(item => item.STATUS === 'Bestätigt')
+    let Abgelehnt = data.filter(item => item.STATUS === 'Nicht angenommen')
+    let Abgeschlossen = data.filter(item => item.STATUS === 'Abgeschlossen')
+
+    
+    Count1 = Offen.length
+    Count2 = Bestätigt.length
+    Count3 = Abgelehnt.length
+    Count4 = Abgeschlossen.length
+
+   
 
     return (
 
@@ -249,12 +281,7 @@ export default function Startseite() {
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
                         }}>
-                        <ListItem background='red'> <Typography variant='h6' fontWeight='bold' > STATUS </Typography></ListItem>
-                        <ListItem> <Button className={filter == "Offen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Offen")} variant="contained">Offen </Button></ListItem>
-                        <ListItem> <Button className={filter == "Bestätigt" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Bestätigt")} variant="contained" >Bestätigt </Button></ListItem>
-                        <ListItem> <Button className={filter == "Abgeschlossen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Abgeschlossen")} variant="contained">Abgeschlossen</Button></ListItem>
-                        <ListItem> <Button className={filter == "Nicht angenommen" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange("Nicht angenommen")} variant="contained">Nicht angenommen</Button></ListItem>
-
+                       
                         <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
                         <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
                         <ListItem> <Button className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
@@ -266,18 +293,20 @@ export default function Startseite() {
 
 
             <div className={classes.SummaryWrapper}>
+            
                 <Accordion style={{ marginLeft: '3%', marginRight: '3%', padding: '0%', borderRadius: '15px', backgroundColor: '#143968', color: 'white' }}>
+                    
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography style={{ fontWeight: 'bold' }}>Offen</Typography>
+                       <Badge badgeContent={Count1} color="primary"><Typography style={{ fontWeight: 'bold' }}>Offen</Typography><AssignmentOutlinedIcon/></Badge>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
-                            {auftrag.STATUS == "Offen" &&
+                            {auftrag.STATUS == "Offen" && data[id].SPERREN.includes(filter2) &&
                                 <div className={classes.Offen}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
@@ -359,11 +388,11 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography style={{ fontWeight: 'bold' }}>Bestätigt</Typography>
+                         <Badge badgeContent={Count2} color="primary"><Typography style={{ fontWeight: 'bold' }}>Bestätigt</Typography><AssignmentOutlinedIcon/></Badge>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
-                            {auftrag.STATUS == "Bestätigt" &&
+                            {auftrag.STATUS == "Bestätigt" && data[id].SPERREN.includes(filter2) &&
                                 <div className={classes.Bestätigt}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
@@ -402,11 +431,11 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography style={{ fontWeight: 'bold' }}>Abgelehnt</Typography>
+                         <Badge badgeContent={Count3} color="primary"><Typography style={{ fontWeight: 'bold' }}>Abgelehnt</Typography><AssignmentOutlinedIcon/></Badge>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a style={{ listStyleType: 'none' }} key={id}>
-                            {auftrag.STATUS == "Nicht angenommen" &&
+                            {auftrag.STATUS == "Nicht angenommen" &&  data[id].SPERREN.includes(filter2) &&
                                 <div className={classes.Abgelehnt}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
@@ -445,11 +474,11 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography style={{ fontWeight: 'bold' }}>Abgeschlossen</Typography>
+                        <Badge badgeContent={Count4} color="primary"><Typography style={{ fontWeight: 'bold' }}>Abgeschlossen</Typography><AssignmentOutlinedIcon/></Badge>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
-                            {auftrag.STATUS == "Abgeschlossen" &&
+                            {auftrag.STATUS == "Abgeschlossen" && data[id].SPERREN.includes(filter2) &&
                                 <div className={classes.Abgeschlossen}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>

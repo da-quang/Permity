@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
-import Button from '@mui/material/Button';;
+import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import Fab from '@mui/material/Fab';
@@ -18,7 +18,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { ListItem } from '@mui/material';
+import { ListItem, TextField } from '@mui/material';
 import Slide from '@mui/material/Slide';
 import Popup from 'reactjs-popup';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
@@ -35,6 +35,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { setISODay } from 'date-fns';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import Badge from '@mui/material/Badge';
+import { Unterschrift } from '../auftrag/Unterschrift'
+import Tooltip from '@mui/material/Tooltip';
+
 
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json())
@@ -63,8 +66,9 @@ export default function Startseite() {
     const [AUFTRAGNEHMER_UNTERSCHRIFT, setAUFTRAGNEHMER_UNTERSCHRIFT] = useState('');
 
 
-    const handleSearchChange3 = (se) => {
-        setfilter3(se)
+    const handleSearchChange3 = e => {
+        console.log(e.target.value)
+        setfilter3(e.target.value)
 
     };
 
@@ -135,7 +139,7 @@ export default function Startseite() {
         Router.reload()
     }
 
-   
+
 
     const Update = async auftragID => {
 
@@ -161,7 +165,7 @@ export default function Startseite() {
         //     })
         // })
 
-        
+
     }
 
     const Update2 = async auftragID => {
@@ -220,15 +224,17 @@ export default function Startseite() {
     let Abgelehnt = data.filter(item => item.STATUS === 'Nicht angenommen')
     let Abgeschlossen = data.filter(item => item.STATUS === 'Abgeschlossen')
 
-    
+
     Count1 = Offen.length
     Count2 = Bestätigt.length
     Count3 = Abgelehnt.length
     Count4 = Abgeschlossen.length
 
-   
+
 
     return (
+
+
 
         <form style={{ background: 'white' }} className={classes.h}>
             <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
@@ -237,7 +243,7 @@ export default function Startseite() {
                 </Fab>
             </Box>
 
-            <div className={classes.e}>
+            {/* <div className={classes.e}>
                 <div>
                     <Button color="inherit" className={classes.BTN}
                         id="basic-button"
@@ -261,8 +267,37 @@ export default function Startseite() {
                 </div>
                 <Typography variant="h4" className={classes.typoh4}> Startseite </Typography>
                 <Typography variant="h6" className={classes.typoh6}>{query.param}</Typography>
-            </div>
-
+            </div> */}
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static" style={{ background: "#143968", borderBottomLeftRadius: "10px", borderBottomRightRadius: "10px" }}>
+                    <Toolbar>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                            onClick={handleClick}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}>
+                            <MenuItem onClick={() => router.push(`/mitarbeiter/login`)} ><LogoutIcon />Logout </MenuItem>
+                        </Menu>
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            Startseite
+                        </Typography>
+                        <Button variant="outlined" size="small" color="inherit">{query.param}</Button>
+                    </Toolbar>
+                </AppBar>
+            </Box>
             <div className={classes.FilterAdd}>
                 <div className={classes.searchContainer}>
                     <Button style={{ marginTop: '10%' }} color="inherit" className={classes.BTN}
@@ -281,41 +316,46 @@ export default function Startseite() {
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
                         }}>
-                       
+
                         <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
                         <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
                         <ListItem> <Button className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
                         <ListItem> <Button className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
                         <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
+
+                        <ListItem><Typography variant='h6' fontWeight='bold' >KSV</Typography></ListItem>
+                        <ListItem><TextField variant="outlined" value={filter3} onChange={handleSearchChange3} label="KSV"></TextField></ListItem>
                     </Menu>
                 </div>
             </div>
 
 
             <div className={classes.SummaryWrapper}>
-            
+
                 <Accordion style={{ marginLeft: '3%', marginRight: '3%', padding: '0%', borderRadius: '15px', backgroundColor: '#143968', color: 'white' }}>
-                    
+
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                       <Badge badgeContent={Count1} color="primary"><Typography style={{ fontWeight: 'bold' }}>Offen</Typography><AssignmentOutlinedIcon/></Badge>
+                        <Badge badgeContent={Count1} color="primary"><Typography style={{ fontWeight: 'bold' }}>Offen</Typography><AssignmentOutlinedIcon /></Badge>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
-                            {auftrag.STATUS == "Offen" && data[id].SPERREN.includes(filter2) &&
+                            {auftrag.STATUS == "Offen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) &&
                                 <div className={classes.Offen}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
 
                                             <a className={auftrag.AUFTRAGGEBER == query.param2 ? classes.Check : null}>
-                                                <IconButton onClick={() => {setOpen3(true); setId(auftrag.ID)}} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                    <CreateIcon />
-                                                </IconButton>
+                                                <Tooltip title="Unterschreiben">
+                                                    <IconButton onClick={() => { setOpen3(true); setId(auftrag.ID) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                        <CreateIcon />
+                                                    </IconButton>
+                                                </Tooltip>
                                             </a>
                                             <Dialog
                                                 fullScreen
@@ -339,7 +379,7 @@ export default function Startseite() {
                                                         </Typography>
                                                         <div className={classes.c}>
                                                             <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
-                                                            <Button color="inherit" autoFocus onClick={() => {save(); setId(auftrag.ID)}}>Speichern</Button>
+                                                            <Button color="inherit" autoFocus onClick={() => { save(); setId(auftrag.ID) }}>Speichern</Button>
                                                         </div>
                                                     </Toolbar>
                                                 </AppBar>
@@ -388,19 +428,21 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                         <Badge badgeContent={Count2} color="primary"><Typography style={{ fontWeight: 'bold' }}>Bestätigt</Typography><AssignmentOutlinedIcon/></Badge>
+                        <Badge badgeContent={Count2} color="primary"><Typography style={{ fontWeight: 'bold' }}>Bestätigt</Typography><AssignmentOutlinedIcon /></Badge>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
-                            {auftrag.STATUS == "Bestätigt" && data[id].SPERREN.includes(filter2) &&
+                            {auftrag.STATUS == "Bestätigt" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) &&
                                 <div className={classes.Bestätigt}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
                                             <a className={auftrag.AUFTRAGNEHMER == query.param2 ? classes.Check : null}>
-                                                <IconButton onClick={() => Update2(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                    <HowToRegIcon />
-                                                </IconButton>
+                                                <Tooltip title="Bestätigen">
+                                                    <IconButton onClick={() => Update2(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                        <HowToRegIcon />
+                                                    </IconButton>
+                                                </Tooltip>
                                             </a>
                                         </summary>
                                         <div className={classes.InsideCard}>
@@ -431,19 +473,21 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                         <Badge badgeContent={Count3} color="primary"><Typography style={{ fontWeight: 'bold' }}>Abgelehnt</Typography><AssignmentOutlinedIcon/></Badge>
+                        <Badge badgeContent={Count3} color="primary"><Typography style={{ fontWeight: 'bold' }}>Abgelehnt</Typography><AssignmentOutlinedIcon /></Badge>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a style={{ listStyleType: 'none' }} key={id}>
-                            {auftrag.STATUS == "Nicht angenommen" &&  data[id].SPERREN.includes(filter2) &&
+                            {auftrag.STATUS == "Nicht angenommen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) &&
                                 <div className={classes.Abgelehnt}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
                                             <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Bestätigt" ? classes.SummaryBTNDisabled : null}>
-                                                <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                    <DeleteIcon />
-                                                </IconButton>
+                                                <Tooltip title="Löschen">
+                                                    <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </Tooltip>
                                             </a>
                                         </summary>
                                         <div className={classes.InsideCard}>
@@ -474,18 +518,20 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Badge badgeContent={Count4} color="primary"><Typography style={{ fontWeight: 'bold' }}>Abgeschlossen</Typography><AssignmentOutlinedIcon/></Badge>
+                        <Badge badgeContent={Count4} color="primary"><Typography style={{ fontWeight: 'bold' }}>Abgeschlossen</Typography><AssignmentOutlinedIcon /></Badge>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
-                            {auftrag.STATUS == "Abgeschlossen" && data[id].SPERREN.includes(filter2) &&
+                            {auftrag.STATUS == "Abgeschlossen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) &&
                                 <div className={classes.Abgeschlossen}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                <DeleteIcon />
-                                            </IconButton>
+                                            <Tooltip title="Löschen">
+                                                <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </Tooltip>
                                         </summary>
                                         <div className={classes.InsideCard}>
                                             <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
@@ -632,7 +678,7 @@ const useStyles = makeStyles({
     },
 
     summary2: {
-        marginTop: "5%",
+        marginTop: "2%",
         marginRight: "5%",
         marginLeft: "5%",
         lineHeight: '2.5',

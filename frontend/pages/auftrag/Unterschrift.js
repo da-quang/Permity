@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function BasicMenu() {
+const BasicMenu = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -100,6 +100,8 @@ export default function BasicMenu() {
 
   
 }
+
+
 
 const useStyles = makeStyles({
   CreateBTN: {
@@ -203,3 +205,4 @@ const useStyles = makeStyles({
 });
 
 
+export default BasicMenu;

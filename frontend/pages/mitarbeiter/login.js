@@ -24,6 +24,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+import Tooltip from '@mui/material/Tooltip';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -77,7 +78,7 @@ export default function Login() {
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
-      };
+    };
 
     const classes = useStyles();
 
@@ -95,10 +96,12 @@ export default function Login() {
     const [values, setValues] = React.useState({
         password: '',
         showPassword: false,
-      });
+    });
 
     return (
+        
         <form className={classes.h}>
+            <meta name="theme-color" content="#143968"></meta>
             <div className={classes.e}>
                 <div align="center"><Typography variant='h4'>PERMITY</Typography></div>
             </div>
@@ -128,8 +131,12 @@ export default function Login() {
                         />
                     </FormControl></div>
 
-                <div className={classes.c}><Button variant="contained" color="primary" disabled={values.password != "" && name != "" ? false : true} className={classes.a} onClick={() => { login(); handleToggle() }}  ><Typography variant="h6">Anmelden</Typography></Button></div>
-
+                <div className={classes.c}>
+                   
+                    <Button variant="contained" color="primary" disabled={values.password != "" && name != "" ? false : true} className={classes.a} onClick={() => { login(); handleToggle() }}  >
+                        <Typography variant="h6">Anmelden</Typography>
+                    </Button></div>
+                    
                 <Backdrop
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                     open={open}
@@ -156,7 +163,7 @@ const useStyles = makeStyles({
         width: "70%",
         textAlign: 'center',
         marginTop: "10%",
-        
+
     },
 
     b: {

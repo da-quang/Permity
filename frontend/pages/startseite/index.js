@@ -48,8 +48,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function Startseite() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
+   
+   
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -60,10 +60,6 @@ export default function Startseite() {
 
     const [openModal, setOpenModal] = useState(false)
     const [filterOnOff, setfilterOnOff] = useState(false)
-    const [filter, setfilter] = useState("");
-    const [filter2, setfilter2] = useState("");
-    const [filter3, setfilter3] = useState("");
-    const [AUFTRAGNEHMER_UNTERSCHRIFT, setAUFTRAGNEHMER_UNTERSCHRIFT] = useState('');
 
 
     const handleSearchChange3 = e => {
@@ -84,7 +80,10 @@ export default function Startseite() {
         setOpen3(false);
     };
 
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorE2, setAnchorE2] = React.useState(null);
+    const open = Boolean(anchorEl);
     const open2 = Boolean(anchorE2);
     const handleClick2 = (event) => {
         setAnchorE2(event.currentTarget);
@@ -93,6 +92,12 @@ export default function Startseite() {
         setAnchorE2(null);
     };
 
+    
+    //<Filter>
+    const [filter, setfilter] = useState("");
+    const [filter2, setfilter2] = useState("");
+    const [filter3, setfilter3] = useState("");
+    
     const handleSearchChange2 = (se) => {
         if (filter2 == se) {
             setfilter2("");
@@ -109,6 +114,11 @@ export default function Startseite() {
             setfilter(se);
         }
     };
+    //</Filter>
+
+
+    //<Unterschrift>
+    const [AUFTRAGNEHMER_UNTERSCHRIFT, setAUFTRAGNEHMER_UNTERSCHRIFT] = useState('');
 
     const sigCanvasRef = useRef({});
     const clear = () => sigCanvasRef.current.clear();
@@ -117,6 +127,8 @@ export default function Startseite() {
         setAUFTRAGNEHMER_UNTERSCHRIFT(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
         Update()
     }
+    //</Unterschrift>
+
 
     const { query } = useRouter()
     const router = useRouter()
@@ -125,11 +137,16 @@ export default function Startseite() {
     let kurzzeichen = query.param
     let name = query.param2
 
+    
+    //<Fetchen der Daten für die Karten>
     const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
 
     if (error) return <div>failed to load</div>
     if (!data) return <div>loading...</div>
+    //<Fetchen der Daten für die Karten>
 
+
+    //<Löschen>
     const Delete = async auftragID => {
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/delete?id=${auftragID}`, {
             method: 'DELETE'
@@ -138,9 +155,10 @@ export default function Startseite() {
         console.log(data)
         Router.reload()
     }
+    //</Löschen>
 
 
-
+    //<Unterschrift Status updaten>
     const Update = async auftragID => {
 
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${Id}&status=Bestätigt&auftragnehmer_unterschrift=${AUFTRAGNEHMER_UNTERSCHRIFT}`, {
@@ -165,9 +183,11 @@ export default function Startseite() {
         //     })
         // })
 
-
     }
+    //</Unterschrift Status updaten>
 
+
+    //<Auftrag abschließen Button>
     const Update2 = async auftragID => {
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/abgeschlossen?id=${auftragID}&status=Abgeschlossen`, {
             method: 'PUT'
@@ -176,14 +196,10 @@ export default function Startseite() {
         console.log(data)
 
     }
+    //</Auftrag abschließen Button>
 
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
 
-    function x() {
-        console.log("Hallo")
-    }
-
+    //<Blob nicht von gebrauch>
     function dataURItoBlob(dataURI) {
         // convert base64 to raw binary data held in a string
         // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
@@ -213,7 +229,10 @@ export default function Startseite() {
         }
         return blob;
     }
+    //</Blob nicht von gebrauch>
 
+
+    //<Counter für Anzahl von Aufträgen in einer Status Kategorie>
     let Count1 = 0
     let Count2 = 0
     let Count3 = 0
@@ -224,18 +243,14 @@ export default function Startseite() {
     let Abgelehnt = data.filter(item => item.STATUS === 'Nicht angenommen')
     let Abgeschlossen = data.filter(item => item.STATUS === 'Abgeschlossen')
 
-
     Count1 = Offen.length
     Count2 = Bestätigt.length
     Count3 = Abgelehnt.length
     Count4 = Abgeschlossen.length
-
+    //</Counter für Anzahl von Aufträgen in einer Status Kategorie>
 
 
     return (
-
-
-
         <form style={{ background: 'white' }} className={classes.h}>
             <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
                 <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)} aria-label="add" color="primary">

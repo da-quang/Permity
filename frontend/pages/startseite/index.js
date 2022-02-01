@@ -37,8 +37,17 @@ import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import Badge from '@mui/material/Badge';
 import { Unterschrift } from '../auftrag/Unterschrift'
 import Tooltip from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
+import StarIcon from '@mui/icons-material/Star';
 
-
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        right: 20,
+        top: 0,
+        border: `2px solid ${theme.palette.background.paper}`,
+        padding: '0 4px',
+    },
+}));
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json())
 console.log("--> Übersicht")
@@ -48,8 +57,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function Startseite() {
-   
-   
+
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -92,12 +101,12 @@ export default function Startseite() {
         setAnchorE2(null);
     };
 
-    
+
     //<Filter>
     const [filter, setfilter] = useState("");
     const [filter2, setfilter2] = useState("");
     const [filter3, setfilter3] = useState("");
-    
+
     const handleSearchChange2 = (se) => {
         if (filter2 == se) {
             setfilter2("");
@@ -137,14 +146,18 @@ export default function Startseite() {
     let kurzzeichen = query.param
     let name = query.param2
 
-    
+
     //<Fetchen der Daten für die Karten>
     const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
 
     if (error) return <div>failed to load</div>
     if (!data) return <div>loading...</div>
+    //data = data.sort((a,b) => a.ID - b.ID);
     //<Fetchen der Daten für die Karten>
-
+    
+    // console.log(data)
+    // console.log(data.sort((a, b) => a.VON.split('T')[0] - b.VON.split('T')[0]))
+    // console.log(data.sort((a, b) => a.ID - b.ID))
 
     //<Löschen>
     const Delete = async auftragID => {
@@ -249,6 +262,16 @@ export default function Startseite() {
     Count4 = Abgeschlossen.length
     //</Counter für Anzahl von Aufträgen in einer Status Kategorie>
 
+    // const [Fav, setFav] = useState("");
+
+    // const handleFav = (se) => {
+    //     if (Fav == se) {
+    //         setFav("");
+    //     }
+    //     else {
+    //         setFav(se);
+    //     }
+    // };
 
     return (
         <form style={{ background: 'white' }} className={classes.h}>
@@ -355,7 +378,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Badge badgeContent={Count1} color="primary"><Typography style={{ fontWeight: 'bold' }}>Offen</Typography><AssignmentOutlinedIcon /></Badge>
+                        <StyledBadge showZero badgeContent={Count1} color="primary"><AssignmentOutlinedIcon /></StyledBadge><Typography style={{ fontWeight: 'bold' }}>Offen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
@@ -443,7 +466,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Badge badgeContent={Count2} color="primary"><Typography style={{ fontWeight: 'bold' }}>Bestätigt</Typography><AssignmentOutlinedIcon /></Badge>
+                        <StyledBadge showZero badgeContent={Count2} color="primary"><AssignmentOutlinedIcon /></StyledBadge><Typography style={{ fontWeight: 'bold' }}>Bestätigt</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
@@ -488,7 +511,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Badge badgeContent={Count3} color="primary"><Typography style={{ fontWeight: 'bold' }}>Abgelehnt</Typography><AssignmentOutlinedIcon /></Badge>
+                        <StyledBadge showZero badgeContent={Count3} color="primary"><AssignmentOutlinedIcon /></StyledBadge><Typography style={{ fontWeight: 'bold' }}>Abgelehnt</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a style={{ listStyleType: 'none' }} key={id}>
@@ -498,6 +521,12 @@ export default function Startseite() {
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
                                             <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Bestätigt" ? classes.SummaryBTNDisabled : null}>
+
+
+                                                {/* <IconButton color="inherit" className={classes.Fav} onClick={() => handleFav("True")} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <StarIcon />
+                                                </IconButton> */}
+
                                                 <Tooltip title="Löschen">
                                                     <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <DeleteIcon />
@@ -533,7 +562,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Badge badgeContent={Count4} color="primary"><Typography style={{ fontWeight: 'bold' }}>Abgeschlossen</Typography><AssignmentOutlinedIcon /></Badge>
+                        <StyledBadge showZero badgeContent={Count4} color="primary"><AssignmentOutlinedIcon /></StyledBadge><Typography style={{ fontWeight: 'bold' }}>Abgeschlossen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
@@ -577,6 +606,9 @@ export default function Startseite() {
 }
 
 const useStyles = makeStyles({
+
+ 
+
     br: {
         marginBottom: 40,
     },

@@ -112,7 +112,7 @@ export default function Formular() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept' : '*/*',
+                'Accept': '*/*',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': 'Origin, X-Requested-With'
             },
@@ -242,33 +242,41 @@ export default function Formular() {
     return (
         <form>
             <div>
-                <div className={classes.e}>
-                    <div>
-                        <Button color="inherit" className={classes.BTN}
-                            id="basic-button"
-                            aria-controls="basic-menu"
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}
-                        >
-                            <MenuIcon fontSize="large" />
-                        </Button>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            MenuListProps={{
-                                'aria-labelledby': 'basic-button',
-                            }}
-                        >
-                            <MenuItem onClick={() => router.push(`/mitarbeiter/login`)}><LogoutIcon />Logout </MenuItem>
-                            <MenuItem onClick={() => router.back()}><HomeIcon />Startseite</MenuItem>
-                        </Menu>
-                    </div>
-                    <Typography variant="h4" className={classes.typoh4}> Auftrag </Typography>
-                    <Typography variant="h6" className={classes.typoh6}>{query.param}</Typography>
-                </div>
+
+                <Box sx={{ flexGrow: 1 }}>
+                    <AppBar position="static" style={{ background: "#143968", borderBottomLeftRadius: "10px", borderBottomRightRadius: "10px" }}>
+                        <Toolbar>
+                            <IconButton
+                                size="large"
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                                sx={{ mr: 2 }}
+                                onClick={handleClick}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                MenuListProps={{
+                                    'aria-labelledby': 'basic-button',
+                                }}>
+                                <MenuItem onClick={() => router.push(`/mitarbeiter/login`)}><LogoutIcon />Logout </MenuItem>
+                                <MenuItem onClick={() => router.back()}><HomeIcon />Startseite</MenuItem>
+                            </Menu>
+                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                                Auftrag
+                            </Typography>
+                            <Button variant="outlined" size="small" color="inherit">{query.param}</Button>
+                        </Toolbar>
+                    </AppBar>
+                </Box>
+
+
+               
 
 
 

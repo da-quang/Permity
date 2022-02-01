@@ -9,4 +9,6 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
   optimizeFonts: false,
+
+  
 }

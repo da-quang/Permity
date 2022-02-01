@@ -39,11 +39,12 @@ import { Unterschrift } from '../auftrag/Unterschrift'
 import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
-        right: 20,
-        top: 0,
+        right: 12,
+        top: 12,
         border: `2px solid ${theme.palette.background.paper}`,
         padding: '0 4px',
     },
@@ -378,7 +379,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <StyledBadge showZero badgeContent={Count1} color="primary"><AssignmentOutlinedIcon /></StyledBadge><Typography style={{ fontWeight: 'bold' }}>Offen</Typography>
+                        <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon/></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Offen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
@@ -466,7 +467,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <StyledBadge showZero badgeContent={Count2} color="primary"><AssignmentOutlinedIcon /></StyledBadge><Typography style={{ fontWeight: 'bold' }}>Bestätigt</Typography>
+                        <StyledBadge showZero badgeContent={Count2} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Bestätigt</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
@@ -511,7 +512,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <StyledBadge showZero badgeContent={Count3} color="primary"><AssignmentOutlinedIcon /></StyledBadge><Typography style={{ fontWeight: 'bold' }}>Abgelehnt</Typography>
+                        <StyledBadge showZero badgeContent={Count3} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold',  marginLeft: "6px"  }}>Abgelehnt</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a style={{ listStyleType: 'none' }} key={id}>
@@ -562,7 +563,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <StyledBadge showZero badgeContent={Count4} color="primary"><AssignmentOutlinedIcon /></StyledBadge><Typography style={{ fontWeight: 'bold' }}>Abgeschlossen</Typography>
+                        <StyledBadge showZero badgeContent={Count4} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold',  marginLeft: "6px"  }}>Abgeschlossen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>

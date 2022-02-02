@@ -43,6 +43,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import SearchIcon from '@mui/icons-material/Search';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -58,6 +59,14 @@ console.log("--> Übersicht")
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const BTNTheme = createTheme({
+    palette: {
+        primary: {
+            main: "rgba(212,25,25,1)",
+        },
+    },
 });
 
 export default function Startseite() {
@@ -279,11 +288,13 @@ export default function Startseite() {
 
     return (
         <form style={{ background: 'white' }} className={classes.h}>
+            <ThemeProvider theme={BTNTheme}>
             <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
                 <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)} aria-label="add" color="primary">
                     <AddIcon />
                 </Fab>
             </Box>
+            </ThemeProvider>
 
             {/* <div className={classes.e}>
                 <div>

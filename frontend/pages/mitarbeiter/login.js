@@ -23,13 +23,20 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { ThemeProvider } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+const BTNTheme = createTheme({
+    palette: {
+        primary: {
+            main: "rgb(20,57,104)",
+        },
+    },
+});
 
 console.log("--> Login")
 export default function Login() {
@@ -99,7 +106,7 @@ export default function Login() {
     });
 
     return (
-        
+
         <form className={classes.h}>
             <meta name="theme-color" content="#143968"></meta>
             <div className={classes.e}>
@@ -130,13 +137,15 @@ export default function Login() {
                             label="Password"
                         />
                     </FormControl></div>
-
+                    <ThemeProvider theme={BTNTheme}>
                 <div className={classes.c}>
-                   
-                    <Button variant="contained" color="primary" disabled={values.password != "" && name != "" ? false : true} className={classes.a} onClick={() => { login(); handleToggle() }}  >
-                        <Typography variant="h6">Anmelden</Typography>
-                    </Button></div>
                     
+                        <Button variant="contained" color="primary" disabled={values.password != "" && name != "" ? false : true} className={classes.a} onClick={() => { login(); handleToggle() }}  >
+                            <Typography variant="h6">Anmelden</Typography>
+                        </Button>
+                    
+                </div>
+                </ThemeProvider>
                 <Backdrop
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                     open={open}

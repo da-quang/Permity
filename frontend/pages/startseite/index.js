@@ -40,6 +40,9 @@ import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import SearchIcon from '@mui/icons-material/Search';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -365,7 +368,9 @@ export default function Startseite() {
                         <ListItem><Typography variant='h6' fontWeight='bold' >KSV</Typography></ListItem>
                         <ListItem><TextField variant="outlined" value={filter3} onChange={handleSearchChange3} label="KSV"></TextField></ListItem>
                     </Menu>
+                    
                 </div>
+                <TextField size="small" variant="standard" value={filter3} onChange={handleSearchChange3} label={<SearchIcon/>}></TextField>
             </div>
 
 

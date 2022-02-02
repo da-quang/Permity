@@ -34,6 +34,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import axios from 'axios';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 console.log("--> Formular")
 
@@ -43,6 +44,14 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const BTNTheme = createTheme({
+    palette: {
+        primary: {
+            main: "rgb(20,57,104)",
+        },
+    },
 });
 
 export default function Formular() {
@@ -275,13 +284,6 @@ export default function Formular() {
                     </AppBar>
                 </Box>
 
-
-               
-
-
-
-
-
             </div>
             <Grid>
                 <div className={classes.g}>
@@ -438,10 +440,11 @@ export default function Formular() {
                         </Popup> */}
                     </Grid>
                     <Grid item xs={12}>
-
+                        <ThemeProvider theme={BTNTheme}>
                         <Button size='large' className={classes.CreateBTN} disabled={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? false : true} variant="contained" onClick={() => { CREATE2(); MAIL(); handleClick1() }} color="primary">
                             <Typography variant="h6">Erstellen</Typography>
                         </Button>
+                        </ThemeProvider>
                         <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose1}>
                             <Alert severity="success">
                                 <AlertTitle>Auftrag erstellt</AlertTitle>

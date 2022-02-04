@@ -33,7 +33,7 @@ namespace backend.Controllers
         [HttpGet("all")]
         public JsonResult AllAuftrag(string name)
         {
-            string query = @"select * from ""Auftrag"" where ""AUFTRAGGEBER"" = @name or ""AUFTRAGNEHMER"" = @name";
+            string query = @"select * from ""Auftrag"" where ""AUFTRAGGEBER"" = @name or ""AUFTRAGNEHMER"" = @name order by 7";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");

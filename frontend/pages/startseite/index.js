@@ -352,8 +352,8 @@ export default function Startseite() {
                 </AppBar>
             </Box>
             <div className={classes.FilterAdd}>
-                <div className={classes.searchContainer}>
-                    <Button style={{ marginTop: '10%' }} color="inherit" className={classes.BTN}
+                
+                    <Button color="inherit" className={classes.BTN}
                         id="basic-button"
                         aria-controls="basic-menu"
                         aria-haspopup="true"
@@ -376,12 +376,11 @@ export default function Startseite() {
                         <ListItem> <Button className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
                         <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
 
-                        <ListItem><Typography variant='h6' fontWeight='bold' >KSV</Typography></ListItem>
-                        <ListItem><TextField variant="outlined" value={filter3} onChange={handleSearchChange3} label="KSV"></TextField></ListItem>
+                        
                     </Menu>
                     
-                </div>
-                <TextField size="small" variant="standard" value={filter3} onChange={handleSearchChange3} label={<SearchIcon/>}></TextField>
+               
+                <TextField size="small" variant="outlined" value={filter3} onChange={handleSearchChange3} label={<SearchIcon/>}></TextField>
             </div>
 
 
@@ -631,11 +630,11 @@ const useStyles = makeStyles({
     },
 
     FilterAdd: {
-
+        marginTop: "2%",
         marginBottom: "10%",
         display: "flex",
-        marginLeft: "10%",
-        marginRight: "10%",
+        marginLeft: "3%",
+        marginRight: "3%",
         justifyContent: 'space-between',
     },
 

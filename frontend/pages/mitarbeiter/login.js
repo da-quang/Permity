@@ -25,6 +25,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Tooltip from '@mui/material/Tooltip';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -105,6 +106,8 @@ export default function Login() {
         showPassword: false,
     });
 
+    const matches = useMediaQuery('(min-width:600px)');
+
     return (
 
         <form className={classes.h}>
@@ -169,9 +172,9 @@ export default function Login() {
 const useStyles = makeStyles({
     a: {
         height: 80,
-        width: "70%",
+        width: 280,
         textAlign: 'center',
-        marginTop: "10%",
+        
 
     },
 
@@ -183,9 +186,17 @@ const useStyles = makeStyles({
 
     c: {
         textAlign: 'center',
-        marginTop: 40,
+        marginTop: "100px",
         color: "white",
+        marginBottom: "40px",
 
+    },
+
+    d: {
+        textAlign: 'center',
+        marginTop: "100px",
+        color: "white",
+        marginBottom: "40px",
     },
 
     d: {
@@ -215,7 +226,8 @@ const useStyles = makeStyles({
     },
 
     g: {
-        marginTop: "40%"
+        marginTop: "160px",
+        marginBottom: "40%",
     },
 
 

@@ -44,6 +44,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -167,7 +168,7 @@ export default function Startseite() {
     if (!data) return <div>loading...</div>
     //data = data.sort((a,b) => a.ID - b.ID);
     //<Fetchen der Daten für die Karten>
-    
+
     // console.log(data)
     // console.log(data.sort((a, b) => a.VON.split('T')[0] - b.VON.split('T')[0]))
     // console.log(data.sort((a, b) => a.ID - b.ID))
@@ -286,14 +287,15 @@ export default function Startseite() {
     //     }
     // };
 
+
     return (
         <form style={{ background: 'white' }} className={classes.h}>
             <ThemeProvider theme={BTNTheme}>
-            <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
-                <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)} aria-label="add" color="primary">
-                    <AddIcon />
-                </Fab>
-            </Box>
+                <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
+                    <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)} aria-label="add" color="primary">
+                        <AddIcon />
+                    </Fab>
+                </Box>
             </ThemeProvider>
 
             {/* <div className={classes.e}>
@@ -352,36 +354,36 @@ export default function Startseite() {
                 </AppBar>
             </Box>
             <div className={classes.FilterAdd}>
-                
-                    <Button color="inherit" className={classes.BTN}
-                        id="basic-button"
-                        aria-controls="basic-menu"
-                        aria-haspopup="true"
-                        aria-expanded={open2 ? 'true' : undefined}
-                        onClick={handleClick2}>
-                        <FilterAltIcon className={classes.searchIcon} /> <Typography> Filter </Typography>
-                    </Button>
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorE2}
-                        open={open2}
-                        onClose={handleClose2}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                        }}>
 
-                        <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
-                        <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
-                        <ListItem> <Button className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
-                        <ListItem> <Button className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
-                        <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
-
-                        
-                    </Menu>
+                <Button color="inherit" className={classes.BTN}
                     
-               
-                <TextField size="small" variant="outlined" value={filter3} onChange={handleSearchChange3} label={<SearchIcon/>}></TextField>
-            </div>
+                    id="basic-button"
+                    aria-controls="basic-menu"
+                    aria-haspopup="true"
+                    aria-expanded={open2 ? 'true' : undefined}
+                    onClick={handleClick2}>
+                    <FilterAltIcon size="small" className={classes.searchIcon} /> <Typography> Filter </Typography>
+                </Button>
+                <Menu
+                    id="basic-menu"
+                    anchorEl={anchorE2}
+                    open={open2}
+                    onClose={handleClose2}
+                    MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                    }}>
+
+                    <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
+                    <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
+                    <ListItem> <Button className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
+                    <ListItem> <Button className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
+                    <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
+
+
+                </Menu>
+                <TextField style={{marginLeft: '30%'}} fullWidth size="small" variant="outlined" value={filter3} onChange={handleSearchChange3} label={<SearchIcon />}></TextField>
+             
+           </div>
 
 
             <div className={classes.SummaryWrapper}>
@@ -394,7 +396,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon/></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Offen</Typography>
+                        <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Offen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
@@ -459,7 +461,7 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{float: 'right',color: 'white'}}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>
@@ -504,8 +506,8 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
-                                            <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
+                                            <div style={{marginBottom: 30 }}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{float: 'right',color: 'white'}}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>
@@ -527,7 +529,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <StyledBadge showZero badgeContent={Count3} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold',  marginLeft: "6px"  }}>Abgelehnt</Typography>
+                        <StyledBadge showZero badgeContent={Count3} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Abgelehnt</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a style={{ listStyleType: 'none' }} key={id}>
@@ -556,7 +558,7 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{float: 'right',color: 'white'}}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>
@@ -578,7 +580,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <StyledBadge showZero badgeContent={Count4} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold',  marginLeft: "6px"  }}>Abgeschlossen</Typography>
+                        <StyledBadge showZero badgeContent={Count4} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Abgeschlossen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
@@ -599,7 +601,7 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ position: 'absolute', right: 45, color: 'white' }}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{float: 'right',color: 'white'}}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>
@@ -623,7 +625,15 @@ export default function Startseite() {
 
 const useStyles = makeStyles({
 
- 
+    SearchFieldMobile:{
+        marginLeft: '30%',
+        background: 'red',
+        
+    },
+
+    SearchFieldPc:{
+        marginLeft: '30%',
+    },
 
     br: {
         marginBottom: 40,

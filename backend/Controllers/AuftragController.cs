@@ -271,5 +271,38 @@ namespace backend.Controllers
             }
             return new JsonResult("Closed successfully");
         }
+        /*
+        * Update status from task to 'Offen' after resending the task
+        * 
+        * return status message
+        *
+        * edit by David Nguyen
+        * 15.01.2022
+        */
+        //api/Auftrag/resend
+        [HttpPut("resend")]
+        public JsonResult closeAuftrag(int id)
+        {
+            string query = @"update ""Auftrag"" set ""STATUS"" = 'Offen' where ""ID"" = @id";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("AppCon");
+            NpgsqlDataReader myReader;
+            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@id", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Resend successfully");
+        }
     }
+
 }

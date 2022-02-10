@@ -281,7 +281,7 @@ namespace backend.Controllers
         */
         //api/Auftrag/resend
         [HttpPut("resend")]
-        public JsonResult closeAuftrag(int id)
+        public JsonResult resendAuftrag(int id)
         {
             string query = @"update ""Auftrag"" set ""STATUS"" = 'Offen' where ""ID"" = @id";
 

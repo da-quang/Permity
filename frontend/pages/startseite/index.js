@@ -47,8 +47,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 
-import BasicTabs from '../../components/Tab';
-
+import Tab1 from '../../components/Tab';
+import Tab2 from '../../components/Tab2';
 import Appbar from '../../components/AppBars'
 import AddAuftrag from '../../components/AddAuftrag'
 
@@ -346,8 +346,9 @@ export default function Startseite() {
                     <ListItem> <Button className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
                     <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
                     <Divider></Divider>
-                    <ListItem><BasicTabs/></ListItem>
-                    
+                    <Tab1/>
+                    <Divider></Divider>
+                    <Tab2/>
                     {/* <ListItem><Typography variant='h6' fontWeight='bold' > KSV </Typography></ListItem>
                     <ListItem> <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter3} onChange={handleSearchChange3} label={<SearchIcon />}></TextField></ListItem>
                     <Divider></Divider>

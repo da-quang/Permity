@@ -85,6 +85,8 @@ export default function Formular() {
         console.log(`${e.target.value}`);
         setx(e.target.value)
     };
+    value.setHours(7, 30)
+    value1.setHours(16, 45)
 
     let VON = `${value.getFullYear()}.${value.getMonth() + 1}.${value.getDate()} ${value.getHours()}:${value.getMinutes()}`;
     let BIS = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()} ${value1.getHours()}:${value1.getMinutes()}`;
@@ -97,6 +99,7 @@ export default function Formular() {
     let [AUFTRAGGEBER_UNTERSCHRIFT, setAUFTRAGGEBER_UNTERSCHRIFT] = useState('null')
 
     let AUFTRAGGEBER = query.param2
+
     const CREATE2 = async () => {
         // console.log(AUFTRAGGEBER_UNTERSCHRIFT)
         // axios.post('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
@@ -117,32 +120,36 @@ export default function Formular() {
         //         console.log(error);
         //     });
 
-        fetch('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': '*/*',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Origin, X-Requested-With'
-            },
-            body: JSON.stringify({
-                ksv: KSV,
-                auftrag: AUFTRAG,
-                auftraggeber: AUFTRAGGEBER,
-                auftragnehmer: AUFTRAGNEHMER,
-                sperren: SPERREN,
-                kommentar: KOMMENTAR,
-                von: VON,
-                bis: BIS,
-                auftraggeber_unterschrift: AUFTRAGGEBER_UNTERSCHRIFT,
-            })
-        })
+        // fetch('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Accept': '*/*',
+        //         'Access-Control-Allow-Origin': '*',
+        //         'Access-Control-Allow-Headers': 'Origin, X-Requested-With'
+        //     },
+        //     body: JSON.stringify({
+        //         ksv: KSV,
+        //         auftrag: AUFTRAG,
+        //         auftraggeber: AUFTRAGGEBER,
+        //         auftragnehmer: AUFTRAGNEHMER,
+        //         sperren: SPERREN,
+        //         kommentar: KOMMENTAR,
+        //         von: VON,
+        //         bis: BIS,
+        //         auftraggeber_unterschrift: AUFTRAGGEBER_UNTERSCHRIFT,
+        //     })
+        // })
 
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
-            method: 'POST'
-        })
-        const data = await response.json()
-        console.log(data)
+        // const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
+        //     method: 'POST'
+        // })
+        // const data = await response.json()
+        // console.log(data)
+
+        const fd = new FormData();
+        fd.append
+
     }
 
     const MAIL = async () => {
@@ -169,36 +176,15 @@ export default function Formular() {
         // const blobUrl = URL.createObjectURL(blob);
         // setAUFTRAGGEBER_UNTERSCHRIFT(blobUrl);
         // console.log("Unterschrift wurde gespeichert!")
-    }
+        // scaleImage(AUFTRAGGEBER_UNTERSCHRIFT,0.5,"image/jpeg",0.7, function(newDataUrl){
+        //     console.log(AUFTRAGGEBER_UNTERSCHRIFT.length);
+        //     console.log(newDataUrl.length);
+        //     console.log(newDataUrl);
+        //     console.log(AUFTRAGGEBER_UNTERSCHRIFT.length / newDataUrl.length);  
+        //     setAUFTRAGGEBER_UNTERSCHRIFT(newDataUrl)
+        //     console.log(AUFTRAGGEBER_UNTERSCHRIFT)
+        // })
 
-    function dataURItoBlob(dataURI) {
-        // convert base64 to raw binary data held in a string
-        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-        var byteString = atob(dataURI.split(',')[1]);
-
-        // separate out the mime component
-        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-
-        // write the bytes of the string to an ArrayBuffer
-        var ab = new ArrayBuffer(byteString.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-        var blob = null;
-        // TypeError old chrome and FF
-        window.BlobBuilder = window.BlobBuilder ||
-            window.WebKitBlobBuilder ||
-            window.MozBlobBuilder ||
-            window.MSBlobBuilder;
-        if (window.BlobBuilder) {
-            var bb = new BlobBuilder();
-            bb.append(ab);
-            blob = bb.getBlob(mimeString);
-        } else {
-            blob = new Blob([ab], { type: mimeString });
-        }
-        return blob;
     }
 
     const [open1, setOpen1] = React.useState(false);
@@ -217,11 +203,11 @@ export default function Formular() {
 
     let [Ksv, setKsv] = useState('')
 
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/ksv`)
-            .then((response) => response.json())
-            .then((ksv) => setKsv(ksv));
-    }, []);
+    // useEffect(() => {
+    //     fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/ksv`)
+    //         .then((response) => response.json())
+    //         .then((ksv) => setKsv(ksv));
+    // }, []);
 
     let [Name, setName] = useState('')
 
@@ -230,6 +216,7 @@ export default function Formular() {
             .then((response) => response.json())
             .then((name) => setName(name));
     }, []);
+
 
     const Sperren = [{
         label: "Durchführungserlaubnis"
@@ -247,6 +234,84 @@ export default function Formular() {
     const handleClose2 = () => {
         setOpen2(false);
     };
+
+    let [ebene1, setEbene1] = useState('')
+    let [ebene2, setEbene2] = useState('')
+    let [ebene3, setEbene3] = useState('')
+    let [ebene4, setEbene4] = useState('')
+    let [ebene5, setEbene5] = useState('')
+
+    let [KsvALL, setKsvALL] = useState('')
+
+    let [KsvEbene1, setKsvEbene1] = useState('')
+    let [KsvEbene2, setKsvEbene2] = useState('')
+
+    console.log(KsvEbene1)
+    console.log(KsvEbene2)
+
+    useEffect(() => {
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/all?kurzzeichen=${query.param}`)
+            .then((response) => response.json())
+            .then((KsvALL) => setKsvALL(KsvALL));
+    }, []);
+
+    useEffect(() => {
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=3`)
+            .then((response) => response.json())
+            .then((ebene3) => setEbene3(ebene3));
+    }, []);
+
+    useEffect(() => {
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=4`)
+            .then((response) => response.json())
+            .then((ebene4) => setEbene4(ebene4));
+    }, []);
+
+    useEffect(() => {
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=5`)
+            .then((response) => response.json())
+            .then((ebene5) => setEbene5(ebene5));
+    }, []);
+
+    function loadEbene3() {
+        setEbene3(ebene3.filter(item => item.KSV === KsvEbene2))
+        console.log(ebene3)
+    }
+
+    //     ebene3 = ebene3.filter(item => ebene3.KSV.includes("VIW-14"))
+  
+
+    function scaleImage(dataUrl, scaleRatio, imageType, imageArguments, callback) {
+        "use strict";
+        var image, oldWidth, oldHeight, newWidth, newHeight, canvas, ctx, newDataUrl;
+
+        // Provide default values
+        imageType = imageType || "image/jpeg";
+        imageArguments = imageArguments || 0.7;
+
+        // Create a temporary image so that we can dimensions of new image.
+        image = new Image();
+        image.onload = function () {
+            oldWidth = image.width;
+            oldHeight = image.height;
+            newWidth = Math.floor(oldWidth * scaleRatio);
+            newHeight = Math.floor(oldHeight * scaleRatio);
+
+            // Create a temporary canvas to draw the downscaled image on.
+            canvas = document.createElement("canvas");
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+
+            // Draw the scaled image on the canvas and trigger the callback function.
+            ctx = canvas.getContext("2d");
+            ctx.drawImage(image, 0, 0, newWidth, newHeight);
+            newDataUrl = canvas.toDataURL(imageType, imageArguments);
+            callback(newDataUrl);
+        }
+        image.src = dataUrl;
+    }
+
+    console.log(ebene3)
 
     return (
         <form>
@@ -303,18 +368,9 @@ export default function Formular() {
                     </Grid>
                 </div>
                 <div className={classes.g} >
-                    <Grid className={classes.h} item xs={6}>
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={Ksv}
-                            getOptionLabel={(option) => option.BEZEICHNUNG}
-                            onChange={(event, value) => setKSV(value.BEZEICHNUNG)}
-                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv" ></TextField>)}
-                            isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
+                   
+
+                    <Grid className={classes.h} item xs={6} >
                         <Autocomplete
                             disablePortal
                             id="combo-box-demo"
@@ -323,6 +379,48 @@ export default function Formular() {
                             onChange={(event, value) => setSPERREN(value.label)}
                             renderInput={(params) => (<TextField {...params} variant="outlined" label="Sperre" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.label === value.label}
+                        />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={KsvALL}
+                            getOptionLabel={(option) => option.KSV}
+                            onChange={(event, value) => setKSV(value.KSV)}
+                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv 1" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.KSV === "value.KSV"}
+                        />
+                    </Grid>
+
+                </div>
+                <div className={classes.g}>
+                    <Grid className={classes.h} item xs={6}>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={ebene3}
+                            getOptionLabel={(option) => option.KSV}
+                            onChange={(event, value) => {
+                                if (value === null) { value = "" }; setKSV(value.KSV); loadEbene3();
+                            }}
+                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv 2" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
+                        />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={ebene4}
+                            getOptionLabel={(option) => option.KSV}
+                            onChange={(event, value) => {
+                                if (value === null) { value = "" }; setKSV(value.KSV);
+                            }}
+                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv 3" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                         />
                     </Grid>
                 </div>
@@ -339,6 +437,7 @@ export default function Formular() {
                                     }}
                                     label="Von"
                                     inputFormat="yyyy/MM/dd HH:mm"
+
                                     renderInput={(params) => <TextField onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
                                 />
                             </Stack>
@@ -441,9 +540,9 @@ export default function Formular() {
                     </Grid>
                     <Grid item xs={12}>
                         <ThemeProvider theme={BTNTheme}>
-                        <Button size='large' className={classes.CreateBTN} disabled={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? false : true} variant="contained" onClick={() => { CREATE2(); MAIL(); handleClick1() }} color="primary">
-                            <Typography variant="h6">Erstellen</Typography>
-                        </Button>
+                            <Button sx={{ color: { sm: 'blue', md: 'red', lg: 'green' }, width: { sm: '80%', md: '60%', lg: '40%' }, marginTop: '80px' }} className={classes.CreateBTN} size='large' disabled={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? false : true} variant="contained" onClick={() => { CREATE2(); MAIL(); handleClick1() }} color="primary">
+                                <Typography variant="h6">Erstellen</Typography>
+                            </Button>
                         </ThemeProvider>
                         <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose1}>
                             <Alert severity="success">
@@ -468,7 +567,7 @@ export default function Formular() {
 const useStyles = makeStyles({
     CreateBTN: {
         width: "80%",
-        marginTop: "20%",
+        marginTop: "80px",
 
     },
 

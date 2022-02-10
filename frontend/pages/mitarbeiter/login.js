@@ -106,7 +106,7 @@ export default function Login() {
         showPassword: false,
     });
 
-    const matches = useMediaQuery('(min-width:600px)');
+    //const matches = useMediaQuery('(min-width:992px)');
 
     return (
 
@@ -119,7 +119,7 @@ export default function Login() {
                 <div className={classes.d}><TextField className={classes.b} id="standard-basic" variant="outlined" label="Name" onChange={e => setName(e.target.value)}></TextField></div>
                 <div className={classes.d}>
                     <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={classes.b}>
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                        <InputLabel htmlFor="outlined-adornment-password">Passwort</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-password"
                             type={values.showPassword ? 'text' : 'password'}
@@ -227,8 +227,12 @@ const useStyles = makeStyles({
 
     g: {
         marginTop: "160px",
-        marginBottom: "40%",
+       
     },
+
+    j: {
+        marginTop: "280px",
+    }
 
 
 

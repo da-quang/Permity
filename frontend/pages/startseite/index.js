@@ -18,7 +18,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { ListItem, TextField } from '@mui/material';
+import { Divider, ListItem, TextField } from '@mui/material';
 import Slide from '@mui/material/Slide';
 import Popup from 'reactjs-popup';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
@@ -45,6 +45,13 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+
+import BasicTabs from '../../components/Tab';
+
+import Appbar from '../../components/AppBars'
+import AddAuftrag from '../../components/AddAuftrag'
+
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -62,13 +69,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const BTNTheme = createTheme({
-    palette: {
-        primary: {
-            main: "rgba(212,25,25,1)",
-        },
-    },
-});
+
 
 export default function Startseite() {
 
@@ -88,6 +89,18 @@ export default function Startseite() {
     const handleSearchChange3 = e => {
         console.log(e.target.value)
         setfilter3(e.target.value)
+
+    };
+
+    const handleSearchChange4 = e => {
+        console.log(e.target.value)
+        setfilter4(e.target.value)
+
+    };
+
+    const handleSearchChange5 = e => {
+        console.log(e.target.value)
+        setfilter5(e.target.value)
 
     };
 
@@ -120,6 +133,8 @@ export default function Startseite() {
     const [filter, setfilter] = useState("");
     const [filter2, setfilter2] = useState("");
     const [filter3, setfilter3] = useState("");
+    const [filter4, setfilter4] = useState("");
+    const [filter5, setfilter5] = useState("");
 
     const handleSearchChange2 = (se) => {
         if (filter2 == se) {
@@ -169,7 +184,7 @@ export default function Startseite() {
     //data = data.sort((a,b) => a.ID - b.ID);
     //<Fetchen der Daten für die Karten>
 
-    // console.log(data)
+    console.log(data)
     // console.log(data.sort((a, b) => a.VON.split('T')[0] - b.VON.split('T')[0]))
     // console.log(data.sort((a, b) => a.ID - b.ID))
 
@@ -226,38 +241,6 @@ export default function Startseite() {
     //</Auftrag abschließen Button>
 
 
-    //<Blob nicht von gebrauch>
-    function dataURItoBlob(dataURI) {
-        // convert base64 to raw binary data held in a string
-        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-        var byteString = atob(dataURI.split(',')[1]);
-
-        // separate out the mime component
-        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-
-        // write the bytes of the string to an ArrayBuffer
-        var ab = new ArrayBuffer(byteString.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-        var blob = null;
-        // TypeError old chrome and FF
-        window.BlobBuilder = window.BlobBuilder ||
-            window.WebKitBlobBuilder ||
-            window.MozBlobBuilder ||
-            window.MSBlobBuilder;
-        if (window.BlobBuilder) {
-            var bb = new BlobBuilder();
-            bb.append(ab);
-            blob = bb.getBlob(mimeString);
-        } else {
-            blob = new Blob([ab], { type: mimeString });
-        }
-        return blob;
-    }
-    //</Blob nicht von gebrauch>
-
 
     //<Counter für Anzahl von Aufträgen in einer Status Kategorie>
     let Count1 = 0
@@ -288,15 +271,26 @@ export default function Startseite() {
     // };
 
 
+    // const matches = useMediaQuery('(min-width:600px)');
+
+    const MAIL = async () => {
+        const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${AUFTRAGNEHMER}`, {
+            method: 'GET'
+        })
+        const email = await getEmail.json()
+
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${email[0].EMAIL}`, {
+            method: 'POST'
+        })
+
+        console.log("Email wurde versendet")
+    }
+  
+
     return (
         <form style={{ background: 'white' }} className={classes.h}>
-            <ThemeProvider theme={BTNTheme}>
-                <Box position="fixed" className={classes.Fab} sx={{ '& > :not(style)': { m: 1 } }}>
-                    <Fab onClick={() => router.push(`/auftrag/formular?param=${kurzzeichen}&param2=${name}`)} aria-label="add" color="primary">
-                        <AddIcon />
-                    </Fab>
-                </Box>
-            </ThemeProvider>
+           
+            <AddAuftrag Kurzzeichen={query.param} Name={name}/>
 
             {/* <div className={classes.e}>
                 <div>
@@ -323,40 +317,13 @@ export default function Startseite() {
                 <Typography variant="h4" className={classes.typoh4}> Startseite </Typography>
                 <Typography variant="h6" className={classes.typoh6}>{query.param}</Typography>
             </div> */}
-            <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static" style={{ background: "#143968", borderBottomLeftRadius: "10px", borderBottomRightRadius: "10px" }}>
-                    <Toolbar>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 2 }}
-                            onClick={handleClick}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            MenuListProps={{
-                                'aria-labelledby': 'basic-button',
-                            }}>
-                            <MenuItem onClick={() => router.push(`/mitarbeiter/login`)} ><LogoutIcon />Logout </MenuItem>
-                        </Menu>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            Startseite
-                        </Typography>
-                        <Button variant="outlined" size="small" color="inherit">{query.param}</Button>
-                    </Toolbar>
-                </AppBar>
-            </Box>
+            
+           <Appbar Kurzzeichen={query.param}/>
+
             <div className={classes.FilterAdd}>
 
                 <Button color="inherit" className={classes.BTN}
-                    
+
                     id="basic-button"
                     aria-controls="basic-menu"
                     aria-haspopup="true"
@@ -378,12 +345,21 @@ export default function Startseite() {
                     <ListItem> <Button className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
                     <ListItem> <Button className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
                     <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
-
-
+                    <Divider></Divider>
+                    <ListItem><BasicTabs/></ListItem>
+                    
+                    {/* <ListItem><Typography variant='h6' fontWeight='bold' > KSV </Typography></ListItem>
+                    <ListItem> <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter3} onChange={handleSearchChange3} label={<SearchIcon />}></TextField></ListItem>
+                    <Divider></Divider>
+                    <ListItem><Typography variant='h6' fontWeight='bold' > Auftraggeber </Typography></ListItem>
+                    <ListItem> <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter4} onChange={handleSearchChange4} label={<SearchIcon />}></TextField></ListItem>
+                    <Divider></Divider>
+                    <ListItem><Typography variant='h6' fontWeight='bold' > Auftragnehmer </Typography></ListItem>
+                    <ListItem> <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter5} onChange={handleSearchChange5} label={<SearchIcon />}></TextField></ListItem> */}
                 </Menu>
-                <TextField style={{marginLeft: '30%'}} fullWidth size="small" variant="outlined" value={filter3} onChange={handleSearchChange3} label={<SearchIcon />}></TextField>
-             
-           </div>
+
+
+            </div>
 
 
             <div className={classes.SummaryWrapper}>
@@ -461,7 +437,7 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{float: 'right',color: 'white'}}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>
@@ -506,8 +482,8 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
-                                            <div style={{marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{float: 'right',color: 'white'}}>
+                                            <div style={{ marginBottom: 30 }}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>
@@ -533,7 +509,7 @@ export default function Startseite() {
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a style={{ listStyleType: 'none' }} key={id}>
-                            {auftrag.STATUS == "Nicht angenommen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) &&
+                            {auftrag.STATUS == "Nicht angenommen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                                 <div className={classes.Abgelehnt}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
@@ -550,6 +526,11 @@ export default function Startseite() {
                                                         <DeleteIcon />
                                                     </IconButton>
                                                 </Tooltip>
+                                                <Tooltip title="Erneut senden">
+                                                    <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                        <PublishedWithChangesIcon />
+                                                    </IconButton>
+                                                </Tooltip>
                                             </a>
                                         </summary>
                                         <div className={classes.InsideCard}>
@@ -558,7 +539,7 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{float: 'right',color: 'white'}}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>
@@ -601,7 +582,7 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{float: 'right',color: 'white'}}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>
@@ -623,16 +604,16 @@ export default function Startseite() {
     )
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 
-    SearchFieldMobile:{
+    SearchFieldMobile: {
         marginLeft: '30%',
         background: 'red',
-        
+
     },
 
-    SearchFieldPc:{
-        marginLeft: '30%',
+    SearchFieldPc: {
+        marginLeft: '60px',
     },
 
     br: {
@@ -688,12 +669,7 @@ const useStyles = makeStyles({
         top: '15%'
     },
 
-    Fab: {
-        position: "fixed",
-        right: "8%",
-        bottom: "5%",
-        zIndex: "999",
-    },
+   
 
     b: {
         height: 40,
@@ -786,7 +762,7 @@ const useStyles = makeStyles({
         borderRadius: 15,
         background: '#2163b8',
         color: "white",
-        marginBottom: "3%"
+        marginBottom: "10px"
     },
 
     Bestätigt: {
@@ -796,7 +772,7 @@ const useStyles = makeStyles({
         borderRadius: 15,
         background: '#1DB954',
         color: "white",
-        marginBottom: "3%"
+        marginBottom: "10px"
     },
 
 
@@ -807,7 +783,7 @@ const useStyles = makeStyles({
         borderRadius: 15,
         background: '#4a4a49',
         color: "white",
-        marginBottom: "3%"
+        marginBottom: "10px"
     },
 
     Abgelehnt: {
@@ -817,7 +793,7 @@ const useStyles = makeStyles({
         borderRadius: 15,
         background: '#c92a35',
         color: "white",
-        marginBottom: "3%"
+        marginBottom: "10px"
     },
 
     Details: {
@@ -829,4 +805,4 @@ const useStyles = makeStyles({
     },
 
 
-})
+}))

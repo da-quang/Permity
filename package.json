@@ -1,5 +1,12 @@
 {
   "devDependencies": {
     "babel-plugin-styled-components": "^2.0.2"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.7.1",
+    "@emotion/css": "^11.7.1",
+    "@emotion/react": "^11.7.1",
+    "@emotion/server": "^11.4.0",
+    "@emotion/styled": "^11.6.0"
   }
 }

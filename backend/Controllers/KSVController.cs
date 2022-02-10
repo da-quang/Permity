@@ -126,41 +126,7 @@ namespace backend.Controllers
             }
             return new JsonResult(table);
         }
-        /*
-        * Get ksv by ksv and stage
-        *
-        * return all ksv as json-format
-        *
-        * edit by David Nguyen
-        * 15.01.2022
-        */
-        //api/KSV/select
-        [HttpGet("select")]
-        public JsonResult getKSV(string ksv, int ebene)
-        {
-            string query = @"select ""K"".* from ""KSV_Struktur"" ""K"" where ""KSV"" like @ksv and ""EBENE"" = @ebene";
-
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("AppCon");
-            NpgsqlDataReader myReader;
-
-            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
-                {
-                    myCommand.Parameters.AddWithValue("@ebene", ebene);
-                    myCommand.Parameters.AddWithValue("@ksv", ksv + "%");
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult(table);
-        }
-
+       
         /*
         * find ksv by title
         *

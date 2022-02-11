@@ -301,6 +301,7 @@ namespace backend.Controllers
                     myCon.Close();
                 }
             }
+            Confirmation(getId(auftraggeber, auftragnehmer));
             return new JsonResult("Resend successfully");
         }
     }

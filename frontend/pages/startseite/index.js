@@ -74,6 +74,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function Startseite() {
 
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('sm'));
+    console.log(matches)
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -83,8 +86,7 @@ export default function Startseite() {
         setAnchorEl(null);
     };
 
-    const [openModal, setOpenModal] = useState(false)
-    const [filterOnOff, setfilterOnOff] = useState(false)
+    
 
 
     const handleSearchChange3 = e => {
@@ -301,10 +303,8 @@ export default function Startseite() {
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
 
     }
+    
 
-    const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down('sm'));
-    console.log(matches)
     
     return (
         <form style={{ background: 'white' }} className={classes.h}>

@@ -35,7 +35,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import axios from 'axios';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import useSWR from 'swr'
 console.log("--> Formular")
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -53,6 +53,8 @@ const BTNTheme = createTheme({
         },
     },
 });
+
+const fetcher = (...args) => fetch(...args).then((response) => response.json())
 
 export default function Formular() {
 
@@ -80,11 +82,7 @@ export default function Formular() {
 
     const [value, setValue] = useState(new Date());
     const [value1, setValue1] = useState(new Date());
-    const [x, setx] = useState("");
-    const handleChange = e => {
-        console.log(`${e.target.value}`);
-        setx(e.target.value)
-    };
+    
     value.setHours(7, 30)
     value1.setHours(16, 45)
 
@@ -259,6 +257,7 @@ export default function Formular() {
         fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=3`)
             .then((response) => response.json())
             .then((ebene3) => setEbene3(ebene3));
+            console.log(ebene3)
     }, []);
 
     useEffect(() => {
@@ -272,6 +271,11 @@ export default function Formular() {
             .then((response) => response.json())
             .then((ebene5) => setEbene5(ebene5));
     }, []);
+
+
+    const { data1, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=3`, fetcher);
+
+console.log(data1)
 
     function loadEbene3() {
         setEbene3(ebene3.filter(item => item.KSV === KsvEbene2))
@@ -311,7 +315,7 @@ export default function Formular() {
         image.src = dataUrl;
     }
 
-    console.log(ebene3)
+  
 
     return (
         <form>
@@ -429,7 +433,6 @@ export default function Formular() {
                         <Grid className={classes.h} item xs={6}>
                             <Stack>
                                 <MobileDateTimePicker
-
                                     ampm={false}
                                     value={value}
                                     onChange={(newValue) => {

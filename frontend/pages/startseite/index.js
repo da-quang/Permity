@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import useSWR from "swr";
+import useSWR, { mutate, SWRConfig } from "swr";
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SignaturePad from "react-signature-canvas";
@@ -44,8 +44,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import { useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/styles';
 
 import Tab1 from '../../components/Tab';
 import Tab2 from '../../components/Tab2';
@@ -195,9 +196,11 @@ export default function Startseite() {
         })
         const data = await response.json()
         console.log(data)
-        Router.reload()
+
+        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
     }
     //</Löschen>
+
 
 
     //<Unterschrift Status updaten>
@@ -225,6 +228,7 @@ export default function Startseite() {
         //     })
         // })
 
+        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
     }
     //</Unterschrift Status updaten>
 
@@ -236,6 +240,8 @@ export default function Startseite() {
         })
         const data = await response.json()
         console.log(data)
+
+        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
 
     }
     //</Auftrag abschließen Button>
@@ -273,24 +279,37 @@ export default function Startseite() {
 
     // const matches = useMediaQuery('(min-width:600px)');
 
-    const MAIL = async () => {
-        const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${AUFTRAGNEHMER}`, {
+    const Mail = async auftragnehmer => {
+        const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${auftragnehmer}`, {
             method: 'GET'
         })
         const email = await getEmail.json()
 
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${email[0].EMAIL}`, {
+        const sendEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${email[0].EMAIL}`, {
             method: 'POST'
         })
 
         console.log("Email wurde versendet")
     }
-  
 
+    const Update3 = async auftragID => {
+        const Update3 = await fetch(` https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/resend?id=${auftragID}`, {
+            method: 'PUT'
+
+        })
+
+        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
+
+    }
+
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('sm'));
+    console.log(matches)
+    
     return (
         <form style={{ background: 'white' }} className={classes.h}>
-           
-            <AddAuftrag Kurzzeichen={query.param} Name={name}/>
+
+            <AddAuftrag Kurzzeichen={query.param} Name={name} />
 
             {/* <div className={classes.e}>
                 <div>
@@ -317,8 +336,8 @@ export default function Startseite() {
                 <Typography variant="h4" className={classes.typoh4}> Startseite </Typography>
                 <Typography variant="h6" className={classes.typoh6}>{query.param}</Typography>
             </div> */}
-            
-           <Appbar Kurzzeichen={query.param}/>
+
+            <Appbar Kurzzeichen={query.param} />
 
             <div className={classes.FilterAdd}>
 
@@ -339,24 +358,24 @@ export default function Startseite() {
                     MenuListProps={{
                         'aria-labelledby': 'basic-button',
                     }}>
-
+                    <a></a>
                     <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
                     <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
                     <ListItem> <Button className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
                     <ListItem> <Button className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
                     <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
                     <Divider></Divider>
-                    <Tab1/>
+
                     <Divider></Divider>
-                    <Tab2/>
-                    {/* <ListItem><Typography variant='h6' fontWeight='bold' > KSV </Typography></ListItem>
+
+                    <ListItem><Typography variant='h6' fontWeight='bold' > KSV </Typography></ListItem>
                     <ListItem> <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter3} onChange={handleSearchChange3} label={<SearchIcon />}></TextField></ListItem>
                     <Divider></Divider>
                     <ListItem><Typography variant='h6' fontWeight='bold' > Auftraggeber </Typography></ListItem>
                     <ListItem> <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter4} onChange={handleSearchChange4} label={<SearchIcon />}></TextField></ListItem>
                     <Divider></Divider>
                     <ListItem><Typography variant='h6' fontWeight='bold' > Auftragnehmer </Typography></ListItem>
-                    <ListItem> <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter5} onChange={handleSearchChange5} label={<SearchIcon />}></TextField></ListItem> */}
+                    <ListItem> <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter5} onChange={handleSearchChange5} label={<SearchIcon />}></TextField></ListItem>
                 </Menu>
 
 
@@ -365,7 +384,7 @@ export default function Startseite() {
 
             <div className={classes.SummaryWrapper}>
 
-                <Accordion style={{ marginLeft: '3%', marginRight: '3%', padding: '0%', borderRadius: '15px', backgroundColor: '#143968', color: 'white' }}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '3%',  marginRight: matches == true ? '' : '3%'}} className={classes.Accordion}>
 
                     <AccordionSummary
 
@@ -454,7 +473,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ marginLeft: '3%', marginRight: '3%', padding: '0%', borderRadius: '15px', backgroundColor: '#143968', color: 'white' }}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '3%',  marginRight: matches == true ? '' : '3%'}} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -499,7 +518,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ marginLeft: '3%', marginRight: '3%', padding: '0%', borderRadius: '15px', backgroundColor: '#143968', color: 'white' }}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '3%',  marginRight: matches == true ? '' : '3%'}} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -528,7 +547,7 @@ export default function Startseite() {
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip title="Erneut senden">
-                                                    <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <IconButton onClick={() => { Update3(auftrag.ID); Mail(auftrag.AUFTRAGNEHMER) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <PublishedWithChangesIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -555,7 +574,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ marginLeft: '3%', marginRight: '3%', padding: '0%', borderRadius: '15px', backgroundColor: '#143968', color: 'white' }}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '3%',  marginRight: matches == true ? '' : '3%'}} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -606,6 +625,16 @@ export default function Startseite() {
 }
 
 const useStyles = makeStyles((theme) => ({
+
+    Accordion: {
+        marginLeft: '3%',
+        marginRight: '3%',
+        padding: '0%',
+
+        backgroundColor: '#143968',
+        color: 'white',
+
+    },
 
     SearchFieldMobile: {
         marginLeft: '30%',
@@ -670,7 +699,7 @@ const useStyles = makeStyles((theme) => ({
         top: '15%'
     },
 
-   
+
 
     b: {
         height: 40,
@@ -736,6 +765,9 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: "bold",
         borderRadius: 15,
         background: "#143968",
+        [theme.breakpoints.up("sm")]: {
+            background: 'red',
+        },
     },
 
     Summary2Txt: {

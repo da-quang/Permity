@@ -7,6 +7,10 @@ import Box from '@mui/material/Box';
 import { TextField } from '@mui/material';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
+import { Stack } from '@mui/material';
+import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -66,25 +70,60 @@ export default function BasicTabs() {
 
     };
 
+    const [value1, setValue1] = useState(new Date(""));
+    const [value2, setValue2] = useState(new Date(""));
+
+    
+
+    let VON = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()} ${value1.getHours()}:${value1.getMinutes()}`;
+    let BIS = `${value2.getFullYear()}.${value2.getMonth() + 1}.${value2.getDate()} ${value2.getHours()}:${value2.getMinutes()}`;
 
     return (
         <Box sx={{ width: '100%' }}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value}
                     onChange={handleChange}
-                    
+
                     aria-label="scrollable force tabs example">
                     <Tab wrapped label="Von" {...a11yProps(0)} />
                     <Tab wrapped label="Bis" {...a11yProps(1)} />
-                   
+
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter3} onChange={handleSearchChange3} label={<SearchIcon />}></TextField>
+                <Stack>
+                    <MobileDateTimePicker
+                        ampm={false}
+                        label="24hours"
+                        value={value1}
+                        onChange={(newValue1) => {
+                            setValue1(newValue1)
+                        }}
+                        X
+                        label="VON"
+                        inputFormat="yyyy/MM/dd HH:mm"
+                        renderInput={(params) => <TextField size="small"  onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
+                    />
+                </Stack>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter4} onChange={handleSearchChange4} label={<SearchIcon />}></TextField>
+            <Stack>
+                    <MobileDateTimePicker
+                        ampm={false}
+                        label="24hours"
+                        value={value2}
+                        onChange={(newValue2) => {
+                            setValue2(newValue2)
+                        }}
+                        
+                        label="Bis"
+                        inputFormat="yyyy/MM/dd HH:mm"
+                        renderInput={(params) => <TextField size="small" onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
+                    />
+                </Stack>
             </TabPanel>
+            </LocalizationProvider>
         </Box>
     );
 }

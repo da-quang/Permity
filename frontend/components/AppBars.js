@@ -29,6 +29,8 @@ function AppBars(props){
         setAnchorEl(null);
     };
 
+    console.log(props.Kurzzeichen)
+
     return(
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" style={{ background: "#143968", borderBottomLeftRadius: "10px", borderBottomRightRadius: "10px" }}>
@@ -64,6 +66,10 @@ function AppBars(props){
 }
 
 const useStyles = makeStyles((theme) => ({
+
+    disabled: {
+        display: 'none'
+    },
 
     
 

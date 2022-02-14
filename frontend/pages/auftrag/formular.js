@@ -361,10 +361,10 @@ console.log(data1)
                 </Box>
 
             </div>
-            <Grid style={{marginLeft: matchesLG == true ? '10%' : '', marginRight:  matchesLG == true ? '10%' : '' }}>
+            <Grid style={{marginLeft: matchesMD == true ? '10%' : '', marginRight:  matchesMD == true ? '10%' : '' }}>
                 <div className={classes.g}>
                     <Grid className={classes.h} item xs={6}>
-                        <TextField fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
+                        <TextField size="small" fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
                     </Grid>
                     <Grid item xs={6}>
                         <Autocomplete
@@ -373,7 +373,7 @@ console.log(data1)
                             options={Name}
                             getOptionLabel={(option) => option.NAME}
                             onChange={(event, value) => setAUFTRAGNEHMER(value.NAME)}
-                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Auftragnehmer" ></TextField>)}
+                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Auftragnehmer" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.NAME === value.NAME}
                         />
                     </Grid>
@@ -388,7 +388,7 @@ console.log(data1)
                             options={Sperren}
                             getOptionLabel={(option) => option.label}
                             onChange={(event, value) => setSPERREN(value.label)}
-                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Sperre" ></TextField>)}
+                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Sperre" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.label === value.label}
                         />
                     </Grid>
@@ -400,7 +400,7 @@ console.log(data1)
                             options={KsvALL}
                             getOptionLabel={(option) => option.KSV}
                             onChange={(event, value) => setKSV(value.KSV)}
-                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv 1" ></TextField>)}
+                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 1" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.KSV === "value.KSV"}
                         />
                     </Grid>
@@ -416,7 +416,7 @@ console.log(data1)
                             onChange={(event, value) => {
                                 if (value === null) { value = "" }; setKSV(value.KSV); loadEbene3();
                             }}
-                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv 2" ></TextField>)}
+                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 2" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                         />
                     </Grid>
@@ -430,7 +430,7 @@ console.log(data1)
                             onChange={(event, value) => {
                                 if (value === null) { value = "" }; setKSV(value.KSV);
                             }}
-                            renderInput={(params) => (<TextField {...params} variant="outlined" label="Ksv 3" ></TextField>)}
+                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 3" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                         />
                     </Grid>
@@ -448,7 +448,7 @@ console.log(data1)
                                     label="Von"
                                     inputFormat="yyyy/MM/dd HH:mm"
 
-                                    renderInput={(params) => <TextField onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
+                                    renderInput={(params) => <TextField size="small" onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
                                 />
                             </Stack>
                         </Grid>
@@ -463,7 +463,7 @@ console.log(data1)
                                     }}
                                     label="Bis"
                                     inputFormat="yyyy/MM/dd HH:mm"
-                                    renderInput={(params) => <TextField onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
+                                    renderInput={(params) => <TextField size="small" onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
                                 />
                             </Stack>
                         </Grid>
@@ -471,7 +471,7 @@ console.log(data1)
                 </div>
                 <div className={classes.g}>
                     <Grid item xs={12}>
-                        <TextField multiline maxRows={4} fullWidth variant="outlined" label="Kommentar" onChange={e => setKOMMENTAR(e.target.value)}></TextField>
+                        <TextField size="small" multiline maxRows={4} fullWidth variant="outlined" label="Kommentar" onChange={e => setKOMMENTAR(e.target.value)}></TextField>
                     </Grid>
                 </div>
                 <div className={classes.BTNGroup}>

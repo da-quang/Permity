@@ -308,7 +308,7 @@ export default function Startseite() {
 
     
     return (
-        <form style={{ background: 'white' }} className={classes.h}>
+        <form  className={classes.h}>
 
             <AddAuftrag Kurzzeichen={query.param} Name={name} />
 
@@ -342,7 +342,7 @@ export default function Startseite() {
 
             <div className={classes.FilterAdd}>
 
-                <Button color="inherit" className={classes.BTN}
+                <Button color="inherit" className={classes.BTN} style={{marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}
 
                     id="basic-button"
                     aria-controls="basic-menu"
@@ -385,7 +385,7 @@ export default function Startseite() {
 
             <div className={classes.SummaryWrapper}>
 
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%'}} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}} className={classes.Accordion}>
 
                     <AccordionSummary
 
@@ -474,7 +474,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%'}} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}  className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -519,7 +519,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%'}} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}  className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -575,7 +575,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%'}} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}  className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}

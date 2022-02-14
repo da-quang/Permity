@@ -89,7 +89,7 @@ export default function Formular() {
 
     const [value, setValue] = useState(new Date());
     const [value1, setValue1] = useState(new Date());
-    
+
     value.setHours(7, 30)
     value1.setHours(16, 45)
 
@@ -105,7 +105,35 @@ export default function Formular() {
 
     let AUFTRAGGEBER = query.param2
 
+
+
     const CREATE2 = async () => {
+
+        const formData = new FormData();
+        formData.append('ksv', KSV)
+        formData.append('auftrag', AUFTRAG)
+        formData.append('auftraggeber', AUFTRAGGEBER)
+        formData.append('auftragnehmer', AUFTRAGNEHMER)
+        formData.append('sperren', SPERREN)
+        formData.append('kommentar', KOMMENTAR)
+        formData.append('von', "2022-01-14T12:54:00")
+        formData.append('bis', "2022-01-14T12:54:00")
+        formData.append('auftraggeber_unterschrift', AUFTRAGGEBER_UNTERSCHRIFT)
+
+        const config = {
+            headers: { 'content-type': 'multipart/form-data' }
+        }
+
+        let url = 'https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create';
+
+        axios.post(url, formData, config)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error.response.data);
+            });
+
         // console.log(AUFTRAGGEBER_UNTERSCHRIFT)
         // axios.post('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
         //     ksv: KSV,
@@ -146,16 +174,16 @@ export default function Formular() {
         //     })
         // })
 
-        // const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
-        //     method: 'POST'
-        // })
-        // const data = await response.json()
-        // console.log(data)
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
+            method: 'POST'
+        })
+        const data = await response.json()
+        console.log(data)
 
-        const fd = new FormData();
-        fd.append
 
     }
+
+
 
     const MAIL = async () => {
         const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${AUFTRAGNEHMER}`, {
@@ -264,7 +292,7 @@ export default function Formular() {
         fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=3`)
             .then((response) => response.json())
             .then((ebene3) => setEbene3(ebene3));
-            console.log(ebene3)
+        console.log(ebene3)
     }, []);
 
     useEffect(() => {
@@ -282,7 +310,7 @@ export default function Formular() {
 
     const { data1, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=3`, fetcher);
 
-console.log(data1)
+    console.log(data1)
 
     function loadEbene3() {
         setEbene3(ebene3.filter(item => item.KSV === KsvEbene2))
@@ -290,7 +318,7 @@ console.log(data1)
     }
 
     //     ebene3 = ebene3.filter(item => ebene3.KSV.includes("VIW-14"))
-  
+
 
     function scaleImage(dataUrl, scaleRatio, imageType, imageArguments, callback) {
         "use strict";
@@ -322,7 +350,7 @@ console.log(data1)
         image.src = dataUrl;
     }
 
-  
+
 
     return (
         <form>
@@ -361,7 +389,7 @@ console.log(data1)
                 </Box>
 
             </div>
-            <Grid style={{marginLeft: matchesMD == true ? '10%' : '', marginRight:  matchesMD == true ? '10%' : '' }}>
+            <Grid style={{ marginLeft: matchesMD == true ? '10%' : '', marginRight: matchesMD == true ? '10%' : '' }}>
                 <div className={classes.g}>
                     <Grid className={classes.h} item xs={6}>
                         <TextField size="small" fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
@@ -379,7 +407,7 @@ console.log(data1)
                     </Grid>
                 </div>
                 <div className={classes.g} >
-                   
+
 
                     <Grid className={classes.h} item xs={6} >
                         <Autocomplete
@@ -475,7 +503,7 @@ console.log(data1)
                     </Grid>
                 </div>
                 <div className={classes.BTNGroup}>
-                    <Grid style={{marginLeft: matchesMD == true ? '15%': '', marginRight: matchesMD == true ? '15%': ''}} item xs={12}>
+                    <Grid style={{ marginLeft: matchesMD == true ? '15%' : '', marginRight: matchesMD == true ? '15%' : '' }} item xs={12}>
 
                         <Button onClick={handleClickOpen2} size='large' className={classes.SignBTN} disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && KSV != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"} variant="contained">
                             <Typography variant="h6">Unterschreiben</Typography>
@@ -548,7 +576,7 @@ console.log(data1)
                             )}
                         </Popup> */}
                     </Grid>
-                    <Grid style={{marginLeft: matchesMD == true ? '15%': '', marginRight: matchesMD == true ? '15%': ''}} item xs={12}>
+                    <Grid style={{ marginLeft: matchesMD == true ? '15%' : '', marginRight: matchesMD == true ? '15%' : '' }} item xs={12}>
                         <ThemeProvider theme={BTNTheme}>
                             <Button className={classes.CreateBTN} size='large' disabled={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? false : true} variant="contained" onClick={() => { CREATE2(); MAIL(); handleClick1() }} color="primary">
                                 <Typography variant="h6">Erstellen</Typography>

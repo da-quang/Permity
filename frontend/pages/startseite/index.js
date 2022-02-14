@@ -47,6 +47,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
+import axios from 'axios';
 
 import Tab1 from '../../components/Tab';
 import Tab2 from '../../components/Tab2';
@@ -87,7 +88,7 @@ export default function Startseite() {
         setAnchorEl(null);
     };
 
-    
+
 
 
     const handleSearchChange3 = e => {
@@ -166,8 +167,9 @@ export default function Startseite() {
     const clear = () => sigCanvasRef.current.clear();
     const save = () => {
 
-        setAUFTRAGNEHMER_UNTERSCHRIFT(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
+        setAUFTRAGNEHMER_UNTERSCHRIFT(sigCanvasRef.current.getTrimmedCanvas().toDataURL().split(",")[1])
         Update()
+        console.log(AUFTRAGNEHMER_UNTERSCHRIFT);
     }
     //</Unterschrift>
 
@@ -209,27 +211,43 @@ export default function Startseite() {
     //<Unterschrift Status updaten>
     const Update = async auftragID => {
 
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${Id}&status=Bestätigt&auftragnehmer_unterschrift=${AUFTRAGNEHMER_UNTERSCHRIFT}`, {
-            method: 'PUT'
-        })
-        const data = await response.json()
-        console.log(data)
+        // const formData = new FormData();
 
-        console.log(AUFTRAGNEHMER_UNTERSCHRIFT)
+        // formData.append('id', '320')
+        // formData.append('status', 'Bestätigt')
+        // formData.append('auftragnehmer_unterschrift', 'Hallo')
 
-        // fetch('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update', {
-        //     method: 'PUT',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Accept': '*/*',
-        //         'Access-Control-Allow-Origin': '*',
-        //         'Access-Control-Allow-Headers': 'Origin, X-Requested-With'
-        //     },
-        //     body: JSON.stringify({
-        //         id: Id,
-        //         auftragnehmer_unterschrift: AUFTRAGNEHMER_UNTERSCHRIFT,
+        // const config = {
+        //     headers: { 'content-type': 'multipart/form-data' }
+        // }
+
+        // let url = 'https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update';
+
+        // fetch('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update',
+        //     {
+        //         body: formData,
+        //         method: "put"
         //     })
+        
+        
+        // const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${Id}&status=Bestätigt&auftragnehmer_unterschrift=${AUFTRAGNEHMER_UNTERSCHRIFT}`, {
+        //     method: 'PUT'
         // })
+        // const data = await response.json()
+        // console.log(data)
+
+        // console.log(AUFTRAGNEHMER_UNTERSCHRIFT)
+
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update/id=${ID}/status="Bestätigt"`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+              
+            },
+            body: {
+                auftragnehmer_unterschrift: JSON.stringify(AUFTRAGNEHMER_UNTERSCHRIFT),
+            }
+        })
 
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
     }
@@ -304,11 +322,11 @@ export default function Startseite() {
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
 
     }
-    
 
-    
+
+
     return (
-        <form  className={classes.h}>
+        <form className={classes.h}>
 
             <AddAuftrag Kurzzeichen={query.param} Name={name} />
 
@@ -342,7 +360,7 @@ export default function Startseite() {
 
             <div className={classes.FilterAdd}>
 
-                <Button color="inherit" className={classes.BTN} style={{marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}
+                <Button color="inherit" className={classes.BTN} style={{ marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }}
 
                     id="basic-button"
                     aria-controls="basic-menu"
@@ -385,7 +403,7 @@ export default function Startseite() {
 
             <div className={classes.SummaryWrapper}>
 
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
 
                     <AccordionSummary
 
@@ -393,7 +411,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon/></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Offen</Typography>
+                        <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Offen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
@@ -474,7 +492,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}  className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -519,7 +537,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}  className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -575,7 +593,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}  className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}

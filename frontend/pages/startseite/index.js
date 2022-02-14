@@ -76,6 +76,7 @@ export default function Startseite() {
 
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
+    const matchesLG = useMediaQuery(theme.breakpoints.up('lg'));
     console.log(matches)
 
     const handleClick = (event) => {
@@ -384,7 +385,7 @@ export default function Startseite() {
 
             <div className={classes.SummaryWrapper}>
 
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '3%',  marginRight: matches == true ? '' : '3%'}} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%'}} className={classes.Accordion}>
 
                     <AccordionSummary
 
@@ -392,7 +393,7 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Offen</Typography>
+                        <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon/></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Offen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
@@ -473,7 +474,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '3%',  marginRight: matches == true ? '' : '3%'}} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%'}} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -518,7 +519,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '3%',  marginRight: matches == true ? '' : '3%'}} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%'}} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -574,7 +575,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '3%',  marginRight: matches == true ? '' : '3%'}} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '14%' : '8%'}} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -652,7 +653,7 @@ const useStyles = makeStyles((theme) => ({
 
     FilterAdd: {
         marginTop: "2%",
-        marginBottom: "10%",
+        marginBottom: "30px",
         display: "flex",
         marginLeft: "3%",
         marginRight: "3%",

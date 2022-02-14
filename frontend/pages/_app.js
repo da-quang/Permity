@@ -15,6 +15,7 @@ const MyApp = (props) => {
   return (
     <CacheProvider value={emotionCache}>
       <ThemeProvider theme={lightTheme}>
+      <meta name="theme-color" content="#143968"></meta>
         <CssBaseline />
         <Component {...pageProps} />
       </ThemeProvider>

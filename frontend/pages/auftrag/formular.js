@@ -36,6 +36,9 @@ import Slide from '@mui/material/Slide';
 import axios from 'axios';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useSWR from 'swr'
+import { useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/styles';
+
 console.log("--> Formular")
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -61,6 +64,10 @@ export default function Formular() {
     const { query } = useRouter()
     const classes = useStyles();
 
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('sm'));
+    const matchesMD = useMediaQuery(theme.breakpoints.up('md'));
+    const matchesLG = useMediaQuery(theme.breakpoints.up('lg'));
 
     let [von, setVon] = useState(new Date())
     let [bis, setBis] = useState(new Date())
@@ -354,7 +361,7 @@ console.log(data1)
                 </Box>
 
             </div>
-            <Grid>
+            <Grid style={{marginLeft: matchesLG == true ? '10%' : '', marginRight:  matchesLG == true ? '10%' : '' }}>
                 <div className={classes.g}>
                     <Grid className={classes.h} item xs={6}>
                         <TextField fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
@@ -468,7 +475,7 @@ console.log(data1)
                     </Grid>
                 </div>
                 <div className={classes.BTNGroup}>
-                    <Grid item xs={12}>
+                    <Grid style={{marginLeft: matchesMD == true ? '15%': '', marginRight: matchesMD == true ? '15%': ''}} item xs={12}>
 
                         <Button onClick={handleClickOpen2} size='large' className={classes.SignBTN} disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && KSV != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"} variant="contained">
                             <Typography variant="h6">Unterschreiben</Typography>
@@ -541,9 +548,9 @@ console.log(data1)
                             )}
                         </Popup> */}
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid style={{marginLeft: matchesMD == true ? '15%': '', marginRight: matchesMD == true ? '15%': ''}} item xs={12}>
                         <ThemeProvider theme={BTNTheme}>
-                            <Button sx={{ color: { sm: 'blue', md: 'red', lg: 'green' }, width: { sm: '80%', md: '60%', lg: '40%' }, marginTop: '80px' }} className={classes.CreateBTN} size='large' disabled={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? false : true} variant="contained" onClick={() => { CREATE2(); MAIL(); handleClick1() }} color="primary">
+                            <Button className={classes.CreateBTN} size='large' disabled={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? false : true} variant="contained" onClick={() => { CREATE2(); MAIL(); handleClick1() }} color="primary">
                                 <Typography variant="h6">Erstellen</Typography>
                             </Button>
                         </ThemeProvider>

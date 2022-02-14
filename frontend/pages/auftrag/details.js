@@ -30,7 +30,8 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-
+import { useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/styles';
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json())
 console.log("--> Details")
@@ -49,6 +50,10 @@ export default function Start() {
     const router = useRouter()
     let kurzzeichen = query.param;
     let id = query.param2;
+
+
+    const theme = useTheme();
+    const matchesMD = useMediaQuery(theme.breakpoints.up('md'));
 
     const [von, setVon] = useState();
     const [bis, setBis] = useState();
@@ -152,8 +157,8 @@ export default function Start() {
 
     const classes = useStyles();
     return (
-        <div>
 
+        <div>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static" style={{ background: "#143968", borderBottomLeftRadius: "10px", borderBottomRightRadius: "10px" }}>
                     <Toolbar>
@@ -185,6 +190,10 @@ export default function Start() {
                     </Toolbar>
                 </AppBar>
             </Box>
+        
+        <div style={{marginLeft: matchesMD == true ? '4%' : '', marginRight: matchesMD == true ? '4%' : ''}}>
+
+            
             {signatureMode == false ? <div>
                 {data && data.map((auftrag) =>
                     <Card elevation={2} className={classes.container}>
@@ -275,6 +284,9 @@ export default function Start() {
                 </div>
             </div>}
         </div>
+        </div>
+
+        
     )
 }
 

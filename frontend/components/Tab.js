@@ -9,13 +9,12 @@ import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import Accordions from './Accordions';
 import { Button } from '@mui/material';
-import router, { useRouter } from 'next/router';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
-    const router = useRouter()
 
+    
     return (
         <div
             role="tabpanel"
@@ -77,10 +76,6 @@ export default function BasicTabs(props) {
 
     };
 
-    const kurzzeichen = props.kurzzeichen
-    const name = props.name
-    console.log(props.Kurzzeichen)
-    console.log(props.name)
     return (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -104,7 +99,11 @@ export default function BasicTabs(props) {
             </TabPanel>
             <Button onClick={
                 () => {
-                    router.push(`startseite?param=${kurzzeichen}&param2=${name}&filter1=${KsvFilter}`,null,{ shallow: true })
+                    props.handlePassChange1(KsvFilter);
+                    props.handlePassChange2(AuftraggeberFilter);
+
+                    
+                    props.handlePassChange3(AuftragnehmerFilter)
                 }
             }>Speichern</Button>
 

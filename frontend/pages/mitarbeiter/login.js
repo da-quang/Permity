@@ -111,7 +111,7 @@ export default function Login() {
     return (
 
         <form className={classes.h}>
-            <meta name="theme-color" content="#143968"></meta>
+            
             <div className={classes.e}>
                 <div align="center"><Typography variant='h4'>PERMITY</Typography></div>
             </div>

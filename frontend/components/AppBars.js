@@ -29,7 +29,7 @@ function AppBars(props){
         setAnchorEl(null);
     };
 
-    console.log(props.Kurzzeichen)
+   
 
     return(
         <Box sx={{ flexGrow: 1 }}>

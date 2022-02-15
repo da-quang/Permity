@@ -89,7 +89,7 @@ export default function Formular() {
 
     const [value, setValue] = useState(new Date());
     const [value1, setValue1] = useState(new Date());
-    
+
     value.setHours(7, 30)
     value1.setHours(16, 45)
 
@@ -101,11 +101,22 @@ export default function Formular() {
     let [AUFTRAGNEHMER, setAUFTRAGNEHMER] = useState('')
     let [SPERREN, setSPERREN] = useState('')
     let [AUFTRAG, setAUFTRAG] = useState('')
-    let [AUFTRAGGEBER_UNTERSCHRIFT, setAUFTRAGGEBER_UNTERSCHRIFT] = useState('null')
+    let [AUFTRAGGEBER_UNTERSCHRIFT, setAUFTRAGGEBER_UNTERSCHRIFT] = useState('Hallo123')
 
     let AUFTRAGGEBER = query.param2
 
+    let [Ebene2LoadNext, setEbene2LoadNext] = useState('x')
+    let [Ebene3LoadNext, setEbene3LoadNext] = useState('x')
+    let [Ebene4LoadNext, setEbene4LoadNext] = useState('x')
+    let [Ebene5LoadNext, setEbene5LoadNext] = useState('x')
+
+
+
+
     const CREATE2 = async () => {
+
+        console.log(KSV)
+
         // console.log(AUFTRAGGEBER_UNTERSCHRIFT)
         // axios.post('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
         //     ksv: KSV,
@@ -146,14 +157,14 @@ export default function Formular() {
         //     })
         // })
 
-        // const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
-        //     method: 'POST'
-        // })
-        // const data = await response.json()
-        // console.log(data)
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
+            method: 'POST'
+        })
+        const data = await response.json()
+        console.log(data)
 
-        const fd = new FormData();
-        fd.append
+        // const fd = new FormData();
+        // fd.append
 
     }
 
@@ -234,6 +245,7 @@ export default function Formular() {
 
     const handleClickOpen2 = () => {
         setOpen2(true);
+        SetKsv()
     };
 
     const handleClose2 = () => {
@@ -251,8 +263,8 @@ export default function Formular() {
     let [KsvEbene1, setKsvEbene1] = useState('')
     let [KsvEbene2, setKsvEbene2] = useState('')
 
-    console.log(KsvEbene1)
-    console.log(KsvEbene2)
+   
+
 
     useEffect(() => {
         fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/all?kurzzeichen=${query.param}`)
@@ -261,28 +273,27 @@ export default function Formular() {
     }, []);
 
     useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=3`)
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${Ebene2LoadNext}&ebene=3`)
             .then((response) => response.json())
             .then((ebene3) => setEbene3(ebene3));
-            console.log(ebene3)
-    }, []);
+    }, [Ebene2LoadNext]);
 
     useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=4`)
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${Ebene3LoadNext}&ebene=4`)
             .then((response) => response.json())
             .then((ebene4) => setEbene4(ebene4));
-    }, []);
+    }, [Ebene3LoadNext]);
 
     useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=5`)
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${Ebene4LoadNext}&ebene=5`)
             .then((response) => response.json())
             .then((ebene5) => setEbene5(ebene5));
-    }, []);
+    }, [Ebene4LoadNext]);
 
 
     const { data1, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=3`, fetcher);
 
-console.log(data1)
+    console.log(data1)
 
     function loadEbene3() {
         setEbene3(ebene3.filter(item => item.KSV === KsvEbene2))
@@ -290,7 +301,7 @@ console.log(data1)
     }
 
     //     ebene3 = ebene3.filter(item => ebene3.KSV.includes("VIW-14"))
-  
+
 
     function scaleImage(dataUrl, scaleRatio, imageType, imageArguments, callback) {
         "use strict";
@@ -322,7 +333,33 @@ console.log(data1)
         image.src = dataUrl;
     }
 
-  
+    function SetKsv() {
+        console.log('HALLO')
+        console.log(KSV)
+        console.log({ Ebene2LoadNext })
+
+        if (Ebene2LoadNext != 'x' && Ebene3LoadNext == 'x' && Ebene4LoadNext == 'x' && Ebene5LoadNext == 'x') {
+            setKSV(Ebene2LoadNext)
+            console.log(KSV)
+        }
+        else if (Ebene3LoadNext != 'x'  && Ebene4LoadNext == 'x' && Ebene5LoadNext == 'x' ) {
+            setKSV(Ebene3LoadNext)
+            console.log(KSV)
+        }
+        else if (Ebene4LoadNext != 'x' && Ebene5LoadNext == 'x' ) {
+            setKSV(Ebene4LoadNext)
+            console.log(KSV)
+        }
+        else if (Ebene5LoadNext != 'x' && Ebene2LoadNext != 'x' && Ebene3LoadNext != 'x' && Ebene4LoadNext != 'x') {
+            setKSV(Ebene5LoadNext)
+            console.log(KSV)
+        }
+        else {
+            setKSV('')
+            console.log('KSV nicht rihtig gesetzt!')
+        }
+        console.log(KSV)
+    }
 
     return (
         <form>
@@ -361,7 +398,7 @@ console.log(data1)
                 </Box>
 
             </div>
-            <Grid style={{marginLeft: matchesMD == true ? '10%' : '', marginRight:  matchesMD == true ? '10%' : '' }}>
+            <Grid style={{ marginLeft: matchesMD == true ? '15%' : '', marginRight: matchesMD == true ? '15%' : '' }}>
                 <div className={classes.g}>
                     <Grid className={classes.h} item xs={6}>
                         <TextField size="small" fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
@@ -379,8 +416,6 @@ console.log(data1)
                     </Grid>
                 </div>
                 <div className={classes.g} >
-                   
-
                     <Grid className={classes.h} item xs={6} >
                         <Autocomplete
                             disablePortal
@@ -395,11 +430,12 @@ console.log(data1)
 
                     <Grid item xs={6}>
                         <Autocomplete
+                          
                             disablePortal
                             id="combo-box-demo"
                             options={KsvALL}
                             getOptionLabel={(option) => option.KSV}
-                            onChange={(event, value) => setKSV(value.KSV)}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene2LoadNext("x")} else { setEbene2LoadNext(value.KSV) } }}
                             renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 1" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.KSV === "value.KSV"}
                         />
@@ -409,13 +445,14 @@ console.log(data1)
                 <div className={classes.g}>
                     <Grid className={classes.h} item xs={6}>
                         <Autocomplete
+                           
+                            key={Ebene2LoadNext}
+                            disabled={ebene3 == '' ? true : false}
                             disablePortal
                             id="combo-box-demo"
                             options={ebene3}
                             getOptionLabel={(option) => option.KSV}
-                            onChange={(event, value) => {
-                                if (value === null) { value = "" }; setKSV(value.KSV); loadEbene3();
-                            }}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene3LoadNext("x")} else { setEbene3LoadNext(value.KSV) } }}
                             renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 2" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                         />
@@ -423,16 +460,82 @@ console.log(data1)
 
                     <Grid item xs={6}>
                         <Autocomplete
+                         
+                            key={Ebene2LoadNext || Ebene3LoadNext}
+                            disabled={ebene3 == '' || ebene4 == '' ? true : false}
                             disablePortal
                             id="combo-box-demo"
                             options={ebene4}
                             getOptionLabel={(option) => option.KSV}
-                            onChange={(event, value) => {
-                                if (value === null) { value = "" }; setKSV(value.KSV);
-                            }}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene4LoadNext("x")} else { setEbene4LoadNext(value.KSV) } }}
                             renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 3" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
                         />
+                    </Grid>
+                </div>
+                <div className={classes.g}>
+                    <Grid className={classes.h} item xs={6}>
+                        <Autocomplete
+                            
+                            key={Ebene2LoadNext || Ebene3LoadNext || Ebene4LoadNext}
+                            disabled={ebene3 == '' || ebene4 == '' || ebene5 == '' ? true : false}
+                            disablePortal
+                            id="combo-box-demo"
+                            options={ebene5}
+                            getOptionLabel={(option) => option.KSV}
+                            onChange={(event, value) => { if (value === null) { value = "" } else { setEbene5LoadNext(value.KSV) } }}
+                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 4" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
+                        />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <Button
+                            fullWidth variant="outlined"
+                            disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && Ebene2LoadNext != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"}
+                            onClick={handleClickOpen2}
+                        >Unterschreiben</Button>
+                        <Dialog
+                            fullScreen
+                            open={open2}
+                            onClose={handleClose2}
+                            TransitionComponent={Transition}
+                        >
+                            <AppBar className={classes.Unterschrift} sx={{ position: 'relative' }}>
+                                <Toolbar >
+                                    <IconButton
+                                        edge="start"
+                                        color="inherit"
+                                        onClick={handleClose2}
+                                        aria-label="close"
+
+                                    >
+                                        <CloseIcon />
+                                    </IconButton>
+                                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                        Unterschrift
+                                    </Typography>
+                                    <div className={classes.c}>
+                                        <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
+                                        <Button color="inherit" autoFocus onClick={() => save()}>Speichern</Button>
+                                    </div>
+                                </Toolbar>
+                            </AppBar>
+                            <>
+                                <div className={sigCanvas.signatureCanvas} >
+                                    <SignaturePad
+                                        ref={sigCanvasRef}
+                                        canvasProps={
+                                            {
+                                                style: { background: 'white', width: '100%', minHeight: '99%', border: 'solid' }
+                                            }
+                                        } />
+                                </div>
+
+
+
+                            </>
+                        </Dialog>
                     </Grid>
                 </div>
                 <div className={classes.g}>
@@ -475,9 +578,9 @@ console.log(data1)
                     </Grid>
                 </div>
                 <div className={classes.BTNGroup}>
-                    <Grid style={{marginLeft: matchesMD == true ? '15%': '', marginRight: matchesMD == true ? '15%': ''}} item xs={12}>
+                    <Grid style={{ marginLeft: matchesMD == true ? '15%' : '', marginRight: matchesMD == true ? '15%' : '' }} item xs={12}>
 
-                        <Button onClick={handleClickOpen2} size='large' className={classes.SignBTN} disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && KSV != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"} variant="contained">
+                        {/* <Button onClick={handleClickOpen2} size='large' className={classes.SignBTN} disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && KSV != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"} variant="contained">
                             <Typography variant="h6">Unterschreiben</Typography>
                         </Button>
                         <Dialog
@@ -520,7 +623,7 @@ console.log(data1)
 
 
                             </>
-                        </Dialog>
+                        </Dialog> */}
 
                         {/* <Popup modal trigger={
 
@@ -548,7 +651,7 @@ console.log(data1)
                             )}
                         </Popup> */}
                     </Grid>
-                    <Grid style={{marginLeft: matchesMD == true ? '15%': '', marginRight: matchesMD == true ? '15%': ''}} item xs={12}>
+                    <Grid style={{ marginLeft: matchesMD == true ? '15%' : '', marginRight: matchesMD == true ? '15%' : '' }} item xs={12}>
                         <ThemeProvider theme={BTNTheme}>
                             <Button className={classes.CreateBTN} size='large' disabled={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? false : true} variant="contained" onClick={() => { CREATE2(); MAIL(); handleClick1() }} color="primary">
                                 <Typography variant="h6">Erstellen</Typography>
@@ -560,8 +663,6 @@ console.log(data1)
                                 20 Minuten Zeit zum Bestätigen
                             </Alert>
                         </Snackbar>
-
-
                     </Grid>
                 </div>
             </Grid>

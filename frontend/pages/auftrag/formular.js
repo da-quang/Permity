@@ -97,11 +97,11 @@ export default function Formular() {
     let BIS = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()} ${value1.getHours()}:${value1.getMinutes()}`;
 
     let [KSV, setKSV] = useState('')
-    let [KOMMENTAR, setKOMMENTAR] = useState('')
+    let [KOMMENTAR, setKOMMENTAR] = useState('-')
     let [AUFTRAGNEHMER, setAUFTRAGNEHMER] = useState('')
     let [SPERREN, setSPERREN] = useState('')
     let [AUFTRAG, setAUFTRAG] = useState('')
-    let [AUFTRAGGEBER_UNTERSCHRIFT, setAUFTRAGGEBER_UNTERSCHRIFT] = useState('Hallo123')
+    let [AUFTRAGGEBER_UNTERSCHRIFT, setAUFTRAGGEBER_UNTERSCHRIFT] = useState('')
 
     let AUFTRAGGEBER = query.param2
 
@@ -115,7 +115,8 @@ export default function Formular() {
 
     const CREATE2 = async () => {
 
-        console.log(KSV)
+
+        
 
         // console.log(AUFTRAGGEBER_UNTERSCHRIFT)
         // axios.post('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
@@ -185,7 +186,8 @@ export default function Formular() {
     const clear = () => sigCanvasRef.current.clear();
     const save = () => {
 
-        setAUFTRAGGEBER_UNTERSCHRIFT(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
+        setAUFTRAGGEBER_UNTERSCHRIFT('Hallo123')
+        // setAUFTRAGGEBER_UNTERSCHRIFT(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
 
         // let base64 = sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png");
         // let blob = dataURItoBlob(base64);
@@ -245,7 +247,6 @@ export default function Formular() {
 
     const handleClickOpen2 = () => {
         setOpen2(true);
-        SetKsv()
     };
 
     const handleClose2 = () => {
@@ -263,7 +264,7 @@ export default function Formular() {
     let [KsvEbene1, setKsvEbene1] = useState('')
     let [KsvEbene2, setKsvEbene2] = useState('')
 
-   
+
 
 
     useEffect(() => {
@@ -338,20 +339,16 @@ export default function Formular() {
         console.log(KSV)
         console.log({ Ebene2LoadNext })
 
-        if (Ebene2LoadNext != 'x' && Ebene3LoadNext == 'x' && Ebene4LoadNext == 'x' && Ebene5LoadNext == 'x') {
+        if (Ebene2LoadNext != 'x' && Ebene3Bezeichnung == '' && Ebene4Bezeichnung == '' && Ebene5Bezeichnung == '') {
             setKSV(Ebene2LoadNext)
             console.log(KSV)
         }
-        else if (Ebene3LoadNext != 'x'  && Ebene4LoadNext == 'x' && Ebene5LoadNext == 'x' ) {
-            setKSV(Ebene3LoadNext)
+        else if (Ebene3Bezeichnung != '' && Ebene2LoadNext != 'x' && Ebene4Bezeichnung == '' && Ebene5Bezeichnung == '') {
+            setKSV(Ebene3Bezeichnung)
             console.log(KSV)
         }
-        else if (Ebene4LoadNext != 'x' && Ebene5LoadNext == 'x' ) {
-            setKSV(Ebene4LoadNext)
-            console.log(KSV)
-        }
-        else if (Ebene5LoadNext != 'x' && Ebene2LoadNext != 'x' && Ebene3LoadNext != 'x' && Ebene4LoadNext != 'x') {
-            setKSV(Ebene5LoadNext)
+        else if (Ebene5Bezeichnung != '' && Ebene2LoadNext != 'x' && Ebene3Bezeichnung != '' && Ebene4Bezeichnung != '') {
+            setKSV(Ebene5Bezeichnung)
             console.log(KSV)
         }
         else {
@@ -360,6 +357,45 @@ export default function Formular() {
         }
         console.log(KSV)
     }
+
+    // useEffect(() => {
+    //     setKSV(Ebene2LoadNext)
+    //     console.log(KSV)
+    // },[Ebene2LoadNext])
+
+    // useEffect(() => {
+    //     if(Ebene2LoadNext != 'x'){
+    //         setKSV(Ebene3Bezeichnung)
+    //     }
+    //     else if(Ebene3LoadNext == 'x'){
+    //         setKsv(Ebene2LoadNext)
+    //     }
+    //     console.log(KSV)
+    // },[Ebene3LoadNext])
+
+    // useEffect(() => {
+    //     if(Ebene3LoadNext != 'x'){
+    //         setKSV(Ebene4Bezeichnung)
+    //     }
+    //     else if(Ebene4LoadNext == 'x'){
+    //         setKsv(Ebene3Bezeichnung)
+    //     }
+    //     console.log(KSV)
+    // },[Ebene4LoadNext])
+
+    // useEffect(() => {
+    //     if(Ebene4LoadNext != 'x' && Ebene5LoadNext != 'x'){
+    //         setKSV(Ebene5Bezeichnung)
+    //     }
+    //     else{
+    //         setKsv(Ebene4Bezeichnung)
+    //     }
+    //     console.log(KSV)
+    // },[Ebene5LoadNext])
+
+    let [Ebene3Bezeichnung, setEbene3Bezeichnung] = useState('')
+    let [Ebene4Bezeichnung, setEbene4Bezeichnung] = useState('')
+    let [Ebene5Bezeichnung, setEbene5Bezeichnung] = useState('')
 
     return (
         <form>
@@ -430,12 +466,12 @@ export default function Formular() {
 
                     <Grid item xs={6}>
                         <Autocomplete
-                          
+
                             disablePortal
                             id="combo-box-demo"
                             options={KsvALL}
                             getOptionLabel={(option) => option.KSV}
-                            onChange={(event, value) => { if (value === null) { value = ""; setEbene2LoadNext("x")} else { setEbene2LoadNext(value.KSV) } }}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene2LoadNext("x") } else { setEbene2LoadNext(value.KSV)} }}
                             renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 1" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.KSV === "value.KSV"}
                         />
@@ -445,55 +481,58 @@ export default function Formular() {
                 <div className={classes.g}>
                     <Grid className={classes.h} item xs={6}>
                         <Autocomplete
-                           
+
                             key={Ebene2LoadNext}
                             disabled={ebene3 == '' ? true : false}
                             disablePortal
                             id="combo-box-demo"
                             options={ebene3}
-                            getOptionLabel={(option) => option.KSV}
-                            onChange={(event, value) => { if (value === null) { value = ""; setEbene3LoadNext("x")} else { setEbene3LoadNext(value.KSV) } }}
+                            getOptionLabel={(option) => option.BEZEICHNUNG}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene3LoadNext("x"); setEbene3Bezeichnung(''); setKSV(Ebene2LoadNext); console.log('Null') } else { setEbene3LoadNext(value.KSV), setKSV(value.BEZEICHNUNG), setEbene3Bezeichnung(value.BEZEICHNUNG); console.log('NOT Null') } }}
                             renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 2" ></TextField>)}
-                            isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
+                            isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
                         />
                     </Grid>
 
                     <Grid item xs={6}>
                         <Autocomplete
-                         
-                            key={Ebene2LoadNext || Ebene3LoadNext}
+                            key={Ebene3LoadNext}
+                            
                             disabled={ebene3 == '' || ebene4 == '' ? true : false}
                             disablePortal
                             id="combo-box-demo"
                             options={ebene4}
-                            getOptionLabel={(option) => option.KSV}
-                            onChange={(event, value) => { if (value === null) { value = ""; setEbene4LoadNext("x")} else { setEbene4LoadNext(value.KSV) } }}
-                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 3" ></TextField>)}
-                            isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
+                            getOptionLabel={(option) => option.BEZEICHNUNG}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene4LoadNext("x"); setEbene4Bezeichnung(''); setKSV(Ebene3Bezeichnung) } else { setEbene4LoadNext(value.KSV); setKSV(value.BEZEICHNUNG); setEbene4Bezeichnung(value.BEZEICHNUNG) } }}
+                            renderInput={(params) => (<TextField {...params} value="" size="small" variant="outlined" label="Ksv 3" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
                         />
                     </Grid>
                 </div>
                 <div className={classes.g}>
                     <Grid className={classes.h} item xs={6}>
                         <Autocomplete
-                            
-                            key={Ebene2LoadNext || Ebene3LoadNext || Ebene4LoadNext}
+                            key={Ebene4LoadNext}
+                         
+
                             disabled={ebene3 == '' || ebene4 == '' || ebene5 == '' ? true : false}
                             disablePortal
                             id="combo-box-demo"
                             options={ebene5}
-                            getOptionLabel={(option) => option.KSV}
-                            onChange={(event, value) => { if (value === null) { value = "" } else { setEbene5LoadNext(value.KSV) } }}
+                            getOptionLabel={(option) => option.BEZEICHNUNG}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene5Bezeichnung(''); setKSV(Ebene4Bezeichnung) } else { setEbene5LoadNext(value.KSV); setKSV(value.BEZEICHNUNG) } }}
                             renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 4" ></TextField>)}
-                            isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
+                            isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
                         />
                     </Grid>
 
                     <Grid item xs={6}>
                         <Button
                             fullWidth variant="outlined"
-                            disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && Ebene2LoadNext != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"}
-                            onClick={handleClickOpen2}
+                            disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && Ebene2LoadNext != "x" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "" ? "success" : "primary"}
+                            // onClick={handleClickOpen2}
+                            onClick={()=>save()}
+                            variant="contained"
                         >Unterschreiben</Button>
                         <Dialog
                             fullScreen

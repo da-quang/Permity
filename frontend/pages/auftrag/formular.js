@@ -397,6 +397,15 @@ export default function Formular() {
     let [Ebene4Bezeichnung, setEbene4Bezeichnung] = useState('')
     let [Ebene5Bezeichnung, setEbene5Bezeichnung] = useState('')
 
+    useEffect(() => {
+        setEbene3LoadNext('x')
+        setEbene4LoadNext('x')
+    },[Ebene2LoadNext])
+
+    useEffect(() => {
+        setEbene4LoadNext('x')
+    },[Ebene3LoadNext])
+
     return (
         <form>
             <div>
@@ -481,7 +490,6 @@ export default function Formular() {
                 <div className={classes.g}>
                     <Grid className={classes.h} item xs={6}>
                         <Autocomplete
-
                             key={Ebene2LoadNext}
                             disabled={ebene3 == '' ? true : false}
                             disablePortal
@@ -513,15 +521,13 @@ export default function Formular() {
                     <Grid className={classes.h} item xs={6}>
                         <Autocomplete
                             key={Ebene4LoadNext}
-                         
-
                             disabled={ebene3 == '' || ebene4 == '' || ebene5 == '' ? true : false}
                             disablePortal
                             id="combo-box-demo"
                             options={ebene5}
                             getOptionLabel={(option) => option.BEZEICHNUNG}
                             onChange={(event, value) => { if (value === null) { value = ""; setEbene5Bezeichnung(''); setKSV(Ebene4Bezeichnung) } else { setEbene5LoadNext(value.KSV); setKSV(value.BEZEICHNUNG) } }}
-                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 4" ></TextField>)}
+                            renderInput={(params) => (<TextField  {...params} size="small" variant="outlined" label="Ksv 4" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
                         />
                     </Grid>

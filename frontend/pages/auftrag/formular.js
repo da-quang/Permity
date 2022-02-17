@@ -164,6 +164,8 @@ export default function Formular() {
         const data = await response.json()
         console.log(data)
 
+        router.push(`/startseite?param=${query.param}&param2=${query.param2}`)
+
         // const fd = new FormData();
         // fd.append
 
@@ -443,7 +445,7 @@ export default function Formular() {
                 </Box>
 
             </div>
-            <Grid style={{ marginLeft: matchesMD == true ? '15%' : '', marginRight: matchesMD == true ? '15%' : '' }}>
+            <Grid style={{ marginLeft: matchesMD == true ? '15%' : '', marginRight: matchesMD == true ? '15%' : '', marginTop: '20px' }}>
                 <div className={classes.g}>
                     <Grid className={classes.h} item xs={6}>
                         <TextField size="small" fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
@@ -505,7 +507,6 @@ export default function Formular() {
                     <Grid item xs={6}>
                         <Autocomplete
                             key={Ebene3LoadNext}
-                            
                             disabled={ebene3 == '' || ebene4 == '' ? true : false}
                             disablePortal
                             id="combo-box-demo"

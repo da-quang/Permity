@@ -32,21 +32,21 @@ import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CloseIcon from '@mui/icons-material/Close';
-import { setISODay } from 'date-fns';
-import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+
 import Badge from '@mui/material/Badge';
-import { Unterschrift } from '../auftrag/Unterschrift'
+
 import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
-import StarIcon from '@mui/icons-material/Star';
+
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import SearchIcon from '@mui/icons-material/Search';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
+import { Stack } from '@mui/material';
+import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 import Tab1 from '../../components/Tab';
 import Tab2 from '../../components/Tab2';
@@ -87,7 +87,7 @@ export default function Startseite() {
         setAnchorEl(null);
     };
 
-    
+
 
 
     const handleSearchChange3 = e => {
@@ -139,6 +139,10 @@ export default function Startseite() {
     const [filter3, setfilter3] = useState("");
     const [filter4, setfilter4] = useState("");
     const [filter5, setfilter5] = useState("");
+    const { Von, setVon } = useState("");
+    const { Bis, setBis } = useState("");
+    const [value1, setValue1] = useState(new Date(""));
+    const [value2, setValue2] = useState(new Date(""));
 
     const handleSearchChange2 = (se) => {
         if (filter2 == se) {
@@ -208,6 +212,7 @@ export default function Startseite() {
 
     //<Unterschrift Status updaten>
     const Update = async auftragID => {
+        setAUFTRAGNEHMER_UNTERSCHRIFT('Hallo1234')
 
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${Id}&status=Bestätigt&auftragnehmer_unterschrift=${AUFTRAGNEHMER_UNTERSCHRIFT}`, {
             method: 'PUT'
@@ -304,11 +309,11 @@ export default function Startseite() {
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
 
     }
-    
 
-    
+
+
     return (
-        <form  className={classes.h}>
+        <form className={classes.h}>
 
             <AddAuftrag Kurzzeichen={query.param} Name={name} />
 
@@ -342,7 +347,7 @@ export default function Startseite() {
 
             <div className={classes.FilterAdd}>
 
-                <Button color="inherit" className={classes.BTN} style={{marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}
+                <Button color="inherit" className={classes.BTN} style={{ marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }}
 
                     id="basic-button"
                     aria-controls="basic-menu"
@@ -360,23 +365,54 @@ export default function Startseite() {
                         'aria-labelledby': 'basic-button',
                     }}>
                     <a></a>
-                    <ListItem><Typography variant='h6' fontWeight='bold' > SPERREN </Typography></ListItem>
-                    <ListItem> <Button className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
-                    <ListItem> <Button className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
-                    <ListItem> <Button className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
-                    <ListItem> <Button className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
+                    <ListItem><Typography variant='h8' fontWeight='bold' > SPERREN </Typography></ListItem>
+                    <ListItem> <Button size='small' className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
+                    <ListItem> <Button size='small' className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
+                    <ListItem> <Button size='small' className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
+                    <ListItem> <Button size='small' className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
                     <Divider></Divider>
+                    <Divider></Divider>
+                    <ListItem> <TextField size='small' fullWidth size="small" variant="outlined" value={filter3} onChange={handleSearchChange3} label={'KSV'}></TextField></ListItem>
+                    <Divider></Divider>
+                    <ListItem> <TextField size='small' fullWidth size="small" variant="outlined" value={filter4} onChange={handleSearchChange4} label={'Auftraggeber'}></TextField></ListItem>
+                    <Divider></Divider>
+                    <ListItem> <TextField size='small' fullWidth size="small" variant="outlined" value={filter5} onChange={handleSearchChange5} label={'Auftragnehmer'}></TextField></ListItem>
+                    <Divider></Divider>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <ListItem>
+                            <Stack>
+                                <MobileDateTimePicker
+                                    ampm={false}
+                                    label="24hours"
+                                    value={value2}
+                                    onChange={(newValue2) => {
+                                        setValue2(newValue2)
+                                    }}
 
-                    <Divider></Divider>
-
-                    <ListItem><Typography variant='h6' fontWeight='bold' > KSV </Typography></ListItem>
-                    <ListItem> <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter3} onChange={handleSearchChange3} label={<SearchIcon />}></TextField></ListItem>
-                    <Divider></Divider>
-                    <ListItem><Typography variant='h6' fontWeight='bold' > Auftraggeber </Typography></ListItem>
-                    <ListItem> <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter4} onChange={handleSearchChange4} label={<SearchIcon />}></TextField></ListItem>
-                    <Divider></Divider>
-                    <ListItem><Typography variant='h6' fontWeight='bold' > Auftragnehmer </Typography></ListItem>
-                    <ListItem> <TextField style={{ width: "200px" }} fullWidth size="small" variant="outlined" value={filter5} onChange={handleSearchChange5} label={<SearchIcon />}></TextField></ListItem>
+                                    label="Bis"
+                                    inputFormat="yyyy/MM/dd HH:mm"
+                                    renderInput={(params) => <TextField label='von' size="small" onChange={e => Von(e.target.value)} variant="outlined" {...params} />}
+                                />
+                            </Stack>
+                        </ListItem>
+                        <Divider></Divider>
+                        <ListItem>
+                            <Stack>
+                                <MobileDateTimePicker
+                                    ampm={false}
+                                    label="24hours"
+                                    value={value1}
+                                    onChange={(newValue1) => {
+                                        setValue1(newValue1)
+                                    }}
+                                    X
+                                    label="VON"
+                                    inputFormat="yyyy/MM/dd HH:mm"
+                                    renderInput={(params) => <TextField size="small" label='Bis' onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
+                                />
+                            </Stack>
+                        </ListItem>
+                    </LocalizationProvider>
                 </Menu>
 
 
@@ -385,7 +421,7 @@ export default function Startseite() {
 
             <div className={classes.SummaryWrapper}>
 
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
 
                     <AccordionSummary
 
@@ -393,11 +429,11 @@ export default function Startseite() {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon/></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Offen</Typography>
+                        <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Offen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
-                            {auftrag.STATUS == "Offen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) &&
+                            {auftrag.STATUS == "Offen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                                 <div className={classes.Offen}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
@@ -474,7 +510,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}  className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -485,7 +521,7 @@ export default function Startseite() {
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
-                            {auftrag.STATUS == "Bestätigt" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) &&
+                            {auftrag.STATUS == "Bestätigt" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                                 <div className={classes.Bestätigt}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
@@ -519,7 +555,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}  className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -575,7 +611,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%',  marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%'}}  className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -586,7 +622,7 @@ export default function Startseite() {
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
                         {data && data.map((auftrag, id) => <a key={id}>
-                            {auftrag.STATUS == "Abgeschlossen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) &&
+                            {auftrag.STATUS == "Abgeschlossen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                                 <div className={classes.Abgeschlossen}>
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>

@@ -434,7 +434,7 @@ export default function Formular() {
                                     'aria-labelledby': 'basic-button',
                                 }}>
                                 <MenuItem onClick={() => router.push(`/mitarbeiter/login`)}><LogoutIcon />Logout </MenuItem>
-                                <MenuItem onClick={() => router.back()}><HomeIcon />Startseite</MenuItem>
+                                <MenuItem onClick={() => router.push(`/startseite?param=${query.param}&param2${query.param2}`)}><HomeIcon />Startseite</MenuItem>
                             </Menu>
                             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                                 Auftrag

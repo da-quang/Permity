@@ -72,41 +72,6 @@ export default function Start() {
         console.log("Unterschrift wurde gespeichert!")
     }
 
-    const unterschreiben = async () => {
-        const updateBestätigt = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${id}&auftragnehmer_unterschrift=${AUFTRAGNEHMER_UNTERSCHRIFT}`, {
-            method: 'PUT'
-        })
-    }
-
-    function dataURItoBlob(dataURI) {
-        // convert base64 to raw binary data held in a string
-        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-        var byteString = atob(dataURI.split(',')[1]);
-
-        // separate out the mime component
-        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-
-        // write the bytes of the string to an ArrayBuffer
-        var ab = new ArrayBuffer(byteString.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-        var blob = null;
-        // TypeError old chrome and FF
-        window.BlobBuilder = window.BlobBuilder ||
-            window.WebKitBlobBuilder ||
-            window.MozBlobBuilder ||
-            window.MSBlobBuilder;
-        if (window.BlobBuilder) {
-            var bb = new BlobBuilder();
-            bb.append(ab);
-            blob = bb.getBlob(mimeString);
-        } else {
-            blob = new Blob([ab], { type: mimeString });
-        }
-        return blob;
-    }
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -117,30 +82,6 @@ export default function Start() {
         setAnchorEl(null);
     };
 
-
-    function deleteAuftrag() {
-        //löschfunktion machen AMIR#########################
-        //löschfunktion machen AMIR#########################
-        //löschfunktion machen AMIR#########################
-        //löschfunktion machen AMIR#########################
-        //löschfunktion machen AMIR#########################
-        //löschfunktion machen AMIR#########################
-
-        // asdaskldfjalskd 
-        // asdaskldfjalskddfasd
-        // fasdf
-        // asdaskldfjalskddfasdfasdfasdf
-        // asd
-        // fasdff
-        // asdaskldfjalskddfasdfasdfasdffas
-        // fadasd
-        // fasd
-        // fasd
-        // fasfasdf
-        // as
-        // dfa
-
-    }
 
     console.log({ AUFTRAGNEHMER_UNTERSCHRIFT })
 
@@ -156,6 +97,56 @@ export default function Start() {
     }
 
     const classes = useStyles();
+
+    const Delete = async auftragID => {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/delete?id=${auftragID}`, {
+            method: 'DELETE'
+        })
+        const data = await response.json()
+        console.log(data)
+    }
+
+    const Update = async auftragID => {
+        setAUFTRAGNEHMER_UNTERSCHRIFT('Hallo1234')
+
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${auftragID}&status=Bestätigt&auftragnehmer_unterschrift=Leer`, {
+            method: 'PUT'
+        })
+        const data = await response.json()
+        console.log(data)
+    }
+
+    const Update2 = async auftragID => {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/abgeschlossen?id=${auftragID}&auftragnehmer_unterschrift=Leer`, {
+            method: 'PUT'
+        })
+        const data = await response.json()
+        console.log(data)
+    }
+
+    const Mail = async auftragnehmer => {
+        const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${auftragnehmer}`, {
+            method: 'GET'
+        })
+        const email = await getEmail.json()
+
+        const sendEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${email[0].EMAIL}`, {
+            method: 'POST'
+        })
+
+        console.log("Email wurde versendet")
+    }
+
+    const Update3 = async auftragID => {
+        const Update3 = await fetch(` https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/resend?id=${auftragID}`, {
+            method: 'PUT'
+
+        })
+        const data = await Update3.json()
+    }
+
+
+    
     return (
 
         <div>
@@ -260,8 +251,11 @@ export default function Start() {
                         </CardContent>
                         <Divider></Divider>
                         <CardActions style={{ display: 'flex' }}>
-                            <Button className={auftrag.STATUS == "Nicht angenommen" && auftrag.STATUS == "Bestätigt" && auftrag.STATUS == "Abgeschlossen" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Unterschreiben</Button>
-                            <Button style={{ color: '#0000EE' }} size="medium">Löschen </Button>
+                            <Button className={(auftrag.AUFTRAGGEBER !== query.param3 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER)  && auftrag.STATUS == "Offen"? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Bestätigen</Button>
+                            <Button className={auftrag.AUFTRAGNEHMER == query.param3 && auftrag.AUFTRAGGEBER !== query.param3 && auftrag.STATUS == "Bestätigt" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Gesehen </Button>
+                            <Button className={auftrag.AUFTRAGNEHMER != query.param3 && auftrag.AUFTRAGGEBER == query.param3 && auftrag.STATUS =="Bestätigt" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Abschließen</Button>
+                            <Button className={auftrag.STATUS == "Nicht angenommen" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Löschen</Button>
+                            <Button className={(auftrag.AUFTRAGGEBER == query.param3 || auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER) && auftrag.STATUS == "Nicht angenommen" ? null : classes.disabled } style={{ color: '#0000EE' }} size="medium">Erneut senden</Button>
                         </CardActions>
                     </Card>
                 )}

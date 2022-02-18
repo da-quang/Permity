@@ -12,7 +12,7 @@ import SignaturePad from "react-signature-canvas";
 import Router from "next/router";
 import "./sigCanvas.module.css";
 import sigCanvas from './sigCanvas.module.css';
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -48,6 +48,7 @@ import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 import Tab1 from '../../components/Tab';
 import Tab2 from '../../components/Tab2';
@@ -142,8 +143,11 @@ export default function Startseite() {
     const [filter5, setfilter5] = useState("");
     const { Von, setVon } = useState("");
     const { Bis, setBis } = useState("");
-    const [value1, setValue1] = useState(new Date(""));
-    const [value2, setValue2] = useState(new Date(""));
+    const [value1, setValue1] = useState(new Date());
+    const [value2, setValue2] = useState(new Date());
+
+    const [FilterVon, setFilterVon] = useState()
+    const [FilterBis, setFilterBis] = useState()
 
     const handleSearchChange2 = (se) => {
         if (filter2 == se) {
@@ -196,6 +200,8 @@ export default function Startseite() {
     console.log(data)
     // console.log(data.sort((a, b) => a.VON.split('T')[0] - b.VON.split('T')[0]))
     // console.log(data.sort((a, b) => a.ID - b.ID))
+
+
 
     //<Löschen>
     const Delete = async auftragID => {
@@ -311,6 +317,31 @@ export default function Startseite() {
 
     }
 
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    console.log(firstDay)
+    console.log(lastDay)
+
+    var curr = new Date; // get current date
+    var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
+    var last = first + 6; // last day is the first day + 6
+
+    var firstday = new Date(curr.setDate(first)).toUTCString();
+    var lastday = new Date(curr.setDate(last)).toUTCString();
+
+    console.log(first)
+    console.log(last)
+
+    value1.setHours(7, 30)
+    value2.setHours(16, 45)
+    value1.setDate(first)
+    value2.setDate(last)
+
+    let VON = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()} ${value1.getHours()}:${value1.getMinutes()}`;
+    let BIS = `${value2.getFullYear()}.${value2.getMonth() + 1}.${value2.getDate()} ${value2.getHours()}:${value2.getMinutes()}`;
+
 
 
     return (
@@ -385,23 +416,6 @@ export default function Startseite() {
                                 <MobileDateTimePicker
                                     ampm={false}
                                     label="24hours"
-                                    value={value2}
-                                    onChange={(newValue2) => {
-                                        setValue2(newValue2)
-                                    }}
-
-                                    label="Bis"
-                                    inputFormat="yyyy/MM/dd HH:mm"
-                                    renderInput={(params) => <TextField label='von' size="small" onChange={e => Von(e.target.value)} variant="outlined" {...params} />}
-                                />
-                            </Stack>
-                        </ListItem>
-                        <Divider></Divider>
-                        <ListItem>
-                            <Stack>
-                                <MobileDateTimePicker
-                                    ampm={false}
-                                    label="24hours"
                                     value={value1}
                                     onChange={(newValue1) => {
                                         setValue1(newValue1)
@@ -409,10 +423,30 @@ export default function Startseite() {
                                     X
                                     label="VON"
                                     inputFormat="yyyy/MM/dd HH:mm"
-                                    renderInput={(params) => <TextField size="small" label='Bis' onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
+                                    renderInput={(params) => <TextField size="small" label='Bis' variant="outlined" {...params} />}
                                 />
                             </Stack>
                         </ListItem>
+                        <Button onClick={() => setFilterVon(VON)} style={{ marginLeft: '10px' }}>Speichern</Button> <Button onClick={() => setFilterVon('')} color="error">Löschen</Button>
+                        <Divider></Divider>
+                        <ListItem>
+                            <Stack>
+                                <MobileDateTimePicker
+                                    ampm={false}
+                                    label="24hours"
+                                    value={value2}
+                                    onChange={(newValue2) => {
+                                        setValue2(newValue2)
+                                    }}
+
+                                    label="BIS"
+                                    inputFormat="yyyy/MM/dd HH:mm"
+                                    renderInput={(params) => <TextField label='von' size="small" variant="outlined" {...params} />}
+                                />
+                            </Stack>
+                        </ListItem>
+                        <Button onClick={() => setFilterBis(BIS)} style={{ marginLeft: '10px' }}>Speichern</Button> <Button onClick={() => setFilterBis('')} color="error">Löschen</Button>
+
                     </LocalizationProvider>
                 </Menu>
 
@@ -443,7 +477,7 @@ export default function Startseite() {
                                             <a className={auftrag.AUFTRAGGEBER !== query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER ? null : classes.Check}>
                                                 <Tooltip title="Unterschreiben">
                                                     <IconButton onClick={() => { Update(auftrag.ID) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                        <CreateIcon />
+                                                        <CheckCircleOutlineIcon />
                                                     </IconButton>
                                                 </Tooltip>
                                             </a>
@@ -495,7 +529,7 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ float: 'right', color: 'white' }}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>
@@ -527,7 +561,7 @@ export default function Startseite() {
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <a className={auftrag.AUFTRAGNEHMER == query.param2 && auftrag.AUFTRAGGEBER !== query.param2 ? null : classes.Check }>
+                                            <a className={auftrag.AUFTRAGNEHMER == query.param2 && auftrag.AUFTRAGGEBER !== query.param2 ? null : classes.Check}>
                                                 <Tooltip title="Gesehen">
                                                     <IconButton onClick={() => Update2(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <RemoveRedEyeIcon />
@@ -548,7 +582,7 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ float: 'right', color: 'white' }}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>
@@ -591,6 +625,8 @@ export default function Startseite() {
                                                         <DeleteIcon />
                                                     </IconButton>
                                                 </Tooltip>
+                                            </a>
+                                            <a className={auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER ? null : classes.Check }>
                                                 <Tooltip title="Erneut senden">
                                                     <IconButton onClick={() => { Update3(auftrag.ID); Mail(auftrag.AUFTRAGNEHMER) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <PublishedWithChangesIcon />
@@ -604,7 +640,7 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ float: 'right', color: 'white' }}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>
@@ -647,7 +683,7 @@ export default function Startseite() {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             <div style={{ marginBottom: 30 }}>
-                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}`)} style={{ float: 'right', color: 'white' }}>
+                                                <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
                                                 </Button>
                                             </div>

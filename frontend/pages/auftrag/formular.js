@@ -482,7 +482,7 @@ export default function Formular() {
                             id="combo-box-demo"
                             options={KsvALL}
                             getOptionLabel={(option) => option.KSV}
-                            onChange={(event, value) => { if (value === null) { value = ""; setEbene2LoadNext("x") } else { setEbene2LoadNext(value.KSV)} }}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene2LoadNext("x") } else { setEbene2LoadNext(value.KSV), setKSV(value.KSV)} }}
                             renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 1" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.KSV === "value.KSV"}
                         />

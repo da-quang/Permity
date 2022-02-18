@@ -33,7 +33,7 @@ namespace backend.Controllers
         [HttpGet("all")]
         public JsonResult AllAuftrag(string name)
         {
-            string query = @"select * from ""Auftrag"" where ""AUFTRAGGEBER"" = @name or ""AUFTRAGNEHMER"" = @name order by 7 desc";
+            string query = @"select * from ""Auftrag"" where ""AUFTRAGGEBER"" = @name or ""AUFTRAGNEHMER"" = @name";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -215,9 +215,9 @@ namespace backend.Controllers
         */
         //api/Auftrag/update
         [HttpPut("update")]
-        public JsonResult UpdateAuftrag(int id, string auftragnehmer_unterschrift)
+        public JsonResult UpdateAuftrag(int id, string am)
         {
-            string query = @"update ""Auftrag"" set ""STATUS"" = 'Bestätigt', ""AUFTRAGNEHMER_UNTERSCHRIFT""= @auftragnehmer_unterschrift  where ""ID"" = @id";
+            string query = @"update ""Auftrag"" set ""STATUS"" = 'Bestätigt', ""BESTÄTIGT_AM""= @am  where ""ID"" = @id";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -228,7 +228,7 @@ namespace backend.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@id", id);
-                    myCommand.Parameters.AddWithValue("@auftragnehmer_unterschrift", auftragnehmer_unterschrift);
+                    myCommand.Parameters.AddWithValue("@BESTÄTIGT_AM", am);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -249,9 +249,9 @@ namespace backend.Controllers
         */
         //api/Auftrag/close
         [HttpPut("close")]
-        public JsonResult closeAuftrag(int id)
+        public JsonResult closeAuftrag(int id, string am)
         {
-            string query = @"update ""Auftrag"" set ""STATUS"" = 'Abgeschlossen' where ""ID"" = @id";
+            string query = @"update ""Auftrag"" set ""STATUS"" = 'Abgeschlossen', ""ABGESCHLOSSEN_AM"" = @am where ""ID"" = @id";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -262,6 +262,7 @@ namespace backend.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@id", id);
+                    myCommand.Parameters.AddWithValue("@ABGESCHLOSSEN", am);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -271,7 +272,42 @@ namespace backend.Controllers
             }
             return new JsonResult("Closed successfully");
         }
+
         /*
+        * Set 'BESTÄTIGT_AM'
+        * 
+        * return status message
+        *
+        * edit by David Nguyen
+        * 15.01.2022
+        */
+        //api/Auftrag/close
+        [HttpPut("confirm")]
+        public JsonResult confirmAuftrag(int id, string am)
+        {
+            string query = @"update ""Auftrag"" set ""BESTÄTIGT_AM"" = @am where ""ID"" = @id";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("AppCon");
+            NpgsqlDataReader myReader;
+            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@id", id);
+                    myCommand.Parameters.AddWithValue("@ABGESCHLOSSEN", am);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Confirmed successfully");
+        }
+
+         /*
         * Update status from task to 'Offen' after resending the task
         * 
         * return status message
@@ -281,7 +317,7 @@ namespace backend.Controllers
         */
         //api/Auftrag/resend
         [HttpPut("resend")]
-        public JsonResult resendAuftrag(int id)
+        public JsonResult closeAuftrag(int id)
         {
             string query = @"update ""Auftrag"" set ""STATUS"" = 'Offen' where ""ID"" = @id";
 
@@ -301,9 +337,43 @@ namespace backend.Controllers
                     myCon.Close();
                 }
             }
-            Confirmation(id);
+            Confirmation(getId(auftraggeber, auftragnehmer));
             return new JsonResult("Resend successfully");
         }
-    }
 
+         /*
+        * Filter Auftrag by date
+        * 
+        * return status message
+        *
+        * edit by David Nguyen
+        * 17.02.2022
+        */
+        //api/Auftrag/filterDate
+        [HttpGet("filterDate")]
+        public JsonResult filterDate(string von, string bis)
+        {
+            string query = @"select * from ""Auftrag"" where ""BIS"" >= @von and ""BIS"" <= @bis";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("AppCon");
+            NpgsqlDataReader myReader;
+            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@von", von);
+                    myCommand.Parameters.AddWithValue("@bis", bis);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
+    }
 }
+

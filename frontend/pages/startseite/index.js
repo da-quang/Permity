@@ -47,6 +47,7 @@ import { Stack } from '@mui/material';
 import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 import Tab1 from '../../components/Tab';
 import Tab2 from '../../components/Tab2';
@@ -214,7 +215,7 @@ export default function Startseite() {
     const Update = async auftragID => {
         setAUFTRAGNEHMER_UNTERSCHRIFT('Hallo1234')
 
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${Id}&status=Bestätigt&auftragnehmer_unterschrift=${AUFTRAGNEHMER_UNTERSCHRIFT}`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${auftragID}&status=Bestätigt&auftragnehmer_unterschrift=Leer`, {
             method: 'PUT'
         })
         const data = await response.json()
@@ -243,7 +244,7 @@ export default function Startseite() {
 
     //<Auftrag abschließen Button>
     const Update2 = async auftragID => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/abgeschlossen?id=${auftragID}&status=Abgeschlossen`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/abgeschlossen?id=${auftragID}&auftragnehmer_unterschrift=Leer`, {
             method: 'PUT'
         })
         const data = await response.json()
@@ -305,7 +306,7 @@ export default function Startseite() {
             method: 'PUT'
 
         })
-
+        const data = await Update3.json()
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
 
     }
@@ -439,9 +440,9 @@ export default function Startseite() {
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
 
-                                            <a className={auftrag.AUFTRAGGEBER == query.param2 ? classes.Check : null}>
+                                            <a className={auftrag.AUFTRAGGEBER !== query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER ? null : classes.Check}>
                                                 <Tooltip title="Unterschreiben">
-                                                    <IconButton onClick={() => { setOpen3(true); setId(auftrag.ID) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <IconButton onClick={() => { Update(auftrag.ID) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <CreateIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -526,8 +527,15 @@ export default function Startseite() {
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <a className={auftrag.AUFTRAGNEHMER == query.param2 ? classes.Check : null}>
-                                                <Tooltip title="Bestätigen">
+                                            <a className={auftrag.AUFTRAGNEHMER == query.param2 && auftrag.AUFTRAGGEBER !== query.param2 ? null : classes.Check }>
+                                                <Tooltip title="Gesehen">
+                                                    <IconButton onClick={() => Update2(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                        <RemoveRedEyeIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </a>
+                                            <a className={auftrag.AUFTRAGNEHMER == query.param2 && auftrag.AUFTRAGGEBER !== query.param2 ? classes.Check : null}>
+                                                <Tooltip title="Abschließen">
                                                     <IconButton onClick={() => Update2(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <HowToRegIcon />
                                                     </IconButton>

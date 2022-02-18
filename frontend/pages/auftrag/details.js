@@ -237,7 +237,7 @@ export default function Start() {
                                 <TextField style={{ marginRight: '5px' }} className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAGGEBER} variant="filled" size="small" inputProps={{ readOnly: true, }} />
                                 <TextField className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAGNEHMER} variant="filled" size="small" inputProps={{ readOnly: true, }} />
                             </div>
-
+{/* 
                             <div className={classes.box}>
                                 <div className={classes.contentInfo}>Unterschrift</div>
                                 <div className={classes.contentInfo}>Unterschrift</div>
@@ -246,16 +246,16 @@ export default function Start() {
                                 <img className={classes.unterschrift} src={auftrag.AUFTRAGGEBER_UNTERSCHRIFT} />
 
                                 <img className={classes.unterschrift} src={auftrag.AUFTRAGNEHMER_UNTERSCHRIFT} />
-                            </div>
+                            </div> */}
 
                         </CardContent>
                         <Divider></Divider>
                         <CardActions style={{ display: 'flex' }}>
                             <Button className={(auftrag.AUFTRAGGEBER !== query.param3 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER)  && auftrag.STATUS == "Offen"? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Bestätigen</Button>
                             <Button className={auftrag.AUFTRAGNEHMER == query.param3 && auftrag.AUFTRAGGEBER !== query.param3 && auftrag.STATUS == "Bestätigt" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Gesehen </Button>
-                            <Button className={auftrag.AUFTRAGNEHMER != query.param3 && auftrag.AUFTRAGGEBER == query.param3 && auftrag.STATUS =="Bestätigt" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Abschließen</Button>
+                            <Button className={(auftrag.AUFTRAGNEHMER == query.param3 && auftrag.AUFTRAGGEBER !== query.param3) && auftrag.STATUS !=="Bestätigt" ? classes.disabled : null } style={{ color: '#0000EE' }} size="medium">Abschließen</Button>
                             <Button className={auftrag.STATUS == "Nicht angenommen" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Löschen</Button>
-                            <Button className={(auftrag.AUFTRAGGEBER == query.param3 || auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER) && auftrag.STATUS == "Nicht angenommen" ? null : classes.disabled } style={{ color: '#0000EE' }} size="medium">Erneut senden</Button>
+                            <Button className={(auftrag.AUFTRAGGEBER == query.param3 || auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER) && auftrag.STATUS == "Nicht angenommen" || auftrag.STATUS == "Abgeschlossen" ? null : classes.disabled } style={{ color: '#0000EE' }} size="medium">Erneut senden</Button>
                         </CardActions>
                     </Card>
                 )}

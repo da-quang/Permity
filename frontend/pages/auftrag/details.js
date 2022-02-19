@@ -253,7 +253,7 @@ export default function Start() {
                         <CardActions style={{ display: 'flex' }}>
                             <Button className={(auftrag.AUFTRAGGEBER !== query.param3 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER)  && auftrag.STATUS == "Offen"? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Bestätigen</Button>
                             <Button className={auftrag.AUFTRAGNEHMER == query.param3 && auftrag.AUFTRAGGEBER !== query.param3 && auftrag.STATUS == "Bestätigt" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Gesehen </Button>
-                            <Button className={(auftrag.AUFTRAGNEHMER == query.param3 && auftrag.AUFTRAGGEBER !== query.param3) && auftrag.STATUS !=="Bestätigt" ? classes.disabled : null } style={{ color: '#0000EE' }} size="medium">Abschließen</Button>
+                            <Button className={(auftrag.AUFTRAGNEHMER !== query.param3 && auftrag.AUFTRAGGEBER == query.param3) && auftrag.STATUS =="Bestätigt" ? null : classes.disabled } style={{ color: '#0000EE' }} size="medium">Abschließen</Button>
                             <Button className={auftrag.STATUS == "Nicht angenommen" || auftrag.STATUS == "Abgeschlossen" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Löschen</Button>
                             <Button className={(auftrag.AUFTRAGGEBER == query.param3 || auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER) && auftrag.STATUS == "Nicht angenommen" ? null : classes.disabled } style={{ color: '#0000EE' }} size="medium">Erneut senden</Button>
                         </CardActions>

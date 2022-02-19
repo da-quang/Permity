@@ -228,7 +228,7 @@ namespace backend.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@id", id);
-                    myCommand.Parameters.AddWithValue("@BESTÄTIGT_AM", am);
+                    myCommand.Parameters.AddWithValue("@am", am);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -262,7 +262,7 @@ namespace backend.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@id", id);
-                    myCommand.Parameters.AddWithValue("@ABGESCHLOSSEN", am);
+                    myCommand.Parameters.AddWithValue("@am", am);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -296,7 +296,7 @@ namespace backend.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@id", id);
-                    myCommand.Parameters.AddWithValue("@ABGESCHLOSSEN", am);
+                    myCommand.Parameters.AddWithValue("@am", am);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 

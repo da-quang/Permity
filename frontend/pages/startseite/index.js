@@ -561,8 +561,8 @@ export default function Startseite() {
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <a className={auftrag.AUFTRAGNEHMER == query.param2 && auftrag.AUFTRAGGEBER !== query.param2 ? null : classes.Check}>
-                                                <Tooltip title="Gesehen">
+                                            <a className={auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 ? null : classes.Check}>
+                                                <Tooltip title="Bestätigung gesehen">
                                                     <IconButton onClick={() => Update2(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <RemoveRedEyeIcon />
                                                     </IconButton>

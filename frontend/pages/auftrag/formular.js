@@ -434,7 +434,7 @@ export default function Formular() {
                                     'aria-labelledby': 'basic-button',
                                 }}>
                                 <MenuItem onClick={() => router.push(`/mitarbeiter/login`)}><LogoutIcon />Logout </MenuItem>
-                                <MenuItem onClick={() => router.push(`/startseite?param=${query.param}&param2${query.param2}`)}><HomeIcon />Startseite</MenuItem>
+                                <MenuItem onClick={() => router.push(`/startseite?param=${query.param}&param2=${query.param2}`)}><HomeIcon />Startseite</MenuItem>
                             </Menu>
                             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                                 Auftrag
@@ -445,7 +445,7 @@ export default function Formular() {
                 </Box>
 
             </div>
-            <Grid style={{ marginLeft: matchesMD == true ? '15%' : '', marginRight: matchesMD == true ? '15%' : '', marginTop: '20px' }}>
+            <Grid style={{ marginLeft: matchesMD == true ? '20%' : '', marginRight: matchesMD == true ? '20%' : '', marginTop: '20px' }}>
                 <div className={classes.g}>
                     <Grid className={classes.h} item xs={6}>
                         <TextField size="small" fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
@@ -540,7 +540,7 @@ export default function Formular() {
                             // onClick={handleClickOpen2}
                             onClick={()=>save()}
                             variant="contained"
-                        >Unterschreiben</Button>
+                        >Bestätigen</Button>
                         <Dialog
                             fullScreen
                             open={open2}
@@ -697,7 +697,7 @@ export default function Formular() {
                             )}
                         </Popup> */}
                     </Grid>
-                    <Grid style={{ marginLeft: matchesMD == true ? '15%' : '', marginRight: matchesMD == true ? '15%' : '' }} item xs={12}>
+                    <Grid style={{ marginLeft: matchesMD == true ? '20%' : '10%', marginRight: matchesMD == true ? '20%' : '10%' }} item xs={12}>
                         <ThemeProvider theme={BTNTheme}>
                             <Button className={classes.CreateBTN} size='large' disabled={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? false : true} variant="contained" onClick={() => { CREATE2(); MAIL(); handleClick1() }} color="primary">
                                 <Typography variant="h6">Erstellen</Typography>
@@ -723,7 +723,7 @@ export default function Formular() {
 
 const useStyles = makeStyles({
     CreateBTN: {
-        width: "80%",
+        width: "60%",
         marginTop: "80px",
 
     },

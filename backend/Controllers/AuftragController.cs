@@ -228,7 +228,7 @@ namespace backend.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@id", id);
-                    myCommand.Parameters.AddWithValue("@am", am);
+                    myCommand.Parameters.AddWithValue("@am", DateTimeOffset.Parse(am));
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -262,7 +262,7 @@ namespace backend.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@id", id);
-                    myCommand.Parameters.AddWithValue("@am", am);
+                    myCommand.Parameters.AddWithValue("@am", DateTimeOffset.Parse(am));
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -296,7 +296,7 @@ namespace backend.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@id", id);
-                    myCommand.Parameters.AddWithValue("@am", am);
+                    myCommand.Parameters.AddWithValue("@am", DateTimeOffset.Parse(am));
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 
@@ -363,8 +363,8 @@ namespace backend.Controllers
                 myCon.Open();
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@von", von);
-                    myCommand.Parameters.AddWithValue("@bis", bis);
+                    myCommand.Parameters.AddWithValue("@von", DateTimeOffset.Parse(von));
+                    myCommand.Parameters.AddWithValue("@bis", DateTimeOffset.Parse(bis));
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 

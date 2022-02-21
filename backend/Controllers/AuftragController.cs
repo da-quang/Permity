@@ -206,7 +206,7 @@ namespace backend.Controllers
         }
 
         /*
-        * Update status from task to 'Bestätigt' after signing
+        * Set time when Auftraggeber seen the Auftrag
         *
         * return status message
         *
@@ -214,10 +214,10 @@ namespace backend.Controllers
         * 15.01.2022
         */
         //api/Auftrag/update
-        [HttpPut("update")]
-        public JsonResult UpdateAuftrag(int id, string am)
+        [HttpPut("watched")]
+        public JsonResult watched(int id, string am)
         {
-            string query = @"update ""Auftrag"" set ""STATUS"" = 'Bestätigt', ""BESTÄTIGT_AM""= @am  where ""ID"" = @id";
+            string query = @"update ""Auftrag"" set ""GESEHEN_AM""= @am  where ""ID"" = @id";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -281,11 +281,11 @@ namespace backend.Controllers
         * edit by David Nguyen
         * 15.01.2022
         */
-        //api/Auftrag/close
+        //api/Auftrag/confirm
         [HttpPut("confirm")]
         public JsonResult confirmAuftrag(int id, string am)
         {
-            string query = @"update ""Auftrag"" set ""BESTÄTIGT_AM"" = @am where ""ID"" = @id";
+            string query = @"update ""Auftrag"" set ""STATUS"" = 'Bestätigt', ""ANGENOMMEN_AM"" = @am where ""ID"" = @id";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -317,9 +317,9 @@ namespace backend.Controllers
         */
         //api/Auftrag/resend
         [HttpPut("resend")]
-        public JsonResult closeAuftrag(int id)
+        public JsonResult resendAuftrag(int id, string am)
         {
-            string query = @"update ""Auftrag"" set ""STATUS"" = 'Offen' where ""ID"" = @id";
+            string query = @"update ""Auftrag"" set ""STATUS"" = 'Offen', ""ERNEUT_GESENDET_AM"" = @am where ""ID"" = @id";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");
@@ -330,6 +330,7 @@ namespace backend.Controllers
                 using (NpgsqlCommand myCommand = new NpgsqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@id", id);
+                    myCommand.Parameters.AddWithValue("@am", DateTimeOffset.Parse(am));
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
 

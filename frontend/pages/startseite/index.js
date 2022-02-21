@@ -89,9 +89,6 @@ export default function Startseite() {
         setAnchorEl(null);
     };
 
-
-
-
     const handleSearchChange3 = e => {
         console.log(e.target.value)
         setfilter3(e.target.value)
@@ -146,8 +143,10 @@ export default function Startseite() {
     const [value1, setValue1] = useState(new Date());
     const [value2, setValue2] = useState(new Date());
 
-    const [FilterVon, setFilterVon] = useState()
-    const [FilterBis, setFilterBis] = useState()
+    const [FilterVon, setFilterVon] = useState();
+    const [FilterBis, setFilterBis] = useState();
+
+    const [currentDate, setCurrentDate] = useState();
 
     const handleSearchChange2 = (se) => {
         if (filter2 == se) {
@@ -221,7 +220,14 @@ export default function Startseite() {
     const Update = async auftragID => {
         setAUFTRAGNEHMER_UNTERSCHRIFT('Hallo1234')
 
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${auftragID}&status=Bestätigt&auftragnehmer_unterschrift=Leer`, {
+        setCurrentDate(new Date())
+
+        let InsertDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+
+
+        console.log(InsertDate)
+
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/confirm?id=${auftragID}&am=${InsertDate}`, {
             method: 'PUT'
         })
         const data = await response.json()
@@ -475,7 +481,7 @@ export default function Startseite() {
                                             {auftrag.ID} | {auftrag.AUFTRAG}
 
                                             <a className={auftrag.AUFTRAGGEBER !== query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER ? null : classes.Check}>
-                                                <Tooltip title="Unterschreiben">
+                                                <Tooltip title="Bestätigen">
                                                     <IconButton onClick={() => { Update(auftrag.ID) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <CheckCircleOutlineIcon />
                                                     </IconButton>

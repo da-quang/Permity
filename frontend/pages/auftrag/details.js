@@ -237,6 +237,14 @@ export default function Start() {
                                 <TextField style={{ marginRight: '5px' }} className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAGGEBER} variant="filled" size="small" inputProps={{ readOnly: true, }} />
                                 <TextField className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAGNEHMER} variant="filled" size="small" inputProps={{ readOnly: true, }} />
                             </div>
+
+                            <div className={classes.box}>
+                                <div className={classes.contentInfo}>Bestätigt am</div>
+                               
+                            </div>
+                            <div className={classes.box2}>
+                            <TextField fullWidth className={classes.contentDate} defaultValue={auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                            </div>
 {/* 
                             <div className={classes.box}>
                                 <div className={classes.contentInfo}>Unterschrift</div>

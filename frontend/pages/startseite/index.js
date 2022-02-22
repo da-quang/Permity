@@ -78,6 +78,7 @@ export default function Startseite() {
 
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
+    const matchesMD = useMediaQuery(theme.breakpoints.up('md'));
     const matchesLG = useMediaQuery(theme.breakpoints.up('lg'));
     console.log(matches)
 
@@ -146,7 +147,7 @@ export default function Startseite() {
     const [FilterVon, setFilterVon] = useState();
     const [FilterBis, setFilterBis] = useState();
 
-    const [currentDate, setCurrentDate] = useState();
+    const [currentDate, setCurrentDate] = useState(new Date());
 
     const handleSearchChange2 = (se) => {
         if (filter2 == se) {
@@ -220,7 +221,7 @@ export default function Startseite() {
     const Update = async auftragID => {
         setAUFTRAGNEHMER_UNTERSCHRIFT('Hallo1234')
 
-        setCurrentDate(new Date())
+       
 
         let InsertDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
@@ -385,7 +386,7 @@ export default function Startseite() {
 
             <div className={classes.FilterAdd}>
 
-                <Button color="inherit" className={classes.BTN} style={{ marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }}
+                <Button color="inherit" className={classes.BTN} style={{ marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%' }}
 
                     id="basic-button"
                     aria-controls="basic-menu"
@@ -462,7 +463,7 @@ export default function Startseite() {
 
             <div className={classes.SummaryWrapper}>
 
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '12%' && matchesLG == true ? '18%' : '18%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%' }} className={classes.Accordion}>
 
                     <AccordionSummary
 
@@ -551,7 +552,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '12%' && matchesLG == true ? '18%' : '18%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%' }} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -583,10 +584,16 @@ export default function Startseite() {
                                             </a>
                                         </summary>
                                         <div className={classes.InsideCard}>
+                                            <div style={{display: 'inline-block'}}> 
                                             <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                            </div>
+                                            <div style={{float: 'right', marginRight:'80px'}} >
+                                                <Typography className={matchesLG != true ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Bestätigt: </a> {auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]}</Typography>
+                                                <Typography className={matchesLG != true ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Bestätigung gesehen: </a> 22-02-2022 um 07:30</Typography>
+                                            </div>
                                             <div style={{ marginBottom: 30 }}>
                                                 <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
@@ -603,7 +610,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '12%' && matchesLG == true ? '18%' : '18%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%' }} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
@@ -661,7 +668,7 @@ export default function Startseite() {
             </div>
 
             <div className={classes.SummaryWrapper}>
-                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '20%' : '8%' }} className={classes.Accordion}>
+                <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '12%' && matchesLG == true ? '18%' : '18%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%' }} className={classes.Accordion}>
                     <AccordionSummary
 
                         expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}

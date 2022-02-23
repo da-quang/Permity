@@ -221,9 +221,9 @@ export default function Startseite() {
     const Update = async auftragID => {
         setAUFTRAGNEHMER_UNTERSCHRIFT('Hallo1234')
 
-       
+        let newDate = new Date();
 
-        let InsertDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+        let InsertDate = `${newDate.getFullYear()}.${newDate.getMonth() + 1}.${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}`;
 
 
         console.log(InsertDate)
@@ -267,6 +267,22 @@ export default function Startseite() {
 
     }
     //</Auftrag abschließen Button>
+
+    const Gesehen = async auftragID => {
+
+        let newDate = new Date();
+
+        let InsertDate = `${newDate.getFullYear()}.${newDate.getMonth() + 1}.${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}`;
+
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/watched?id=${auftragID}&am=${InsertDate}`, {
+            method: 'PUT'
+        })
+        const data = await response.json()
+        console.log(data)
+
+        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
+
+    }
 
 
 
@@ -568,14 +584,14 @@ export default function Startseite() {
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <a className={auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 ? null : classes.Check}>
+                                            <a className={auftrag.GESEHEN_AM == null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) ? null : classes.Check}>
                                                 <Tooltip title="Bestätigung gesehen">
-                                                    <IconButton onClick={() => Update2(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <IconButton onClick={() => Gesehen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <RemoveRedEyeIcon />
                                                     </IconButton>
                                                 </Tooltip>
                                             </a>
-                                            <a className={auftrag.AUFTRAGNEHMER == query.param2 && auftrag.AUFTRAGGEBER !== query.param2 ? classes.Check : null}>
+                                            <a className={auftrag.GESEHEN_AM !== null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2) ? null : classes.Check}>
                                                 <Tooltip title="Abschließen">
                                                     <IconButton onClick={() => Update2(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <HowToRegIcon />
@@ -584,15 +600,15 @@ export default function Startseite() {
                                             </a>
                                         </summary>
                                         <div className={classes.InsideCard}>
-                                            <div style={{display: 'inline-block'}}> 
-                                            <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                            <div style={{ display: 'inline-block' }}>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             </div>
-                                            <div style={{float: 'right', marginRight:'80px'}} >
-                                                <Typography className={matchesLG != true ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Bestätigt: </a> {auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]}</Typography>
-                                                <Typography className={matchesLG != true ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Bestätigung gesehen: </a> 22-02-2022 um 07:30</Typography>
+                                            <div className={matchesLG != true ? null : classes.CardDate} >
+                                                <Typography><a style={{ fontWeight: "bold" }}>Bestätigt: </a> {auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]}</Typography>
+                                                <Typography className={auftrag.GESEHEN_AM == null ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Bestätigung gesehen: </a>{auftrag.GESEHEN_AM == null || auftrag.GESEHEN_AM == 0 ? "" : auftrag.GESEHEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.GESEHEN_AM.split('-')[1] + '-' + auftrag.GESEHEN_AM.split('-')[0] + ' um ' + auftrag.GESEHEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.GESEHEN_AM.split('T')[1].split(':')[1]}</Typography>
                                             </div>
                                             <div style={{ marginBottom: 30 }}>
                                                 <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
@@ -639,7 +655,7 @@ export default function Startseite() {
                                                     </IconButton>
                                                 </Tooltip>
                                             </a>
-                                            <a className={auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER ? null : classes.Check }>
+                                            <a className={auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER ? null : classes.Check}>
                                                 <Tooltip title="Erneut senden">
                                                     <IconButton onClick={() => { Update3(auftrag.ID); Mail(auftrag.AUFTRAGNEHMER) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <PublishedWithChangesIcon />
@@ -719,6 +735,11 @@ export default function Startseite() {
 }
 
 const useStyles = makeStyles((theme) => ({
+
+    CardDate: {
+        float: 'right',
+        marginRight: '80px',
+    },
 
     Accordion: {
         marginLeft: '3%',

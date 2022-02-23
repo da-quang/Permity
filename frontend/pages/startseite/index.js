@@ -202,16 +202,42 @@ export default function Startseite() {
 
     if (error) return <div>failed to load</div>
     if (!data) return <div>loading...</div>
-    //data = data.sort((a,b) => a.ID - b.ID);
     //<Fetchen der Daten für die Karten>
 
     console.log(data)
-    // console.log(data.sort((a, b) => a.VON.split('T')[0] - b.VON.split('T')[0]))
-    // console.log(data.sort((a, b) => a.ID - b.ID))
 
+    // const { filterDate, errorDate } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
+    
 
+    let Count1 = 0
+    let Count2 = 0
+    let Count3 = 0
+    let Count4 = 0
 
-    //<Löschen>
+    let Offen = data.filter(item => item.STATUS === 'Offen')
+    let Bestätigt = data.filter(item => item.STATUS === 'Bestätigt')
+    let Abgelehnt = data.filter(item => item.STATUS === 'Nicht angenommen')
+    let Abgeschlossen = data.filter(item => item.STATUS === 'Abgeschlossen')
+
+    Count1 = Offen.length
+    Count2 = Bestätigt.length
+    Count3 = Abgelehnt.length
+    Count4 = Abgeschlossen.length
+    //</Counter für Anzahl von Aufträgen in einer Status Kategorie>
+
+    const Mail = async auftragnehmer => {
+        const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${auftragnehmer}`, {
+            method: 'GET'
+        })
+        const email = await getEmail.json()
+
+        const sendEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${email[0].EMAIL}`, {
+            method: 'POST'
+        })
+
+        console.log("Email wurde versendet")
+    }
+
     const Delete = async auftragID => {
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/delete?id=${auftragID}`, {
             method: 'DELETE'
@@ -221,18 +247,11 @@ export default function Startseite() {
 
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
     }
-    //</Löschen>
 
-
-
-    //<Unterschrift Status updaten>
     const Bestätigen = async auftragID => {
 
-
         let newDate = new Date();
-
         let InsertDate = `${newDate.getFullYear()}.${newDate.getMonth() + 1}.${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}`;
-
 
         console.log(InsertDate)
 
@@ -242,28 +261,9 @@ export default function Startseite() {
         const data = await response.json()
         console.log(data)
 
-        console.log(AUFTRAGNEHMER_UNTERSCHRIFT)
-
-        // fetch('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update', {
-        //     method: 'PUT',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Accept': '*/*',
-        //         'Access-Control-Allow-Origin': '*',
-        //         'Access-Control-Allow-Headers': 'Origin, X-Requested-With'
-        //     },
-        //     body: JSON.stringify({
-        //         id: Id,
-        //         auftragnehmer_unterschrift: AUFTRAGNEHMER_UNTERSCHRIFT,
-        //     })
-        // })
-
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
     }
-    //</Unterschrift Status updaten>
 
-
-    //<Auftrag abschließen Button>
     const Abschließen = async auftragID => {
 
         let newDate = new Date();
@@ -279,7 +279,6 @@ export default function Startseite() {
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
 
     }
-    //</Auftrag abschließen Button>
 
     const Gesehen = async auftragID => {
 
@@ -297,58 +296,18 @@ export default function Startseite() {
 
     }
 
+    const ErneutSenden = async auftragID => {
 
+        let newDate = new Date();
 
-    //<Counter für Anzahl von Aufträgen in einer Status Kategorie>
-    let Count1 = 0
-    let Count2 = 0
-    let Count3 = 0
-    let Count4 = 0
+        let InsertDate = `${newDate.getFullYear()}.${newDate.getMonth() + 1}.${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}`;
 
-    let Offen = data.filter(item => item.STATUS === 'Offen')
-    let Bestätigt = data.filter(item => item.STATUS === 'Bestätigt')
-    let Abgelehnt = data.filter(item => item.STATUS === 'Nicht angenommen')
-    let Abgeschlossen = data.filter(item => item.STATUS === 'Abgeschlossen')
-
-    Count1 = Offen.length
-    Count2 = Bestätigt.length
-    Count3 = Abgelehnt.length
-    Count4 = Abgeschlossen.length
-    //</Counter für Anzahl von Aufträgen in einer Status Kategorie>
-
-    // const [Fav, setFav] = useState("");
-
-    // const handleFav = (se) => {
-    //     if (Fav == se) {
-    //         setFav("");
-    //     }
-    //     else {
-    //         setFav(se);
-    //     }
-    // };
-
-
-    // const matches = useMediaQuery('(min-width:600px)');
-
-    const Mail = async auftragnehmer => {
-        const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${auftragnehmer}`, {
-            method: 'GET'
-        })
-        const email = await getEmail.json()
-
-        const sendEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${email[0].EMAIL}`, {
-            method: 'POST'
-        })
-
-        console.log("Email wurde versendet")
-    }
-
-    const Update3 = async auftragID => {
-        const Update3 = await fetch(` https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/resend?id=${auftragID}`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/resend?id=${auftragID}&am=${InsertDate}`, {
             method: 'PUT'
-
         })
-        const data = await Update3.json()
+        const data = await response.json()
+        console.log(data)
+
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
 
     }
@@ -364,8 +323,8 @@ export default function Startseite() {
     var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
     var last = first + 6; // last day is the first day + 6
 
-    var firstday = new Date(curr.setDate(first)).toUTCString();
-    var lastday = new Date(curr.setDate(last)).toUTCString();
+    // var firstday = new Date(curr.setDate(first)).toUTCString();
+    // var lastday = new Date(curr.setDate(last)).toUTCString();
 
     console.log(first)
     console.log(last)
@@ -487,13 +446,6 @@ export default function Startseite() {
 
                     </LocalizationProvider>
                 </Menu>
-                <div>
-                    <ThemeProvider theme={BTNTheme}>
-                        <Tooltip title="Alle öffnen">
-                            <IconButton color="primary" style={{ marginRight: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%' }}><ArrowDropDownCircleIcon /></IconButton>
-                        </Tooltip>
-                    </ThemeProvider>
-                </div>
             </div>
 
 
@@ -567,10 +519,15 @@ export default function Startseite() {
                                             </Dialog>
                                         </summary>
                                         <div className={classes.InsideCard}>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                            <div style={{ display: 'inline-block' }}>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                            </div>
+                                            <div className={matchesLG != true ? null : classes.CardDate} >
+                                                <Typography className={auftrag.ERNEUT_GESENDET_AM == null ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Erneut gesendet: </a>{auftrag.ERNEUT_GESENDET_AM == null ? "" : auftrag.ERNEUT_GESENDET_AM.split('T')[0].split('-')[2] + '-' + auftrag.ERNEUT_GESENDET_AM.split('-')[1] + '-' + auftrag.ERNEUT_GESENDET_AM.split('-')[0] + ' um ' + auftrag.ERNEUT_GESENDET_AM.split('T')[1].split(':')[0] + ':' + auftrag.ERNEUT_GESENDET_AM.split('T')[1].split(':')[1]}</Typography>
+                                            </div>
                                             <div style={{ marginBottom: 30 }}>
                                                 <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
@@ -662,7 +619,8 @@ export default function Startseite() {
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Bestätigt" ? classes.SummaryBTNDisabled : null}>
+
+                                            <a className={auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER ? null : classes.Check}>
                                                 <Tooltip title="Löschen">
                                                     <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <DeleteIcon />
@@ -671,17 +629,19 @@ export default function Startseite() {
                                             </a>
                                             <a className={auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER ? null : classes.Check}>
                                                 <Tooltip title="Erneut senden">
-                                                    <IconButton onClick={() => { Update3(auftrag.ID); Mail(auftrag.AUFTRAGNEHMER) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <IconButton onClick={() => { ErneutSenden(auftrag.ID); Mail(auftrag.AUFTRAGNEHMER) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <PublishedWithChangesIcon />
                                                     </IconButton>
                                                 </Tooltip>
                                             </a>
                                         </summary>
                                         <div className={classes.InsideCard}>
+                                            <div style={{ display: 'inline-block' }}>
                                             <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                            </div>
                                             <div style={{ marginBottom: 30 }}>
                                                 <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
@@ -714,7 +674,7 @@ export default function Startseite() {
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <a style={{}}>
+                                            <a className={auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER ? null : classes.Check}>
                                                 <Tooltip title="Löschen">
                                                     <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <DeleteIcon />
@@ -723,16 +683,16 @@ export default function Startseite() {
                                             </a>
                                         </summary>
                                         <div className={classes.InsideCard}>
+                                            <div style={{ display: 'inline-block' }}>
                                             <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
-
+                                            </div>
                                             <div className={matchesLG != true ? null : classes.CardDate} >
-                                                <Typography><a style={{ fontWeight: "bold" }}>Abgeschlossen: </a> {auftrag.ABGESCHLOSSEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[1] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[0] + ' um ' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[1]}</Typography>
+                                                <Typography><a style={{ fontWeight: "bold" }}>Abgeschlossen: </a> {auftrag.GESEHEN_AM == null ? "" : auftrag.ABGESCHLOSSEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[1] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[0] + ' um ' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[1]}</Typography>
 
                                             </div>
-
                                             <div style={{ marginBottom: 30 }}>
                                                 <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />

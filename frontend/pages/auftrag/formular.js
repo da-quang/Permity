@@ -61,6 +61,22 @@ const fetcher = (...args) => fetch(...args).then((response) => response.json())
 
 export default function Formular() {
 
+    const [Name, setName] = useState('')
+
+    useEffect(() => {
+        async function fetchAPI() {
+
+           let response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/all`)
+              response = await response.json()
+              setName(response)
+           
+        }
+
+        fetchAPI()
+
+    }, []);
+
+
     const { query } = useRouter()
     const classes = useStyles();
 
@@ -116,7 +132,7 @@ export default function Formular() {
     const CREATE2 = async () => {
 
 
-        
+
 
         // console.log(AUFTRAGGEBER_UNTERSCHRIFT)
         // axios.post('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
@@ -229,13 +245,7 @@ export default function Formular() {
     //         .then((ksv) => setKsv(ksv));
     // }, []);
 
-    let [Name, setName] = useState('')
 
-    useEffect(() => {
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/all`)
-            .then((response) => response.json())
-            .then((name) => setName(name));
-    }, []);
 
 
     const Sperren = [{
@@ -402,11 +412,11 @@ export default function Formular() {
     useEffect(() => {
         setEbene3LoadNext('x')
         setEbene4LoadNext('x')
-    },[Ebene2LoadNext])
+    }, [Ebene2LoadNext])
 
     useEffect(() => {
         setEbene4LoadNext('x')
-    },[Ebene3LoadNext])
+    }, [Ebene3LoadNext])
 
     return (
         <form>
@@ -456,7 +466,7 @@ export default function Formular() {
                             id="combo-box-demo"
                             options={Name}
                             getOptionLabel={(option) => option.NAME}
-                            onChange={(event, value) => setAUFTRAGNEHMER(value.NAME)}
+                            onChange={(event, value) => { if (value === null) { value = ""; setAUFTRAGNEHMER(value.NAME) } }}
                             renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Auftragnehmer" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.NAME === value.NAME}
                         />
@@ -481,13 +491,12 @@ export default function Formular() {
                             disablePortal
                             id="combo-box-demo"
                             options={KsvALL}
-                            getOptionLabel={(option) => option.KSV}
-                            onChange={(event, value) => { if (value === null) { value = ""; setEbene2LoadNext("x") } else { setEbene2LoadNext(value.KSV), setKSV(value.KSV)} }}
+                            getOptionLabel={(option) => option.BEZEICHNUNG}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene2LoadNext("x") } else { setEbene2LoadNext(value.KSV), setKSV(value.KSV) } }}
                             renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 1" ></TextField>)}
-                            isOptionEqualToValue={(option, value) => option.KSV === value.KSV}
+                            isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
                         />
                     </Grid>
-
                 </div>
                 <div className={classes.g}>
                     <Grid className={classes.h} item xs={6}>
@@ -538,7 +547,7 @@ export default function Formular() {
                             fullWidth variant="outlined"
                             disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && Ebene2LoadNext != "x" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "" ? "success" : "primary"}
                             // onClick={handleClickOpen2}
-                            onClick={()=>save()}
+                            onClick={() => save()}
                             variant="contained"
                         >Bestätigen</Button>
                         <Dialog

@@ -50,6 +50,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import SaveIcon from '@mui/icons-material/Save';
 
 import Tab1 from '../../components/Tab';
 import Tab2 from '../../components/Tab2';
@@ -422,8 +423,8 @@ export default function Startseite() {
                                 />
                             </Stack>
                         </ListItem>
-
-                        <Button onClick={() => setFilterVon(VON)} style={{ marginLeft: '10px' }}>Speichern</Button> <Button onClick={() => setFilterVon('')} color="error">Löschen</Button>
+                        <IconButton color="primary" style={{marginLeft: '10px'}} onClick={() => setFilterVon(VON)} ><SaveIcon/></IconButton>
+                        <IconButton onClick={() => setFilterVon('')} color="error"><DeleteIcon/></IconButton>
                         <Divider></Divider>
                         <ListItem>
                             <Stack>
@@ -442,7 +443,8 @@ export default function Startseite() {
                             </Stack>
                         </ListItem>
 
-                        <Button onClick={() => setFilterBis(BIS)} style={{ marginLeft: '10px' }}>Speichern</Button> <Button onClick={() => setFilterBis('')} color="error">Löschen</Button>
+                        <IconButton style={{marginLeft: '10px'}} color="primary" onClick={() => setFilterBis(BIS)}><SaveIcon/></IconButton>
+                        <IconButton onClick={() => setFilterBis('')} color="error"><DeleteIcon/></IconButton>
 
                     </LocalizationProvider>
                 </Menu>

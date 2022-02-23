@@ -37,7 +37,7 @@ namespace backend.Controllers
                             left outer join ""Teamzuordnung"" ""T"" on concat (""M"".""ABTEILUNG"", ' ', ""M"".""TEAM"") = ""T"".""TEAM_KURZ"" 
                             left outer join ""KSV_Struktur"" ""K"" on ""T"".""KKS_STANDORT"" = ""K"".""KSV""
                             where ""M"".""KURZZEICHEN"" = @kurzzeichen
-                            group by ""K"".""KSV""";
+                            group by ""K"".""KSV"", ""K"".""BEZEICHNUNG""";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");

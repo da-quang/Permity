@@ -49,6 +49,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 
 import Tab1 from '../../components/Tab';
 import Tab2 from '../../components/Tab2';
@@ -73,6 +74,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
+const BTNTheme = createTheme({
+    palette: {
+        primary: {
+            main: "#212121",
+        },
+    },
+});
 
 export default function Startseite() {
 
@@ -218,8 +226,8 @@ export default function Startseite() {
 
 
     //<Unterschrift Status updaten>
-    const Update = async auftragID => {
-        setAUFTRAGNEHMER_UNTERSCHRIFT('Hallo1234')
+    const Bestätigen = async auftragID => {
+
 
         let newDate = new Date();
 
@@ -256,8 +264,13 @@ export default function Startseite() {
 
 
     //<Auftrag abschließen Button>
-    const Update2 = async auftragID => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/abgeschlossen?id=${auftragID}&auftragnehmer_unterschrift=Leer`, {
+    const Abschließen = async auftragID => {
+
+        let newDate = new Date();
+
+        let InsertDate = `${newDate.getFullYear()}.${newDate.getMonth() + 1}.${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}`;
+
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/close?id=${auftragID}&am=${InsertDate}`, {
             method: 'PUT'
         })
         const data = await response.json()
@@ -402,7 +415,7 @@ export default function Startseite() {
 
             <div className={classes.FilterAdd}>
 
-                <Button color="inherit" className={classes.BTN} style={{ marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%' }}
+                <Button color="inherit" className={classes.BTN} style={{ marginLeft: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%' }}
 
                     id="basic-button"
                     aria-controls="basic-menu"
@@ -450,6 +463,7 @@ export default function Startseite() {
                                 />
                             </Stack>
                         </ListItem>
+
                         <Button onClick={() => setFilterVon(VON)} style={{ marginLeft: '10px' }}>Speichern</Button> <Button onClick={() => setFilterVon('')} color="error">Löschen</Button>
                         <Divider></Divider>
                         <ListItem>
@@ -468,12 +482,18 @@ export default function Startseite() {
                                 />
                             </Stack>
                         </ListItem>
+
                         <Button onClick={() => setFilterBis(BIS)} style={{ marginLeft: '10px' }}>Speichern</Button> <Button onClick={() => setFilterBis('')} color="error">Löschen</Button>
 
                     </LocalizationProvider>
                 </Menu>
-
-
+                <div>
+                    <ThemeProvider theme={BTNTheme}>
+                        <Tooltip title="Alle öffnen">
+                            <IconButton color="primary" style={{ marginRight: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%' }}><ArrowDropDownCircleIcon /></IconButton>
+                        </Tooltip>
+                    </ThemeProvider>
+                </div>
             </div>
 
 
@@ -499,7 +519,7 @@ export default function Startseite() {
 
                                             <a className={auftrag.AUFTRAGGEBER !== query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER ? null : classes.Check}>
                                                 <Tooltip title="Bestätigen">
-                                                    <IconButton onClick={() => { Update(auftrag.ID) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <IconButton onClick={() => { Bestätigen(auftrag.ID) }} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <CheckCircleOutlineIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -591,9 +611,9 @@ export default function Startseite() {
                                                     </IconButton>
                                                 </Tooltip>
                                             </a>
-                                            <a className={auftrag.GESEHEN_AM !== null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2) ? null : classes.Check}>
+                                            <a className={auftrag.GESEHEN_AM !== null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) ? null : classes.Check}>
                                                 <Tooltip title="Abschließen">
-                                                    <IconButton onClick={() => Update2(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <IconButton onClick={() => Abschließen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <HowToRegIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -643,12 +663,6 @@ export default function Startseite() {
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
                                             <a className={auftrag.STATUS == "Offen" || auftrag.STATUS == "Bestätigt" ? classes.SummaryBTNDisabled : null}>
-
-
-                                                {/* <IconButton color="inherit" className={classes.Fav} onClick={() => handleFav("True")} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                    <StarIcon />
-                                                </IconButton> */}
-
                                                 <Tooltip title="Löschen">
                                                     <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <DeleteIcon />
@@ -700,17 +714,25 @@ export default function Startseite() {
                                     <details className={classes.details}>
                                         <summary className={classes.summary}>
                                             {auftrag.ID} | {auftrag.AUFTRAG}
-                                            <Tooltip title="Löschen">
-                                                <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </Tooltip>
+                                            <a style={{}}>
+                                                <Tooltip title="Löschen">
+                                                    <IconButton onClick={() => Delete(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </a>
                                         </summary>
                                         <div className={classes.InsideCard}>
                                             <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+
+                                            <div className={matchesLG != true ? null : classes.CardDate} >
+                                                <Typography><a style={{ fontWeight: "bold" }}>Abgeschlossen: </a> {auftrag.ABGESCHLOSSEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[1] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[0] + ' um ' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[1]}</Typography>
+
+                                            </div>
+
                                             <div style={{ marginBottom: 30 }}>
                                                 <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
                                                     Details <DoubleArrowIcon />
@@ -770,8 +792,8 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "30px",
         display: "flex",
         marginLeft: "3%",
-        marginRight: "3%",
-        justifyContent: 'space-between',
+
+
     },
 
     SignatureBTNRow: {

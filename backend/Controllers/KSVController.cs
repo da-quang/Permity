@@ -33,7 +33,7 @@ namespace backend.Controllers
         [HttpGet("all")]
         public JsonResult all(string kurzzeichen)
         {
-            string query = @"select ""K"".""KSV"" from ""Mitarbeiter"" ""M"" 
+            string query = @"select ""K"".""KSV"", ""K"".""BEZEICHNUNG"" from ""Mitarbeiter"" ""M"" 
                             left outer join ""Teamzuordnung"" ""T"" on concat (""M"".""ABTEILUNG"", ' ', ""M"".""TEAM"") = ""T"".""TEAM_KURZ"" 
                             left outer join ""KSV_Struktur"" ""K"" on ""T"".""KKS_STANDORT"" = ""K"".""KSV""
                             where ""M"".""KURZZEICHEN"" = @kurzzeichen

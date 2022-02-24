@@ -64,18 +64,12 @@ export default function Formular() {
     const [Name, setName] = useState('')
 
     useEffect(() => {
-        async function fetchAPI() {
-
-           let response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/all`)
-              response = await response.json()
-              setName(response)
-           
-        }
-
-        fetchAPI()
-
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/all`)
+            .then((response) => response.json())
+            .then((name) => setName(name));
+         
+            
     }, []);
-
 
     const { query } = useRouter()
     const classes = useStyles();
@@ -466,7 +460,7 @@ export default function Formular() {
                             id="combo-box-demo"
                             options={Name}
                             getOptionLabel={(option) => option.NAME}
-                            onChange={(event, value) => { if (value === null) { value = ""; setAUFTRAGNEHMER(value.NAME) } }}
+                            onChange={(event, value) =>  {if (value === null) { value = "";} else { setAUFTRAGNEHMER(value.NAME)}}}
                             renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Auftragnehmer" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.NAME === value.NAME}
                         />

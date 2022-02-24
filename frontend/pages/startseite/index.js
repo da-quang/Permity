@@ -52,6 +52,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import SaveIcon from '@mui/icons-material/Save';
 
+
 import Tab1 from '../../components/Tab';
 import Tab2 from '../../components/Tab2';
 import Appbar from '../../components/AppBars'
@@ -565,14 +566,14 @@ export default function Startseite() {
                                             {auftrag.ID} | {auftrag.AUFTRAG}
                                             <a className={auftrag.GESEHEN_AM == null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) ? null : classes.Check}>
                                                 <Tooltip title="Bestätigung gesehen">
-                                                    <IconButton onClick={() => Gesehen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <IconButton  onClick={() => Gesehen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <RemoveRedEyeIcon />
                                                     </IconButton>
                                                 </Tooltip>
                                             </a>
                                             <a className={auftrag.GESEHEN_AM !== null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) ? null : classes.Check}>
                                                 <Tooltip title="Abschließen">
-                                                    <IconButton onClick={() => Abschließen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <IconButton disabled={auftrag.GESEHEN_AM == '' ? true : false} onClick={() => Abschließen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <HowToRegIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -586,7 +587,7 @@ export default function Startseite() {
                                                 <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             </div>
                                             <div className={matchesLG != true ? null : classes.CardDate} >
-                                                <Typography className={auftrag.GESEHEN_AM == null ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Bestätigt: </a> {auftrag.ANGENOMMEN_AM == null ? "" : auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]}</Typography>
+                                                <Typography ><a style={{ fontWeight: "bold" }}>Bestätigt: </a> {auftrag.ANGENOMMEN_AM == null ? "" : auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]}</Typography>
                                                 <Typography className={auftrag.GESEHEN_AM == null ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Bestätigung gesehen: </a>{auftrag.GESEHEN_AM == null || auftrag.GESEHEN_AM == 0 ? "" : auftrag.GESEHEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.GESEHEN_AM.split('-')[1] + '-' + auftrag.GESEHEN_AM.split('-')[0] + ' um ' + auftrag.GESEHEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.GESEHEN_AM.split('T')[1].split(':')[1]}</Typography>
                                             </div>
                                             <div style={{ marginBottom: 30 }}>

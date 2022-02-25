@@ -192,15 +192,9 @@ const useStyles = makeStyles({
 
     },
 
-    d: {
-        textAlign: 'center',
-        marginTop: "100px",
-        color: "white",
-        marginBottom: "40px",
-    },
 
     d: {
-        color: "green",
+       
         textAlign: 'center',
         marginTop: 40,
     },
@@ -219,20 +213,12 @@ const useStyles = makeStyles({
         borderBottomRightRadius: 15,
     },
 
-    f: {
-        background: 'linear-gradient(45deg, #455a64 30%, #546e7a 90%)',
-        boxShadow: '0 3px 5px 2px rgba(70, 175, 219, .3)',
-        height: 75,
-    },
-
     g: {
         marginTop: "160px",
        
     },
 
-    j: {
-        marginTop: "280px",
-    }
+    
 
 
 

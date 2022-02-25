@@ -146,7 +146,7 @@ export default function Start() {
     }
 
 
-    
+
     return (
 
         <div>
@@ -181,71 +181,83 @@ export default function Start() {
                     </Toolbar>
                 </AppBar>
             </Box>
-        
-        <div style={{marginLeft: matchesMD == true ? '4%' : '', marginRight: matchesMD == true ? '4%' : ''}}>
 
-            
-            {signatureMode == false ? <div>
-                {data && data.map((auftrag) =>
-                    <Card elevation={2} className={classes.container}>
-                        <CardContent style={{ padding: "2px" }}>
-                            <div className={classes.box}>
-                                <div className={classes.contentInfo}>Id</div>
-                                <div className={classes.contentInfo}>Auftrag</div>
-                            </div>
-                            <div className={classes.box2}>
-                                <TextField style={{ marginRight: '5px' }} multiline className={classes.contentAuftrag} defaultValue={auftrag.ID} variant="filled" size="small" inputProps={{ readOnly: true, }} />
-                                <TextField multiline className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAG} variant="filled" size="small" inputProps={{ readOnly: true, }} />
-                            </div>
+            <div style={{ marginLeft: matchesMD == true ? '4%' : '', marginRight: matchesMD == true ? '4%' : '' }}>
 
-                            <div className={classes.box}>
-                                <div className={classes.contentInfo}>Ksv</div>
-                                <div className={classes.contentInfo}>Sperren</div>
-                            </div>
-                            <div className={classes.box2}>
-                                <TextField style={{ marginRight: '5px' }} multiline className={classes.contentAuftrag} defaultValue={auftrag.KSV} variant="filled" size="small" inputProps={{ readOnly: true, }} />
-                                <TextField multiline className={classes.contentAuftrag} defaultValue={auftrag.SPERREN} variant="filled" size="small" inputProps={{ readOnly: true, }} />
-                            </div>
 
-                            <div className={classes.box}>
-                                <div className={classes.contentInfo}>Von</div>
-                                <div className={classes.contentInfo}>Bis</div>
-                            </div>
-                            <div className={classes.box2}>
-                                <TextField fullWidth style={{ marginRight: '5px' }} className={classes.contentDate} defaultValue={auftrag.VON.split('T')[0].split('-')[2] + '-' + auftrag.VON.split('-')[1] + '-' + auftrag.VON.split('-')[0] + ' um ' + auftrag.VON.split('T')[1].split(':')[0] + ':' + auftrag.VON.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }} />
-                                <TextField fullWidth className={classes.contentDate} defaultValue={auftrag.BIS.split('T')[0].split('-')[2] + '-' + auftrag.BIS.split('-')[1] + '-' + auftrag.BIS.split('-')[0] + ' um ' + auftrag.BIS.split('T')[1].split(':')[0] + ':' + auftrag.BIS.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }} />
-                            </div>
-                            <div className={classes.box}>
+                {signatureMode == false ? <div>
+                    {data && data.map((auftrag) =>
+                        <Card elevation={2} className={classes.container}>
+                            <CardContent style={{ padding: "2px" }}>
+                                <div className={classes.box}>
+                                    <div className={classes.contentInfo}>Id</div>
+                                    <div className={classes.contentInfo}>Auftrag</div>
+                                </div>
+                                <div className={classes.box2}>
+                                    <TextField style={{ marginRight: '5px' }} multiline className={classes.contentAuftrag} defaultValue={auftrag.ID} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                    <TextField multiline className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAG} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                </div>
 
-                            </div>
-                            <div className={classes.box2}>
+                                <div className={classes.box}>
+                                    <div className={classes.contentInfo}>Ksv</div>
+                                    <div className={classes.contentInfo}>Sperren</div>
+                                </div>
+                                <div className={classes.box2}>
+                                    <TextField style={{ marginRight: '5px' }} multiline className={classes.contentAuftrag} defaultValue={auftrag.KSV} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                    <TextField multiline className={classes.contentAuftrag} defaultValue={auftrag.SPERREN} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                </div>
 
-                            </div>
+                                <div className={classes.box}>
+                                    <div className={classes.contentInfo}>Von</div>
+                                    <div className={classes.contentInfo}>Bis</div>
+                                </div>
+                                <div className={classes.box2}>
+                                    <TextField multiline fullWidth style={{ marginRight: '5px' }} className={classes.contentDate} defaultValue={auftrag.VON.split('T')[0].split('-')[2] + '-' + auftrag.VON.split('-')[1] + '-' + auftrag.VON.split('-')[0] + ' um ' + auftrag.VON.split('T')[1].split(':')[0] + ':' + auftrag.VON.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                    <TextField multiline fullWidth className={classes.contentDate} defaultValue={auftrag.BIS.split('T')[0].split('-')[2] + '-' + auftrag.BIS.split('-')[1] + '-' + auftrag.BIS.split('-')[0] + ' um ' + auftrag.BIS.split('T')[1].split(':')[0] + ':' + auftrag.BIS.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                </div>
+                                <div className={classes.box}>
 
-                            <div className={classes.box}>
-                                <div className={classes.contentInfo}>Kommentar</div>
-                            </div>
-                            <div className={classes.box2}>
-                                <TextField className={classes.contentKommentar} defaultValue={auftrag.KOMMENTAR} variant="filled" size="small" readOnly />
-                            </div>
+                                </div>
+                                <div className={classes.box2}>
 
-                            <div className={classes.box}>
-                                <div className={classes.contentInfo}>Auftraggeber</div>
-                                <div className={classes.contentInfo}>Auftragnehmer</div>
-                            </div>
-                            <div className={classes.box2}>
-                                <TextField style={{ marginRight: '5px' }} className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAGGEBER} variant="filled" size="small" inputProps={{ readOnly: true, }} />
-                                <TextField className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAGNEHMER} variant="filled" size="small" inputProps={{ readOnly: true, }} />
-                            </div>
+                                </div>
 
-                            <div className={classes.box}>
-                                <div className={classes.contentInfo}>Bestätigt am</div>
-                               
-                            </div>
-                            <div className={classes.box2}>
-                            <TextField fullWidth className={classes.contentDate} defaultValue={auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }} />
-                            </div>
-{/* 
+                                <div className={classes.box}>
+                                    <div className={classes.contentInfo}>Kommentar</div>
+                                </div>
+                                <div className={classes.box2}>
+                                    <TextField className={classes.contentKommentar} defaultValue={auftrag.KOMMENTAR} variant="filled" size="small" readOnly />
+                                </div>
+
+                                <div className={classes.box}>
+                                    <div className={classes.contentInfo}>Auftraggeber</div>
+                                    <div className={classes.contentInfo}>Auftragnehmer</div>
+                                </div>
+                                <div className={classes.box2}>
+                                    <TextField style={{ marginRight: '5px' }} className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAGGEBER} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                    <TextField className={classes.contentAuftrag} defaultValue={auftrag.AUFTRAGNEHMER} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                </div>
+
+                                <div className={classes.box}>
+                                    <div className={classes.contentInfo}>Bestätigt am</div>
+                                    <div className={classes.contentInfo}>Gesehen am</div>
+                                </div>
+                                <div className={classes.box2}>
+                                    <TextField style={{ marginRight: '5px' }} fullWidth className={classes.contentDate} defaultValue={auftrag.ANGENOMMEN_AM == null ? "" : auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                    <TextField style={{ marginRight: '5px' }} fullWidth className={classes.contentDate} defaultValue={auftrag.GESEHEN_AM == null ? "" : auftrag.GESEHEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.GESEHEN_AM.split('-')[1] + '-' + auftrag.GESEHEN_AM.split('-')[0] + ' um ' + auftrag.GESEHEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.GESEHEN_AM.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                </div>
+
+                                <div className={classes.box}>
+                                    <div className={classes.contentInfo}>Abgeschlossen am</div>
+                                    <div className={classes.contentInfo}>Erneut gesendet am</div>
+                                </div>
+                                <div className={classes.box2}>
+                                    <TextField style={{ marginRight: '5px' }} fullWidth className={classes.contentDate} defaultValue={auftrag.ABGESCHLOSSEN_AM == null ? "" : auftrag.ABGESCHLOSSEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[1] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[0] + ' um ' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                    <TextField style={{ marginRight: '5px' }} fullWidth className={classes.contentDate} defaultValue={auftrag.ERNEUT_GESENDET_AM == null ? "" : auftrag.ERNEUT_GESENDET_AM.split('T')[0].split('-')[2] + '-' + auftrag.ERNEUT_GESENDET_AM.split('-')[1] + '-' + auftrag.ERNEUT_GESENDET_AM.split('-')[0] + ' um ' + auftrag.ERNEUT_GESENDET_AM.split('T')[1].split(':')[0] + ':' + auftrag.ERNEUT_GESENDET_AM.split('T')[1].split(':')[1]} variant="filled" size="small" inputProps={{ readOnly: true, }} />
+                                </div>
+                                {/* 
+
+
                             <div className={classes.box}>
                                 <div className={classes.contentInfo}>Unterschrift</div>
                                 <div className={classes.contentInfo}>Unterschrift</div>
@@ -256,39 +268,39 @@ export default function Start() {
                                 <img className={classes.unterschrift} src={auftrag.AUFTRAGNEHMER_UNTERSCHRIFT} />
                             </div> */}
 
-                        </CardContent>
-                        <Divider></Divider>
-                        <CardActions style={{ display: 'flex' }}>
-                            <Button className={(auftrag.AUFTRAGGEBER !== query.param3 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER)  && auftrag.STATUS == "Offen"? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Bestätigen</Button>
-                            <Button className={auftrag.AUFTRAGNEHMER == query.param3 && auftrag.AUFTRAGGEBER !== query.param3 && auftrag.STATUS == "Bestätigt" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Gesehen </Button>
-                            <Button className={(auftrag.AUFTRAGNEHMER !== query.param3 && auftrag.AUFTRAGGEBER == query.param3) && auftrag.STATUS =="Bestätigt" ? null : classes.disabled } style={{ color: '#0000EE' }} size="medium">Abschließen</Button>
-                            <Button className={auftrag.STATUS == "Nicht angenommen" || auftrag.STATUS == "Abgeschlossen" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Löschen</Button>
-                            <Button className={(auftrag.AUFTRAGGEBER == query.param3 || auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER) && auftrag.STATUS == "Nicht angenommen" ? null : classes.disabled } style={{ color: '#0000EE' }} size="medium">Erneut senden</Button>
-                        </CardActions>
-                    </Card>
-                )}
-                <div>
+                            </CardContent>
+                            <Divider></Divider>
+                            <CardActions style={{ display: 'flex' }}>
+                                <Button className={(auftrag.AUFTRAGGEBER !== query.param3 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) && auftrag.STATUS == "Offen" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Bestätigen</Button>
+                                <Button className={(auftrag.AUFTRAGGEBER == query.param3 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) && auftrag.STATUS == "Bestätigt" && auftrag.GESEHEN_AM == null ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Gesehen </Button>
+                                <Button className={(auftrag.AUFTRAGGEBER == query.param3 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) && auftrag.STATUS == "Bestätigt" && auftrag.GESEHEN_AM !== null ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Abschließen</Button>
+                                <Button className={auftrag.STATUS == "Nicht angenommen" || auftrag.STATUS == "Abgeschlossen" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Löschen</Button>
+                                <Button className={(auftrag.AUFTRAGGEBER == query.param3 || auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER) && auftrag.STATUS == "Nicht angenommen" ? null : classes.disabled} style={{ color: '#0000EE' }} size="medium">Erneut senden</Button>
+                            </CardActions>
+                        </Card>
+                    )}
+                    <div>
 
 
-                </div>
-            </div> : <div>
-                <SignaturePad ref={sigCanvasRef}
-                    canvasProps={
-                        {
-                            style: { border: 'solid', borderWidth: '7px', borderRadius: '5px', margin: 'auto', borderColor: '#143968', display: 'flex', alignContent: 's', background: '#e0e0e0', width: '90%', minHeight: '600px' }
-                        }
-                    } />
-                <div className={classes.buttons}>
-                    <Button color="primary" variant="contained" onClick={() => changeMode()}>Zurück</Button>
-                    <Button color="primary" variant="contained" onClick={() => clear()}>Leeren</Button>
-                    <Button color="primary" variant="contained" onClick={() => save()} >Speichern</Button>
-                    <Button color="primary" variant="contained" onClick={() => unterschreiben()}>Unterschreiben</Button>
-                </div>
-            </div>}
+                    </div>
+                </div> : <div>
+                    <SignaturePad ref={sigCanvasRef}
+                        canvasProps={
+                            {
+                                style: { border: 'solid', borderWidth: '7px', borderRadius: '5px', margin: 'auto', borderColor: '#143968', display: 'flex', alignContent: 's', background: '#e0e0e0', width: '90%', minHeight: '600px' }
+                            }
+                        } />
+                    <div className={classes.buttons}>
+                        <Button color="primary" variant="contained" onClick={() => changeMode()}>Zurück</Button>
+                        <Button color="primary" variant="contained" onClick={() => clear()}>Leeren</Button>
+                        <Button color="primary" variant="contained" onClick={() => save()} >Speichern</Button>
+                        <Button color="primary" variant="contained" onClick={() => unterschreiben()}>Unterschreiben</Button>
+                    </div>
+                </div>}
+            </div>
         </div>
-        </div>
 
-        
+
     )
 }
 

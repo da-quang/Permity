@@ -159,6 +159,17 @@ export default function Startseite() {
 
     const [currentDate, setCurrentDate] = useState(new Date());
 
+
+    const [FilteredDateData, setFilteredDateData] = useState()
+
+    useEffect(() => {
+
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=2022-02-18T07:30&bis=2022-02-24T16:45`)
+            .then((response) => response.json())
+            .then((FilteredDateData) => setFilteredDateData(FilteredDateData));
+            
+    }, [FilterVon,FilterBis])
+
     const handleSearchChange2 = (se) => {
         if (filter2 == se) {
             setfilter2("");
@@ -206,10 +217,12 @@ export default function Startseite() {
     if (!data) return <div>loading...</div>
     //<Fetchen der Daten für die Karten>
 
+
+    
     console.log(data)
 
     // const { filterDate, errorDate } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
-    
+
 
     let Count1 = 0
     let Count2 = 0
@@ -338,9 +351,9 @@ export default function Startseite() {
 
     let VON = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()} ${value1.getHours()}:${value1.getMinutes()}`;
     let BIS = `${value2.getFullYear()}.${value2.getMonth() + 1}.${value2.getDate()} ${value2.getHours()}:${value2.getMinutes()}`;
-
-
-
+   
+    const sortedActivities = data.sort((a, b) => b.VON - a.VON) 
+    console.log(sortedActivities)
     return (
         <form className={classes.h}>
 
@@ -424,8 +437,8 @@ export default function Startseite() {
                                 />
                             </Stack>
                         </ListItem>
-                        <IconButton color="primary" style={{marginLeft: '10px'}} onClick={() => setFilterVon(VON)} ><SaveIcon/></IconButton>
-                        <IconButton onClick={() => setFilterVon('')} color="error"><DeleteIcon/></IconButton>
+                        <IconButton color="primary" style={{ marginLeft: '10px' }} onClick={() => setFilterVon(VON)} ><SaveIcon /></IconButton>
+                        <IconButton onClick={() => setFilterVon('')} color="error"><DeleteIcon /></IconButton>
                         <Divider></Divider>
                         <ListItem>
                             <Stack>
@@ -444,8 +457,8 @@ export default function Startseite() {
                             </Stack>
                         </ListItem>
 
-                        <IconButton style={{marginLeft: '10px'}} color="primary" onClick={() => setFilterBis(BIS)}><SaveIcon/></IconButton>
-                        <IconButton onClick={() => setFilterBis('')} color="error"><DeleteIcon/></IconButton>
+                        <IconButton style={{ marginLeft: '10px' }} color="primary" onClick={() => setFilterBis(BIS)}><SaveIcon /></IconButton>
+                        <IconButton onClick={() => setFilterBis('')} color="error"><DeleteIcon /></IconButton>
 
                     </LocalizationProvider>
                 </Menu>
@@ -566,7 +579,7 @@ export default function Startseite() {
                                             {auftrag.ID} | {auftrag.AUFTRAG}
                                             <a className={auftrag.GESEHEN_AM == null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) ? null : classes.Check}>
                                                 <Tooltip title="Bestätigung gesehen">
-                                                    <IconButton  onClick={() => Gesehen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <IconButton onClick={() => Gesehen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
                                                         <RemoveRedEyeIcon />
                                                     </IconButton>
                                                 </Tooltip>
@@ -640,10 +653,10 @@ export default function Startseite() {
                                         </summary>
                                         <div className={classes.InsideCard}>
                                             <div style={{ display: 'inline-block' }}>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             </div>
                                             <div style={{ marginBottom: 30 }}>
                                                 <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
@@ -687,10 +700,10 @@ export default function Startseite() {
                                         </summary>
                                         <div className={classes.InsideCard}>
                                             <div style={{ display: 'inline-block' }}>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
-                                            <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
+                                                <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                             </div>
                                             <div className={matchesLG != true ? null : classes.CardDate} >
                                                 <Typography><a style={{ fontWeight: "bold" }}>Abgeschlossen: </a> {auftrag.GESEHEN_AM == null ? "" : auftrag.ABGESCHLOSSEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[1] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[0] + ' um ' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[1]}</Typography>

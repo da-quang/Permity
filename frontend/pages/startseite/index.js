@@ -65,6 +65,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
         top: 12,
         border: `2px solid ${theme.palette.background.paper}`,
         padding: '0 4px',
+        backgroundColor: 'rgba(212,25,25,1)',
     },
 }));
 
@@ -142,17 +143,9 @@ export default function Startseite() {
         setAnchorE2(null);
     };
 
-    const [data1,setdata1] = useState();
+    const [AuftragData,setAuftragData] = useState();
      
-    useEffect(() => {
-        if(Bis == "" && Von == ""){
-            setdata1(data)
-        }
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=2022-02-18T07:30&bis=2022-02-24T16:45`)
-        .then((response) => response.json())
-        .then((data) => setdata1(data));
-    
-    }, [Bis,Von]);
+   
 
     //<Filter>
     const [filter, setfilter] = useState("");
@@ -174,16 +167,17 @@ export default function Startseite() {
 
     const [FilteredDateData, setFilteredDateData] = useState()
 
-    
     useEffect(() => {
-
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=2022-02-18T07:30&bis=2022-02-24T16:45`)
-            .then((response) => response.json())
-            .then((FilteredDateData) => setFilteredDateData(FilteredDateData));
-
-    }, [FilterVon, FilterBis])
-
-
+        if(Bis == "" && Von == ""){
+            setAuftragData(data)
+        }
+        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=${FilterVon}&bis=${FilterBis}`)
+        .then((response) => response.json())
+        .then((data) => setAuftragData(data));
+    
+    }, [FilterBis,FilterVon]);
+    
+    
     const handleSearchChange2 = (se) => {
         if (filter2 == se) {
             setfilter2("");
@@ -425,7 +419,7 @@ export default function Startseite() {
                     <a></a>
                     <ListItem><Typography variant='h8' fontWeight='bold' > SPERREN </Typography></ListItem>
                     <ListItem> <Button size='small' className={filter2 == "Durchführungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Durchführungserlaubnis")} variant="contained">Durchführungserlaubnis </Button></ListItem>
-                    <ListItem> <Button size='small' className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => setfilter6("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
+                    <ListItem> <Button size='small' className={filter2 == "Freigabe zur Arbeit" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Arbeit")} variant="contained">Freigabe zur Arbeit</Button></ListItem>
                     <ListItem> <Button size='small' className={filter2 == "Freigabe zur Sperre" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Freigabe zur Sperre")} variant="contained">Freigabe zur Sperre</Button></ListItem>
                     <ListItem> <Button size='small' className={filter2 == "Prüfungserlaubnis" ? classes.BTNDisabled : classes.BTNEnabled} onClick={() => handleSearchChange2("Prüfungserlaubnis")} variant="contained">Prüfungserlaubnis</Button></ListItem>
                     <Divider></Divider>
@@ -508,47 +502,7 @@ export default function Startseite() {
                                                     </IconButton>
                                                 </Tooltip>
                                             </a>
-                                            <Dialog
-                                                fullScreen
-                                                open={open3}
-                                                onClose={handleClose3}
-                                                TransitionComponent={Transition}
-                                            >
-                                                <AppBar className={classes.Unterschrift} sx={{ position: 'relative' }}>
-                                                    <Toolbar >
-                                                        <IconButton
-                                                            edge="start"
-                                                            color="inherit"
-                                                            onClick={handleClose3}
-                                                            aria-label="close"
-
-                                                        >
-                                                            <CloseIcon />
-                                                        </IconButton>
-                                                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                                                            Unterschrift
-                                                        </Typography>
-                                                        <div className={classes.c}>
-                                                            <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
-                                                            <Button color="inherit" autoFocus onClick={() => { save(); setId(auftrag.ID) }}>Speichern</Button>
-                                                        </div>
-                                                    </Toolbar>
-                                                </AppBar>
-                                                <>
-                                                    <div className={sigCanvas.signatureCanvas} >
-                                                        <SignaturePad
-                                                            ref={sigCanvasRef}
-                                                            canvasProps={
-                                                                {
-                                                                    style: { background: 'white', width: '100%', minHeight: '99%', border: 'solid' }
-                                                                }
-                                                            } />
-                                                    </div>
-
-
-
-                                                </>
-                                            </Dialog>
+                                            
                                         </summary>
                                         <div className={classes.InsideCard}>
                                             <div style={{ display: 'inline-block' }}>
@@ -587,7 +541,7 @@ export default function Startseite() {
                         <StyledBadge showZero badgeContent={Count2} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Bestätigt</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
-                        {data1 && data1.map((auftrag, id) => <a key={id}>{
+                        {data && data.map((auftrag, id) => <a key={id}>{
                                     auftrag.STATUS == "Bestätigt" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                                     <div className={classes.Bestätigt}>
                                         <details className={classes.details}>

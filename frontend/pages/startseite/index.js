@@ -87,6 +87,27 @@ const BTNTheme = createTheme({
 
 export default function Startseite() {
 
+
+    const [FilterVon, setFilterVon] = useState("");
+    const [FilterBis, setFilterBis] = useState("");
+
+
+    useEffect(() => {
+        console.log(FilterVon)
+        console.log(FilterBis)
+        if (FilterVon == "" && FilterBis == "") {
+            console.log("Change")
+            setAuftragData(data)
+            mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
+        }
+        else {
+            fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=${FilterVon}&bis=${FilterBis}`)
+                .then((response) => response.json())
+                .then((data) => setAuftragData(data));
+        }
+
+    }, [FilterVon, FilterBis])
+
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
     const matchesMD = useMediaQuery(theme.breakpoints.up('md'));
@@ -143,9 +164,9 @@ export default function Startseite() {
         setAnchorE2(null);
     };
 
-    const [AuftragData,setAuftragData] = useState();
-     
-   
+    const [AuftragData, setAuftragData] = useState();
+
+
 
     //<Filter>
     const [filter, setfilter] = useState("");
@@ -159,25 +180,15 @@ export default function Startseite() {
     const [value1, setValue1] = useState(new Date());
     const [value2, setValue2] = useState(new Date());
 
-    const [FilterVon, setFilterVon] = useState();
-    const [FilterBis, setFilterBis] = useState();
 
     const [currentDate, setCurrentDate] = useState(new Date());
 
 
     const [FilteredDateData, setFilteredDateData] = useState()
 
-    useEffect(() => {
-        if(Bis == "" && Von == ""){
-            setAuftragData(data)
-        }
-        fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=${FilterVon}&bis=${FilterBis}`)
-        .then((response) => response.json())
-        .then((data) => setAuftragData(data));
-    
-    }, [FilterBis,FilterVon]);
-    
-    
+
+
+
     const handleSearchChange2 = (se) => {
         if (filter2 == se) {
             setfilter2("");
@@ -223,15 +234,22 @@ export default function Startseite() {
 
     if (error) return <div>failed to load</div>
     if (!data) return <div>loading...</div>
+
+    if (AuftragData == null) {
+        setAuftragData(data)
+    }
+
     //<Fetchen der Daten für die Karten>
 
     console.log(data)
 
     // const { filterDate, errorDate } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
- 
-    
 
-   
+
+
+
+
+
 
 
     let Count1 = 0
@@ -447,9 +465,8 @@ export default function Startseite() {
                                 />
                             </Stack>
                         </ListItem>
-                        <IconButton color="primary" style={{ marginLeft: '10px' }} onClick={() => setFilterVon(VON)} ><SaveIcon /></IconButton>
-                        <IconButton onClick={() => setFilterVon('')} color="error"><DeleteIcon /></IconButton>
-                        <Divider></Divider>
+
+
                         <ListItem>
                             <Stack>
                                 <MobileDateTimePicker
@@ -467,8 +484,8 @@ export default function Startseite() {
                             </Stack>
                         </ListItem>
 
-                        <IconButton style={{ marginLeft: '10px' }} color="primary" onClick={() => setFilterBis(BIS)}><SaveIcon /></IconButton>
-                        <IconButton onClick={() => setFilterBis('')} color="error"><DeleteIcon /></IconButton>
+                        <IconButton style={{ marginLeft: '10px' }} color="primary" onClick={() => { setFilterBis(BIS); setFilterVon(VON) }}><SaveIcon /></IconButton>
+                        <IconButton onClick={() => { setFilterBis(''); setFilterVon('') }} color="error"><DeleteIcon /></IconButton>
 
                     </LocalizationProvider>
                 </Menu>
@@ -488,7 +505,7 @@ export default function Startseite() {
                         <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Offen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
-                        {data && data.map((auftrag, id) => <a key={id}>
+                        {AuftragData && AuftragData.map((auftrag, id) => <a key={id}>
                             {auftrag.STATUS == "Offen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                                 <div className={classes.Offen}>
                                     <details className={classes.details}>
@@ -502,7 +519,6 @@ export default function Startseite() {
                                                     </IconButton>
                                                 </Tooltip>
                                             </a>
-                                            
                                         </summary>
                                         <div className={classes.InsideCard}>
                                             <div style={{ display: 'inline-block' }}>
@@ -541,47 +557,47 @@ export default function Startseite() {
                         <StyledBadge showZero badgeContent={Count2} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Bestätigt</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
-                        {data && data.map((auftrag, id) => <a key={id}>{
-                                    auftrag.STATUS == "Bestätigt" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
-                                    <div className={classes.Bestätigt}>
-                                        <details className={classes.details}>
-                                            <summary className={classes.summary}>
-                                                {auftrag.ID} | {auftrag.AUFTRAG}
-                                                <a className={auftrag.GESEHEN_AM == null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) ? null : classes.Check}>
-                                                    <Tooltip title="Bestätigung gesehen">
-                                                        <IconButton onClick={() => Gesehen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                            <RemoveRedEyeIcon />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </a>
-                                                <a className={auftrag.GESEHEN_AM !== null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) ? null : classes.Check}>
-                                                    <Tooltip title="Abschließen">
-                                                        <IconButton disabled={auftrag.GESEHEN_AM == '' ? true : false} onClick={() => Abschließen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                                            <HowToRegIcon />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </a>
-                                            </summary>
-                                            <div className={classes.InsideCard}>
-                                                <div style={{ display: 'inline-block' }}>
-                                                    <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
-                                                    <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
-                                                    <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
-                                                    <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
-                                                </div>
-                                                <div className={matchesLG != true ? null : classes.CardDate} >
-                                                    <Typography ><a style={{ fontWeight: "bold" }}>Bestätigt: </a> {auftrag.ANGENOMMEN_AM == null ? "" : auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]}</Typography>
-                                                    <Typography className={auftrag.GESEHEN_AM == null ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Bestätigung gesehen: </a>{auftrag.GESEHEN_AM == null || auftrag.GESEHEN_AM == 0 ? "" : auftrag.GESEHEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.GESEHEN_AM.split('-')[1] + '-' + auftrag.GESEHEN_AM.split('-')[0] + ' um ' + auftrag.GESEHEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.GESEHEN_AM.split('T')[1].split(':')[1]}</Typography>
-                                                </div>
-                                                <div style={{ marginBottom: 30 }}>
-                                                    <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
-                                                        Details <DoubleArrowIcon />
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </details>
-                                    </div>}
-                            </a>)}
+                        {AuftragData && AuftragData.map((auftrag, id) => <a key={id}>{
+                            auftrag.STATUS == "Bestätigt" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
+                            <div className={classes.Bestätigt}>
+                                <details className={classes.details}>
+                                    <summary className={classes.summary}>
+                                        {auftrag.ID} | {auftrag.AUFTRAG}
+                                        <a className={auftrag.GESEHEN_AM == null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) ? null : classes.Check}>
+                                            <Tooltip title="Bestätigung gesehen">
+                                                <IconButton onClick={() => Gesehen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <RemoveRedEyeIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </a>
+                                        <a className={auftrag.GESEHEN_AM !== null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) ? null : classes.Check}>
+                                            <Tooltip title="Abschließen">
+                                                <IconButton disabled={auftrag.GESEHEN_AM == '' ? true : false} onClick={() => Abschließen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
+                                                    <HowToRegIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </a>
+                                    </summary>
+                                    <div className={classes.InsideCard}>
+                                        <div style={{ display: 'inline-block' }}>
+                                            <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
+                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
+                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
+                                            <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                        </div>
+                                        <div className={matchesLG != true ? null : classes.CardDate} >
+                                            <Typography ><a style={{ fontWeight: "bold" }}>Bestätigt: </a> {auftrag.ANGENOMMEN_AM == null ? "" : auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]}</Typography>
+                                            <Typography className={auftrag.GESEHEN_AM == null ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Bestätigung gesehen: </a>{auftrag.GESEHEN_AM == null || auftrag.GESEHEN_AM == 0 ? "" : auftrag.GESEHEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.GESEHEN_AM.split('-')[1] + '-' + auftrag.GESEHEN_AM.split('-')[0] + ' um ' + auftrag.GESEHEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.GESEHEN_AM.split('T')[1].split(':')[1]}</Typography>
+                                        </div>
+                                        <div style={{ marginBottom: 30 }}>
+                                            <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
+                                                Details <DoubleArrowIcon />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </details>
+                            </div>}
+                        </a>)}
                     </AccordionDetails>
                 </Accordion>
                 <div className={classes.br}></div>
@@ -599,7 +615,7 @@ export default function Startseite() {
                         <StyledBadge showZero badgeContent={Count3} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Abgelehnt</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
-                        {data && data.map((auftrag, id) => <a style={{ listStyleType: 'none' }} key={id}>
+                        {AuftragData && AuftragData.map((auftrag, id) => <a style={{ listStyleType: 'none' }} key={id}>
                             {auftrag.STATUS == "Nicht angenommen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                                 <div className={classes.Abgelehnt}>
                                     <details className={classes.details}>
@@ -654,7 +670,7 @@ export default function Startseite() {
                         <StyledBadge showZero badgeContent={Count4} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Abgeschlossen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
-                        {data && data.map((auftrag, id) => <a key={id}>
+                        {AuftragData && AuftragData.map((auftrag, id) => <a key={id}>
                             {auftrag.STATUS == "Abgeschlossen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                                 <div className={classes.Abgeschlossen}>
                                     <details className={classes.details}>

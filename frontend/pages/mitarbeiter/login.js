@@ -111,7 +111,7 @@ export default function Login() {
     return (
 
         <form className={classes.h}>
-            
+
             <div className={classes.e}>
                 <div align="center"><Typography variant='h4'>PERMITY</Typography></div>
             </div>
@@ -140,14 +140,14 @@ export default function Login() {
                             label="Password"
                         />
                     </FormControl></div>
-                    <ThemeProvider theme={BTNTheme}>
-                <div className={classes.c}>
-                    
+                <ThemeProvider theme={BTNTheme}>
+                    <div className={classes.c}>
+
                         <Button variant="contained" color="primary" disabled={values.password != "" && name != "" ? false : true} className={classes.a} onClick={() => { login(); handleToggle() }}  >
                             <Typography variant="h6">Anmelden</Typography>
                         </Button>
-                    
-                </div>
+
+                    </div>
                 </ThemeProvider>
                 <Backdrop
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -174,7 +174,7 @@ const useStyles = makeStyles({
         height: 80,
         width: 280,
         textAlign: 'center',
-        
+
 
     },
 
@@ -194,7 +194,7 @@ const useStyles = makeStyles({
 
 
     d: {
-       
+
         textAlign: 'center',
         marginTop: 40,
     },
@@ -215,10 +215,10 @@ const useStyles = makeStyles({
 
     g: {
         marginTop: "160px",
-       
+
     },
 
-    
+
 
 
 

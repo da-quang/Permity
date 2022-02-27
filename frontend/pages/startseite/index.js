@@ -87,11 +87,36 @@ const BTNTheme = createTheme({
 
 export default function Startseite() {
 
+    const { query } = useRouter()
+    const router = useRouter()
+    const classes = useStyles();
+
+    let kurzzeichen = query.param
+    let name = query.param2
 
     const [FilterVon, setFilterVon] = useState("");
     const [FilterBis, setFilterBis] = useState("");
 
+    const [ChangeURL, setChangeURL] = useState(false)
+
+    const [AuftragData, setAuftragData] = useState();
+
+    const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
+
+    if (error) return <div>failed to load</div>
+    if (!data) return <div>loading...</div>
+
+   
+
+  useEffect(() => {
+    setAuftragData(data)
+  },[data])
     
+    
+
+    //<Fetchen der Daten für die Karten>
+
+    console.log(data)
 
     useEffect(() => {
         console.log(FilterVon)
@@ -205,7 +230,7 @@ export default function Startseite() {
         setAnchorE2(null);
     };
 
-    const [AuftragData, setAuftragData] = useState();
+  
 
 
 
@@ -261,27 +286,11 @@ export default function Startseite() {
     //</Unterschrift>
 
 
-    const { query } = useRouter()
-    const router = useRouter()
-    const classes = useStyles();
-
-    let kurzzeichen = query.param
-    let name = query.param2
+   
 
 
     //<Fetchen der Daten für die Karten>
-    const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
 
-    if (error) return <div>failed to load</div>
-    if (!data) return <div>loading...</div>
-
-    if (AuftragData == null) {
-        setAuftragData(data)
-    }
-
-    //<Fetchen der Daten für die Karten>
-
-    console.log(data)
 
     // const { filterDate, errorDate } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
 
@@ -329,6 +338,7 @@ export default function Startseite() {
         console.log(data)
 
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
+        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=${FilterVon}&bis=${FilterBis}`)
     }
 
     const Bestätigen = async auftragID => {
@@ -345,6 +355,7 @@ export default function Startseite() {
         console.log(data)
 
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
+        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=${FilterVon}&bis=${FilterBis}`)
     }
 
     const Abschließen = async auftragID => {
@@ -360,6 +371,7 @@ export default function Startseite() {
         console.log(data)
 
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
+        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=${FilterVon}&bis=${FilterBis}`)
 
     }
 
@@ -376,6 +388,7 @@ export default function Startseite() {
         console.log(data)
 
         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
+        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=${FilterVon}&bis=${FilterBis}`)
 
     }
 
@@ -501,7 +514,7 @@ export default function Startseite() {
                         </ListItem>
 
                         <IconButton style={{ marginLeft: '10px' }} color="primary" onClick={() => { setFilterBis(BIS); setFilterVon(VON) }}><SaveIcon /></IconButton>
-                        <IconButton onClick={() => { setFilterBis(''); setFilterVon('') }} color="error"><DeleteIcon /></IconButton>
+                        <IconButton onClick={() => { setFilterBis(''); setFilterVon(''); setChangeURL(!ChangeURL) }} color="error"><DeleteIcon /></IconButton>
 
                     </LocalizationProvider>
                 </Menu>

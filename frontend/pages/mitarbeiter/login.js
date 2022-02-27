@@ -40,6 +40,49 @@ const BTNTheme = createTheme({
 });
 
 console.log("--> Login")
+
+const a = {
+    height: 80,
+    width: 280,
+    textAlign: 'center'
+    
+};
+
+const b = {
+    height: 40,
+    width: 280,
+}
+
+const c = {
+    textAlign: 'center',
+    marginTop: "100px",
+    color: "white",
+    marginBottom: "40px",
+}
+
+const d = {
+    textAlign: 'center',
+    marginTop: 40,
+}
+
+const e = {
+    background: 'linear-gradient(45deg, #143968  30%, #143968  90%)',
+    boxShadow: '0 3px 5px 2px rgba(20, 57, 104, .3)',
+    marginTop: 0,
+    paddingTop: 15,
+    marginBottom: "5%",
+    fontSize: 40,
+    height: 60,
+    color: 'white',
+    fontWeight: 'bold',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+}
+
+const g = {
+    marginTop: "160px",
+}
+
 export default function Login() {
     let [name, setName] = useState('')
     let [kurzzeichen, setKurzzeichen] = useState('')
@@ -110,15 +153,15 @@ export default function Login() {
 
     return (
 
-        <form className={classes.h}>
+        <form>
 
-            <div className={classes.e}>
+            <div sx={{e}}>
                 <div align="center"><Typography variant='h4'>PERMITY</Typography></div>
             </div>
-            <div className={classes.g}>
-                <div className={classes.d}><TextField className={classes.b} id="standard-basic" variant="outlined" label="Name" onChange={e => setName(e.target.value)}></TextField></div>
-                <div className={classes.d}>
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" className={classes.b}>
+            <div sx={{...g}} >
+                <div sx={{d}}><TextField sx={{...b}} id="standard-basic" variant="outlined" label="Name" onChange={e => setName(e.target.value)}></TextField></div>
+                <div sx={{d}}>
+                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" sx={{...b}}>
                         <InputLabel htmlFor="outlined-adornment-password">Passwort</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-password"
@@ -141,9 +184,9 @@ export default function Login() {
                         />
                     </FormControl></div>
                 <ThemeProvider theme={BTNTheme}>
-                    <div className={classes.c}>
+                    <div sx={{...c}}>
 
-                        <Button variant="contained" color="primary" disabled={values.password != "" && name != "" ? false : true} className={classes.a} onClick={() => { login(); handleToggle() }}  >
+                        <Button variant="contained" color="primary" disabled={values.password != "" && name != "" ? false : true} sx={{...a}} onClick={() => { login(); handleToggle() }}  >
                             <Typography variant="h6">Anmelden</Typography>
                         </Button>
 
@@ -170,51 +213,30 @@ export default function Login() {
 }
 
 const useStyles = makeStyles({
-    a: {
-        height: 80,
-        width: 280,
-        textAlign: 'center',
-
-
-    },
+    
 
     b: {
-        height: 40,
-        width: 280,
+      
 
     },
 
     c: {
-        textAlign: 'center',
-        marginTop: "100px",
-        color: "white",
-        marginBottom: "40px",
+        
 
     },
 
 
     d: {
 
-        textAlign: 'center',
-        marginTop: 40,
+       
     },
 
     e: {
-        background: 'linear-gradient(45deg, #143968  30%, #143968  90%)',
-        boxShadow: '0 3px 5px 2px rgba(20, 57, 104, .3)',
-        marginTop: 0,
-        paddingTop: 15,
-        marginBottom: "5%",
-        fontSize: 40,
-        height: 60,
-        color: 'white',
-        fontWeight: 'bold',
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
+     
     },
 
     g: {
-        marginTop: "160px",
+        
 
     },
 

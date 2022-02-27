@@ -91,6 +91,7 @@ export default function Startseite() {
     const [FilterVon, setFilterVon] = useState("");
     const [FilterBis, setFilterBis] = useState("");
 
+    
 
     useEffect(() => {
         console.log(FilterVon)
@@ -107,6 +108,46 @@ export default function Startseite() {
         }
 
     }, [FilterVon, FilterBis])
+
+    const [value1, setValue1] = useState(new Date());
+    const [value2, setValue2] = useState(new Date());
+    const [TriggerDateReset, setTriggerDateReset] = useState();
+
+    useEffect(() => {
+        var curr = new Date();
+        var first = curr.getDate() - curr.getDay() + 1;
+        var last = first + 6
+        let firstday = new Date(curr.setDate(first)).toISOString().split('T')[0]
+        let lastday = new Date(curr.setDate(curr.getDate() + 6)).toISOString().split('T')[0];
+        console.log(firstday)
+        let firstYear = firstday.split('-')[0]
+        let firstMonth = firstday.split('-')[1]
+        let firstDay = firstday.split('-')[2]
+
+        let lastYear = lastday.split('-')[0]
+        let lastMonth = lastday.split('-')[1]
+        let lastDay = lastday.split('-')[2]
+
+        console.log(firstYear)
+        console.log(firstMonth)
+        console.log(firstDay)
+
+        // var firstday = new Date(curr.setDate(first)).toUTCString();
+        // var lastday = new Date(curr.setDate(last)).toUTCString();
+
+
+        value1.setFullYear(firstYear)
+        value1.setMonth(firstMonth - 1)
+        value1.setDate(firstDay)
+
+        value2.setFullYear(lastYear)
+        value2.setMonth(lastMonth - 1)
+        value2.setDate(lastDay)
+
+
+        value1.setHours(7, 30)
+        value2.setHours(16, 45)
+    }, [])
 
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
@@ -177,8 +218,7 @@ export default function Startseite() {
     const [filter6, setfilter6] = useState("");
     const { Von, setVon } = useState("");
     const { Bis, setBis } = useState("");
-    const [value1, setValue1] = useState(new Date());
-    const [value2, setValue2] = useState(new Date());
+
 
 
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -355,26 +395,9 @@ export default function Startseite() {
 
     }
 
-    
-
-    var curr = new Date; // get current date
-    var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-    var last = first + 6; // last day is the first day + 6
-
-    // var firstday = new Date(curr.setDate(first)).toUTCString();
-    // var lastday = new Date(curr.setDate(last)).toUTCString();
-
-    console.log(first)
-    console.log(last)
-
-    value1.setHours(7, 30)
-    value2.setHours(16, 45)
-    value1.setDate(first)
-    value2.setDate(last)
-
     let VON = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()} ${value1.getHours()}:${value1.getMinutes()}`;
     let BIS = `${value2.getFullYear()}.${value2.getMonth() + 1}.${value2.getDate()} ${value2.getHours()}:${value2.getMinutes()}`;
-    
+
     return (
         <form className={classes.h}>
 

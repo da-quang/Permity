@@ -124,10 +124,6 @@ export default function Formular() {
 
 
     const CREATE2 = async () => {
-
-
-
-
         // console.log(AUFTRAGGEBER_UNTERSCHRIFT)
         // axios.post('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
         //     ksv: KSV,
@@ -231,17 +227,6 @@ export default function Formular() {
         setOpen1(false);
     };
 
-    let [Ksv, setKsv] = useState('')
-
-    // useEffect(() => {
-    //     fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/ksv`)
-    //         .then((response) => response.json())
-    //         .then((ksv) => setKsv(ksv));
-    // }, []);
-
-
-
-
     const Sperren = [{
         label: "Durchführungserlaubnis"
     }, { label: "Freigabe zur Arbeit" },
@@ -266,12 +251,6 @@ export default function Formular() {
     let [ebene5, setEbene5] = useState('')
 
     let [KsvALL, setKsvALL] = useState('')
-
-    let [KsvEbene1, setKsvEbene1] = useState('')
-    let [KsvEbene2, setKsvEbene2] = useState('')
-
-
-
 
     useEffect(() => {
         fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/all?kurzzeichen=${query.param}`)
@@ -298,107 +277,6 @@ export default function Formular() {
     }, [Ebene4LoadNext]);
 
 
-    const { data1, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv&ebene=3`, fetcher);
-
-    console.log(data1)
-
-    function loadEbene3() {
-        setEbene3(ebene3.filter(item => item.KSV === KsvEbene2))
-        console.log(ebene3)
-    }
-
-    //     ebene3 = ebene3.filter(item => ebene3.KSV.includes("VIW-14"))
-
-
-    function scaleImage(dataUrl, scaleRatio, imageType, imageArguments, callback) {
-        "use strict";
-        var image, oldWidth, oldHeight, newWidth, newHeight, canvas, ctx, newDataUrl;
-
-        // Provide default values
-        imageType = imageType || "image/jpeg";
-        imageArguments = imageArguments || 0.7;
-
-        // Create a temporary image so that we can dimensions of new image.
-        image = new Image();
-        image.onload = function () {
-            oldWidth = image.width;
-            oldHeight = image.height;
-            newWidth = Math.floor(oldWidth * scaleRatio);
-            newHeight = Math.floor(oldHeight * scaleRatio);
-
-            // Create a temporary canvas to draw the downscaled image on.
-            canvas = document.createElement("canvas");
-            canvas.width = newWidth;
-            canvas.height = newHeight;
-
-            // Draw the scaled image on the canvas and trigger the callback function.
-            ctx = canvas.getContext("2d");
-            ctx.drawImage(image, 0, 0, newWidth, newHeight);
-            newDataUrl = canvas.toDataURL(imageType, imageArguments);
-            callback(newDataUrl);
-        }
-        image.src = dataUrl;
-    }
-
-    function SetKsv() {
-        console.log('HALLO')
-        console.log(KSV)
-        console.log({ Ebene2LoadNext })
-
-        if (Ebene2LoadNext != 'x' && Ebene3Bezeichnung == '' && Ebene4Bezeichnung == '' && Ebene5Bezeichnung == '') {
-            setKSV(Ebene2LoadNext)
-            console.log(KSV)
-        }
-        else if (Ebene3Bezeichnung != '' && Ebene2LoadNext != 'x' && Ebene4Bezeichnung == '' && Ebene5Bezeichnung == '') {
-            setKSV(Ebene3Bezeichnung)
-            console.log(KSV)
-        }
-        else if (Ebene5Bezeichnung != '' && Ebene2LoadNext != 'x' && Ebene3Bezeichnung != '' && Ebene4Bezeichnung != '') {
-            setKSV(Ebene5Bezeichnung)
-            console.log(KSV)
-        }
-        else {
-            setKSV('')
-            console.log('KSV nicht rihtig gesetzt!')
-        }
-        console.log(KSV)
-    }
-
-    // useEffect(() => {
-    //     setKSV(Ebene2LoadNext)
-    //     console.log(KSV)
-    // },[Ebene2LoadNext])
-
-    // useEffect(() => {
-    //     if(Ebene2LoadNext != 'x'){
-    //         setKSV(Ebene3Bezeichnung)
-    //     }
-    //     else if(Ebene3LoadNext == 'x'){
-    //         setKsv(Ebene2LoadNext)
-    //     }
-    //     console.log(KSV)
-    // },[Ebene3LoadNext])
-
-    // useEffect(() => {
-    //     if(Ebene3LoadNext != 'x'){
-    //         setKSV(Ebene4Bezeichnung)
-    //     }
-    //     else if(Ebene4LoadNext == 'x'){
-    //         setKsv(Ebene3Bezeichnung)
-    //     }
-    //     console.log(KSV)
-    // },[Ebene4LoadNext])
-
-    // useEffect(() => {
-    //     if(Ebene4LoadNext != 'x' && Ebene5LoadNext != 'x'){
-    //         setKSV(Ebene5Bezeichnung)
-    //     }
-    //     else{
-    //         setKsv(Ebene4Bezeichnung)
-    //     }
-    //     console.log(KSV)
-    // },[Ebene5LoadNext])
-
     let [Ebene3Bezeichnung, setEbene3Bezeichnung] = useState('')
     let [Ebene4Bezeichnung, setEbene4Bezeichnung] = useState('')
     let [Ebene5Bezeichnung, setEbene5Bezeichnung] = useState('')
@@ -415,7 +293,6 @@ export default function Formular() {
     return (
         <form>
             <div>
-
                 <Box sx={{ flexGrow: 1 }}>
                     <AppBar position="static" style={{ background: "#143968", borderBottomLeftRadius: "10px", borderBottomRightRadius: "10px" }}>
                         <Toolbar>
@@ -544,7 +421,7 @@ export default function Formular() {
                             onClick={() => save()}
                             variant="contained"
                         >Bestätigen</Button>
-                        <Dialog
+                        {/* <Dialog
                             fullScreen
                             open={open2}
                             onClose={handleClose2}
@@ -584,7 +461,7 @@ export default function Formular() {
 
 
                             </>
-                        </Dialog>
+                        </Dialog> */}
                     </Grid>
                 </div>
                 <div className={classes.g}>

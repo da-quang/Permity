@@ -355,12 +355,7 @@ export default function Startseite() {
 
     }
 
-    var date = new Date();
-    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-
-    console.log(firstDay)
-    console.log(lastDay)
+    
 
     var curr = new Date; // get current date
     var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
@@ -379,9 +374,7 @@ export default function Startseite() {
 
     let VON = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()} ${value1.getHours()}:${value1.getMinutes()}`;
     let BIS = `${value2.getFullYear()}.${value2.getMonth() + 1}.${value2.getDate()} ${value2.getHours()}:${value2.getMinutes()}`;
-
-    const sortedActivities = data.sort((a, b) => b.VON - a.VON)
-    console.log(sortedActivities)
+    
     return (
         <form className={classes.h}>
 

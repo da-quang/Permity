@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import React, { useRef, useState } from "react";
 import MenuItem from '@mui/material/MenuItem';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import HomeIcon from '@mui/icons-material/Home';
 function AppBars(props){
 
     const { query } = useRouter()
@@ -54,9 +54,10 @@ function AppBars(props){
                             'aria-labelledby': 'basic-button',
                         }}>
                         <MenuItem onClick={() => router.push(`/mitarbeiter/login`)} ><LogoutIcon />Logout </MenuItem>
+                        <MenuItem className={props.StartseiteButton !== "" ? classes.disabled : ""} onClick={() => router.push(`/startseite?param=${query.param}&param2=${query.param2}`)}><HomeIcon />Startseite</MenuItem>
                     </Menu>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Startseite
+                        {props.Überschrift}
                     </Typography>
                     <Button variant="outlined" size="small" color="inherit">{props.Kurzzeichen}</Button>
                 </Toolbar>

@@ -39,6 +39,8 @@ import useSWR from 'swr'
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
 
+import Appbar from '../../components/AppBars'
+
 console.log("--> Formular")
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -293,37 +295,8 @@ export default function Formular() {
     return (
         <form>
             <div>
-                <Box sx={{ flexGrow: 1 }}>
-                    <AppBar position="static" style={{ background: "#143968", borderBottomLeftRadius: "10px", borderBottomRightRadius: "10px" }}>
-                        <Toolbar>
-                            <IconButton
-                                size="large"
-                                edge="start"
-                                color="inherit"
-                                aria-label="menu"
-                                sx={{ mr: 2 }}
-                                onClick={handleClick}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Menu
-                                id="basic-menu"
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleClose}
-                                MenuListProps={{
-                                    'aria-labelledby': 'basic-button',
-                                }}>
-                                <MenuItem onClick={() => router.push(`/mitarbeiter/login`)}><LogoutIcon />Logout </MenuItem>
-                                <MenuItem onClick={() => router.push(`/startseite?param=${query.param}&param2=${query.param2}`)}><HomeIcon />Startseite</MenuItem>
-                            </Menu>
-                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                                Auftrag
-                            </Typography>
-                            <Button variant="outlined" size="small" color="inherit">{query.param}</Button>
-                        </Toolbar>
-                    </AppBar>
-                </Box>
+            
+            <Appbar StartseiteButton="" Überschrift="Auftrag" Kurzzeichen={query.param} />
 
             </div>
             <Grid style={{ marginLeft: matchesMD == true ? '20%' : '', marginRight: matchesMD == true ? '20%' : '', marginTop: '20px' }}>

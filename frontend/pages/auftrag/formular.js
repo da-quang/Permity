@@ -299,7 +299,272 @@ export default function Formular() {
             <Appbar StartseiteButton="" Überschrift="Auftrag" Kurzzeichen={query.param} />
 
             </div>
-           
+            <Grid style={{ marginLeft: matchesMD == true ? '20%' : '', marginRight: matchesMD == true ? '20%' : '', marginTop: '20px' }}>
+                <div className={classes.g}>
+                    <Grid className={classes.h} item xs={6}>
+                        <TextField size="small" fullWidth variant="outlined" label="Auftrag Name" onChange={e => setAUFTRAG(e.target.value)}></TextField>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={Name}
+                            getOptionLabel={(option) => option.NAME}
+                            onChange={(event, value) =>  {if (value === null) { value = "";} else { setAUFTRAGNEHMER(value.NAME)}}}
+                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Auftragnehmer" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.NAME === value.NAME}
+                        />
+                    </Grid>
+                </div>
+                <div className={classes.g} >
+                    <Grid className={classes.h} item xs={6} >
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={Sperren}
+                            getOptionLabel={(option) => option.label}
+                            onChange={(event, value) => setSPERREN(value.label)}
+                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Sperre" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.label === value.label}
+                        />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <Autocomplete
+
+                            disablePortal
+                            id="combo-box-demo"
+                            options={KsvALL}
+                            getOptionLabel={(option) => option.BEZEICHNUNG}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene2LoadNext("x") } else { setEbene2LoadNext(value.KSV), setKSV(value.KSV) } }}
+                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 1" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
+                        />
+                    </Grid>
+                </div>
+                <div className={classes.g}>
+                    <Grid className={classes.h} item xs={6}>
+                        <Autocomplete
+                            key={Ebene2LoadNext}
+                            disabled={ebene3 == '' ? true : false}
+                            disablePortal
+                            id="combo-box-demo"
+                            options={ebene3}
+                            getOptionLabel={(option) => option.BEZEICHNUNG}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene3LoadNext("x"); setEbene3Bezeichnung(''); setKSV(Ebene2LoadNext); console.log('Null') } else { setEbene3LoadNext(value.KSV), setKSV(value.BEZEICHNUNG), setEbene3Bezeichnung(value.BEZEICHNUNG); console.log('NOT Null') } }}
+                            renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Ksv 2" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
+                        />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <Autocomplete
+                            key={Ebene3LoadNext}
+                            disabled={ebene3 == '' || ebene4 == '' ? true : false}
+                            disablePortal
+                            id="combo-box-demo"
+                            options={ebene4}
+                            getOptionLabel={(option) => option.BEZEICHNUNG}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene4LoadNext("x"); setEbene4Bezeichnung(''); setKSV(Ebene3Bezeichnung) } else { setEbene4LoadNext(value.KSV); setKSV(value.BEZEICHNUNG); setEbene4Bezeichnung(value.BEZEICHNUNG) } }}
+                            renderInput={(params) => (<TextField {...params} value="" size="small" variant="outlined" label="Ksv 3" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
+                        />
+                    </Grid>
+                </div>
+                <div className={classes.g}>
+                    <Grid className={classes.h} item xs={6}>
+                        <Autocomplete
+                            key={Ebene4LoadNext}
+                            disabled={ebene3 == '' || ebene4 == '' || ebene5 == '' ? true : false}
+                            disablePortal
+                            id="combo-box-demo"
+                            options={ebene5}
+                            getOptionLabel={(option) => option.BEZEICHNUNG}
+                            onChange={(event, value) => { if (value === null) { value = ""; setEbene5Bezeichnung(''); setKSV(Ebene4Bezeichnung) } else { setEbene5LoadNext(value.KSV); setKSV(value.BEZEICHNUNG) } }}
+                            renderInput={(params) => (<TextField  {...params} size="small" variant="outlined" label="Ksv 4" ></TextField>)}
+                            isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
+                        />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <Button
+                            fullWidth variant="outlined"
+                            disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && Ebene2LoadNext != "x" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "" ? "success" : "primary"}
+                            // onClick={handleClickOpen2}
+                            onClick={() => save()}
+                            variant="contained"
+                        >Bestätigen</Button>
+                        {/* <Dialog
+                            fullScreen
+                            open={open2}
+                            onClose={handleClose2}
+                            TransitionComponent={Transition}
+                        >
+                            <AppBar className={classes.Unterschrift} sx={{ position: 'relative' }}>
+                                <Toolbar >
+                                    <IconButton
+                                        edge="start"
+                                        color="inherit"
+                                        onClick={handleClose2}
+                                        aria-label="close"
+
+                                    >
+                                        <CloseIcon />
+                                    </IconButton>
+                                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                        Unterschrift
+                                    </Typography>
+                                    <div className={classes.c}>
+                                        <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
+                                        <Button color="inherit" autoFocus onClick={() => save()}>Speichern</Button>
+                                    </div>
+                                </Toolbar>
+                            </AppBar>
+                            <>
+                                <div className={sigCanvas.signatureCanvas} >
+                                    <SignaturePad
+                                        ref={sigCanvasRef}
+                                        canvasProps={
+                                            {
+                                                style: { background: 'white', width: '100%', minHeight: '99%', border: 'solid' }
+                                            }
+                                        } />
+                                </div>
+
+
+
+                            </>
+                        </Dialog> */}
+                    </Grid>
+                </div>
+                <div className={classes.g}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <Grid className={classes.h} item xs={6}>
+                            <Stack>
+                                <MobileDateTimePicker
+                                    ampm={false}
+                                    value={value}
+                                    onChange={(newValue) => {
+                                        setValue(newValue)
+                                    }}
+                                    label="Von"
+                                    inputFormat="yyyy/MM/dd HH:mm"
+
+                                    renderInput={(params) => <TextField size="small" onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
+                                />
+                            </Stack>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Stack>
+                                <MobileDateTimePicker
+                                    ampm={false}
+                                    label="24hours"
+                                    value={value1}
+                                    onChange={(newValue1) => {
+                                        setValue1(newValue1)
+                                    }}
+                                    label="Bis"
+                                    inputFormat="yyyy/MM/dd HH:mm"
+                                    renderInput={(params) => <TextField size="small" onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
+                                />
+                            </Stack>
+                        </Grid>
+                    </LocalizationProvider>
+                </div>
+                <div className={classes.g}>
+                    <Grid item xs={12}>
+                        <TextField size="small" multiline maxRows={4} fullWidth variant="outlined" label="Kommentar" onChange={e => setKOMMENTAR(e.target.value)}></TextField>
+                    </Grid>
+                </div>
+                <div className={classes.BTNGroup}>
+                    <Grid style={{ marginLeft: matchesMD == true ? '15%' : '', marginRight: matchesMD == true ? '15%' : '' }} item xs={12}>
+
+                        {/* <Button onClick={handleClickOpen2} size='large' className={classes.SignBTN} disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && KSV != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"} variant="contained">
+                            <Typography variant="h6">Unterschreiben</Typography>
+                        </Button>
+                        <Dialog
+                            fullScreen
+                            open={open2}
+                            onClose={handleClose2}
+                            TransitionComponent={Transition}
+                        >
+                            <AppBar className={classes.Unterschrift} sx={{ position: 'relative' }}>
+                                <Toolbar >
+                                    <IconButton
+                                        edge="start"
+                                        color="inherit"
+                                        onClick={handleClose2}
+                                        aria-label="close"
+
+                                    >
+                                        <CloseIcon />
+                                    </IconButton>
+                                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                        Unterschrift
+                                    </Typography>
+                                    <div className={classes.c}>
+                                        <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
+                                        <Button color="inherit" autoFocus onClick={() => save()}>Speichern</Button>
+                                    </div>
+                                </Toolbar>
+                            </AppBar>
+                            <>
+                                <div className={sigCanvas.signatureCanvas} >
+                                    <SignaturePad
+                                        ref={sigCanvasRef}
+                                        canvasProps={
+                                            {
+                                                style: { background: 'white', width: '100%', minHeight: '99%', border: 'solid' }
+                                            }
+                                        } />
+                                </div>
+
+
+
+                            </>
+                        </Dialog> */}
+
+                        {/* <Popup modal trigger={
+
+                            <Button size='large' className={classes.SignBTN} disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && KSV != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"} variant="contained">
+                                <Typography variant="h6">Unterschreiben</Typography>
+                            </Button>
+
+                        } closeOnDocumentClick={false}>
+                            {close => (
+                                <div className={sigCanvas.signatureCanvas} >
+                                    <SignaturePad
+                                        className={sigCanvas.signatureCanvas2}
+                                        ref={sigCanvasRef}
+                                        canvasProps={
+                                            {
+                                                style: { border: 'solid', background: 'white', width: '100%', minHeight: '400px', marginBottom: '0px', }
+                                            }
+                                        } />
+                                    <div className={classes.SignatureBTNRow}>
+                                        <Button color="primary" variant="contained" onClick={close}>Zurück</Button>
+                                        <Button color="primary" variant="contained" onClick={clear}>Leeren</Button>
+                                        <Button color="primary" variant="contained" onClick={() => save()} >Speichern</Button>
+                                    </div>
+                                </div>
+                            )}
+                        </Popup> */}
+                    </Grid>
+                    <Grid style={{ marginLeft: matchesMD == true ? '20%' : '10%', marginRight: matchesMD == true ? '20%' : '10%' }} item xs={12}>
+                        <ThemeProvider theme={BTNTheme}>
+                            <Button className={classes.CreateBTN} size='large' disabled={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? false : true} variant="contained" onClick={() => { CREATE2(); MAIL(); handleClick1() }} color="primary">
+                                <Typography variant="h6">Erstellen</Typography>
+                            </Button>
+                        </ThemeProvider>
+                        <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose1}>
+                            <Alert severity="success">
+                                <AlertTitle>Auftrag erstellt</AlertTitle>
+                                20 Minuten Zeit zum Bestätigen
+                            </Alert>
+                        </Snackbar>
+                    </Grid>
+                </div>
+            </Grid>
         </form>
 
     )

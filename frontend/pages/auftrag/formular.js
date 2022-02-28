@@ -40,6 +40,7 @@ import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
 
 import Appbar from '../../components/AppBars'
+import FormularCreate from '../../components/Auftrag/FormularCreate'
 
 console.log("--> Formular")
 
@@ -69,8 +70,8 @@ export default function Formular() {
         fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/all`)
             .then((response) => response.json())
             .then((name) => setName(name));
-         
-            
+
+
     }, []);
 
     const { query } = useRouter()
@@ -125,72 +126,6 @@ export default function Formular() {
 
 
 
-    const CREATE2 = async () => {
-        // console.log(AUFTRAGGEBER_UNTERSCHRIFT)
-        // axios.post('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
-        //     ksv: KSV,
-        //     auftrag: AUFTRAG,
-        //     auftraggeber: AUFTRAGGEBER,
-        //     auftragnehmer: AUFTRAGNEHMER,
-        //     sperren: SPERREN,
-        //     kommentar: KOMMENTAR,
-        //     von: VON,
-        //     bis: BIS,
-        //     auftraggeber_unterschrift: "1123",
-        // })
-        //     .then(function (response) {
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
-
-        // fetch('https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Accept': '*/*',
-        //         'Access-Control-Allow-Origin': '*',
-        //         'Access-Control-Allow-Headers': 'Origin, X-Requested-With'
-        //     },
-        //     body: JSON.stringify({
-        //         ksv: KSV,
-        //         auftrag: AUFTRAG,
-        //         auftraggeber: AUFTRAGGEBER,
-        //         auftragnehmer: AUFTRAGNEHMER,
-        //         sperren: SPERREN,
-        //         kommentar: KOMMENTAR,
-        //         von: VON,
-        //         bis: BIS,
-        //         auftraggeber_unterschrift: AUFTRAGGEBER_UNTERSCHRIFT,
-        //     })
-        // })
-
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${KSV}&auftrag=${AUFTRAG}&auftraggeber=${AUFTRAGGEBER}&auftragnehmer=${AUFTRAGNEHMER}&sperren=${SPERREN}&kommentar=${KOMMENTAR}&von=${VON}&bis=${BIS}&auftraggeber_unterschrift=${AUFTRAGGEBER_UNTERSCHRIFT}`, {
-            method: 'POST'
-        })
-        const data = await response.json()
-        console.log(data)
-
-        router.push(`/startseite?param=${query.param}&param2=${query.param2}`)
-
-        // const fd = new FormData();
-        // fd.append
-
-    }
-
-    const MAIL = async () => {
-        const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${AUFTRAGNEHMER}`, {
-            method: 'GET'
-        })
-        const email = await getEmail.json()
-
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${email[0].EMAIL}`, {
-            method: 'POST'
-        })
-
-        console.log("Email wurde versendet")
-    }
 
     const sigCanvasRef = useRef({});
     const clear = () => sigCanvasRef.current.clear();
@@ -295,8 +230,8 @@ export default function Formular() {
     return (
         <form>
             <div>
-            
-            <Appbar StartseiteButton="" Überschrift="Auftrag" Kurzzeichen={query.param} />
+
+                <Appbar StartseiteButton="" Überschrift="Auftrag" Kurzzeichen={query.param} />
 
             </div>
             <Grid style={{ marginLeft: matchesMD == true ? '20%' : '', marginRight: matchesMD == true ? '20%' : '', marginTop: '20px' }}>
@@ -310,7 +245,7 @@ export default function Formular() {
                             id="combo-box-demo"
                             options={Name}
                             getOptionLabel={(option) => option.NAME}
-                            onChange={(event, value) =>  {if (value === null) { value = "";} else { setAUFTRAGNEHMER(value.NAME)}}}
+                            onChange={(event, value) => { if (value === null) { value = ""; } else { setAUFTRAGNEHMER(value.NAME) } }}
                             renderInput={(params) => (<TextField {...params} size="small" variant="outlined" label="Auftragnehmer" ></TextField>)}
                             isOptionEqualToValue={(option, value) => option.NAME === value.NAME}
                         />
@@ -394,47 +329,6 @@ export default function Formular() {
                             onClick={() => save()}
                             variant="contained"
                         >Bestätigen</Button>
-                        {/* <Dialog
-                            fullScreen
-                            open={open2}
-                            onClose={handleClose2}
-                            TransitionComponent={Transition}
-                        >
-                            <AppBar className={classes.Unterschrift} sx={{ position: 'relative' }}>
-                                <Toolbar >
-                                    <IconButton
-                                        edge="start"
-                                        color="inherit"
-                                        onClick={handleClose2}
-                                        aria-label="close"
-
-                                    >
-                                        <CloseIcon />
-                                    </IconButton>
-                                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                                        Unterschrift
-                                    </Typography>
-                                    <div className={classes.c}>
-                                        <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
-                                        <Button color="inherit" autoFocus onClick={() => save()}>Speichern</Button>
-                                    </div>
-                                </Toolbar>
-                            </AppBar>
-                            <>
-                                <div className={sigCanvas.signatureCanvas} >
-                                    <SignaturePad
-                                        ref={sigCanvasRef}
-                                        canvasProps={
-                                            {
-                                                style: { background: 'white', width: '100%', minHeight: '99%', border: 'solid' }
-                                            }
-                                        } />
-                                </div>
-
-
-
-                            </>
-                        </Dialog> */}
                     </Grid>
                 </div>
                 <div className={classes.g}>
@@ -477,94 +371,27 @@ export default function Formular() {
                     </Grid>
                 </div>
                 <div className={classes.BTNGroup}>
-                    <Grid style={{ marginLeft: matchesMD == true ? '15%' : '', marginRight: matchesMD == true ? '15%' : '' }} item xs={12}>
-
-                        {/* <Button onClick={handleClickOpen2} size='large' className={classes.SignBTN} disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && KSV != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"} variant="contained">
-                            <Typography variant="h6">Unterschreiben</Typography>
-                        </Button>
-                        <Dialog
-                            fullScreen
-                            open={open2}
-                            onClose={handleClose2}
-                            TransitionComponent={Transition}
-                        >
-                            <AppBar className={classes.Unterschrift} sx={{ position: 'relative' }}>
-                                <Toolbar >
-                                    <IconButton
-                                        edge="start"
-                                        color="inherit"
-                                        onClick={handleClose2}
-                                        aria-label="close"
-
-                                    >
-                                        <CloseIcon />
-                                    </IconButton>
-                                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                                        Unterschrift
-                                    </Typography>
-                                    <div className={classes.c}>
-                                        <Button color="inherit" autoFocus onClick={clear}>Leeren</Button>
-                                        <Button color="inherit" autoFocus onClick={() => save()}>Speichern</Button>
-                                    </div>
-                                </Toolbar>
-                            </AppBar>
-                            <>
-                                <div className={sigCanvas.signatureCanvas} >
-                                    <SignaturePad
-                                        ref={sigCanvasRef}
-                                        canvasProps={
-                                            {
-                                                style: { background: 'white', width: '100%', minHeight: '99%', border: 'solid' }
-                                            }
-                                        } />
-                                </div>
-
-
-
-                            </>
-                        </Dialog> */}
-
-                        {/* <Popup modal trigger={
-
-                            <Button size='large' className={classes.SignBTN} disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && KSV != "" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? "success" : "primary"} variant="contained">
-                                <Typography variant="h6">Unterschreiben</Typography>
-                            </Button>
-
-                        } closeOnDocumentClick={false}>
-                            {close => (
-                                <div className={sigCanvas.signatureCanvas} >
-                                    <SignaturePad
-                                        className={sigCanvas.signatureCanvas2}
-                                        ref={sigCanvasRef}
-                                        canvasProps={
-                                            {
-                                                style: { border: 'solid', background: 'white', width: '100%', minHeight: '400px', marginBottom: '0px', }
-                                            }
-                                        } />
-                                    <div className={classes.SignatureBTNRow}>
-                                        <Button color="primary" variant="contained" onClick={close}>Zurück</Button>
-                                        <Button color="primary" variant="contained" onClick={clear}>Leeren</Button>
-                                        <Button color="primary" variant="contained" onClick={() => save()} >Speichern</Button>
-                                    </div>
-                                </div>
-                            )}
-                        </Popup> */}
-                    </Grid>
                     <Grid style={{ marginLeft: matchesMD == true ? '20%' : '10%', marginRight: matchesMD == true ? '20%' : '10%' }} item xs={12}>
-                        <ThemeProvider theme={BTNTheme}>
-                            <Button className={classes.CreateBTN} size='large' disabled={AUFTRAGGEBER_UNTERSCHRIFT != "null" ? false : true} variant="contained" onClick={() => { CREATE2(); MAIL(); handleClick1() }} color="primary">
-                                <Typography variant="h6">Erstellen</Typography>
-                            </Button>
-                        </ThemeProvider>
-                        <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose1}>
-                            <Alert severity="success">
-                                <AlertTitle>Auftrag erstellt</AlertTitle>
-                                20 Minuten Zeit zum Bestätigen
-                            </Alert>
-                        </Snackbar>
+                        
+                        <FormularCreate
+                            AuftraggeberUnterschrift={AUFTRAGGEBER_UNTERSCHRIFT}
+                            Auftraggeber={AUFTRAGGEBER}
+                            Auftragnehmer={AUFTRAGNEHMER}
+                            Von={VON}
+                            Bis={BIS}
+                            Auftrag={AUFTRAG}
+                            Ksv={KSV}
+                            Sperren={SPERREN}
+                            Kommentar={KOMMENTAR}
+                            param={query.param}
+                            param2={query.param2}
+                            Email={Mail}
+                        />
+
                     </Grid>
                 </div>
             </Grid>
+
         </form>
 
     )

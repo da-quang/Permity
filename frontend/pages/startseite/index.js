@@ -438,7 +438,7 @@ export default function Startseite() {
                 <Typography variant="h6" className={classes.typoh6}>{query.param}</Typography>
             </div> */}
 
-            <Appbar Kurzzeichen={query.param} />
+            <Appbar Überschrift="Starseite" Kurzzeichen={query.param} />
 
             <div className={classes.FilterAdd}>
 

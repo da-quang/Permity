@@ -97,42 +97,23 @@ export default function Startseite() {
     const [FilterVon, setFilterVon] = useState("");
     const [FilterBis, setFilterBis] = useState("");
 
-    const [ChangeURL, setChangeURL] = useState(false)
 
-    const [AuftragData, setAuftragData] = useState();
 
-    const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
+    // useEffect(() => {
+    //     console.log(FilterVon)
+    //     console.log(FilterBis)
+    //     if (FilterVon == "" && FilterBis == "") {
+    //         console.log("Change")
+    //         setAuftragData(data)
+    //         mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
+    //     }
+    //     else {
+    //         fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=${FilterVon}&bis=${FilterBis}`)
+    //             .then((response) => response.json())
+    //             .then((data) => setAuftragData(data));
+    //     }
 
-    if (error) return <div>failed to load</div>
-    if (!data) return <div>loading...</div>
-
-   
-
-  useEffect(() => {
-    setAuftragData(data)
-  },[data])
-    
-    
-
-    //<Fetchen der Daten für die Karten>
-
-    console.log(data)
-
-    useEffect(() => {
-        console.log(FilterVon)
-        console.log(FilterBis)
-        if (FilterVon == "" && FilterBis == "") {
-            console.log("Change")
-            setAuftragData(data)
-            mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
-        }
-        else {
-            fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/filterDate?von=${FilterVon}&bis=${FilterBis}`)
-                .then((response) => response.json())
-                .then((data) => setAuftragData(data));
-        }
-
-    }, [FilterVon, FilterBis])
+    // }, [FilterVon, FilterBis])
 
     const [value1, setValue1] = useState(new Date());
     const [value2, setValue2] = useState(new Date());
@@ -230,9 +211,9 @@ export default function Startseite() {
         setAnchorE2(null);
     };
 
+    const [AuftragData, setAuftragData] = useState();
+
   
-
-
 
     //<Filter>
     const [filter, setfilter] = useState("");
@@ -286,19 +267,35 @@ export default function Startseite() {
     //</Unterschrift>
 
 
-   
+//  function sees(){
+
+//     const { data2, error2 } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
+
+//     if (error2) return <div>failed to load</div>
+//     if (!data2) return <div>loading...</div>
+//     setAuftragData(data2)
+//  }
+       
+    
+    
 
 
     //<Fetchen der Daten für die Karten>
+    const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
 
+    if (error) return <div>failed to load</div>
+    if (!data) return <div>loading...</div>
+
+    // if(AuftragData == data){
+    //     setAuftragData(data)
+    // }
+
+    
+    //<Fetchen der Daten für die Karten>
+
+    console.log(data)
 
     // const { filterDate, errorDate } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
-
-
-
-
-
-
 
 
     let Count1 = 0
@@ -361,7 +358,7 @@ export default function Startseite() {
     const Abschließen = async auftragID => {
 
         let newDate = new Date();
-
+        
         let InsertDate = `${newDate.getFullYear()}.${newDate.getMonth() + 1}.${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}`;
 
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/close?id=${auftragID}&am=${InsertDate}`, {
@@ -395,7 +392,7 @@ export default function Startseite() {
     const ErneutSenden = async auftragID => {
 
         let newDate = new Date();
-
+        
         let InsertDate = `${newDate.getFullYear()}.${newDate.getMonth() + 1}.${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}`;
 
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/resend?id=${auftragID}&am=${InsertDate}`, {
@@ -514,7 +511,7 @@ export default function Startseite() {
                         </ListItem>
 
                         <IconButton style={{ marginLeft: '10px' }} color="primary" onClick={() => { setFilterBis(BIS); setFilterVon(VON) }}><SaveIcon /></IconButton>
-                        <IconButton onClick={() => { setFilterBis(''); setFilterVon(''); setChangeURL(!ChangeURL) }} color="error"><DeleteIcon /></IconButton>
+                        <IconButton onClick={() => { setFilterBis(''); setFilterVon(''); setDateFilter() }} color="error"><DeleteIcon /></IconButton>
 
                     </LocalizationProvider>
                 </Menu>
@@ -534,7 +531,7 @@ export default function Startseite() {
                         <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Offen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
-                        {AuftragData && AuftragData.map((auftrag, id) => <a key={id}>
+                        {data && data.map((auftrag, id) => <a key={id}>
                             {auftrag.STATUS == "Offen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                                 <div className={classes.Offen}>
                                     <details className={classes.details}>
@@ -586,7 +583,7 @@ export default function Startseite() {
                         <StyledBadge showZero badgeContent={Count2} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Bestätigt</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
-                        {AuftragData && AuftragData.map((auftrag, id) => <a key={id}>{
+                        {data && data.map((auftrag, id) => <a key={id}>{
                             auftrag.STATUS == "Bestätigt" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                             <div className={classes.Bestätigt}>
                                 <details className={classes.details}>
@@ -644,7 +641,7 @@ export default function Startseite() {
                         <StyledBadge showZero badgeContent={Count3} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Abgelehnt</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
-                        {AuftragData && AuftragData.map((auftrag, id) => <a style={{ listStyleType: 'none' }} key={id}>
+                        {data && data.map((auftrag, id) => <a style={{ listStyleType: 'none' }} key={id}>
                             {auftrag.STATUS == "Nicht angenommen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                                 <div className={classes.Abgelehnt}>
                                     <details className={classes.details}>
@@ -699,7 +696,7 @@ export default function Startseite() {
                         <StyledBadge showZero badgeContent={Count4} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Abgeschlossen</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={{ padding: '0px' }}>
-                        {AuftragData && AuftragData.map((auftrag, id) => <a key={id}>
+                        {data && data.map((auftrag, id) => <a key={id}>
                             {auftrag.STATUS == "Abgeschlossen" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
                                 <div className={classes.Abgeschlossen}>
                                     <details className={classes.details}>

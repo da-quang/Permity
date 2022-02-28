@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "babel-plugin-styled-components": "^2.0.2"
+    "babel-plugin-styled-components": "^2.0.2",
+    "eslint-plugin-react-hooks": "^4.3.0"
   },
   "dependencies": {
     "@emotion/cache": "^11.7.1",

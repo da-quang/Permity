@@ -385,7 +385,6 @@ export default function Formular() {
                             Kommentar={KOMMENTAR}
                             param={query.param}
                             param2={query.param2}
-                            Email={Mail}
                         />
 
                     </Grid>

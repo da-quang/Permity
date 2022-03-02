@@ -1,13 +1,3 @@
-import { TextField, Grid, Box, Typography } from '@material-ui/core';
-import {useState} from "react";
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { makeStyles } from '@mui/styles';
-import Button from '@mui/material/Button';
-import SaveIcon from '@mui/icons-material/Save';
-import { autocompleteClasses } from '@mui/material';
-
-
 export const getServerSideProps = async ({ res }) => {
     res.setHeader("location", `/mitarbeiter/login`);
 
@@ -17,6 +7,7 @@ export const getServerSideProps = async ({ res }) => {
     return { props: {} };
 };
 
+// eslint-disable-next-line react/react-in-jsx-scope
 const Index = () => <>Index</>;
 
 export default Index;

@@ -31,6 +31,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import SaveIcon from '@mui/icons-material/Save';
 import Appbar from '../../components/AppBars'
 import AddAuftrag from '../../components/AddAuftrag'
+import Karten from '../../components/Startseite/Karten';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -299,6 +300,7 @@ export default function Startseite() {
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/confirm?id=${auftragID}&am=${InsertDate}`, {
             method: 'PUT'
         })
+
         const data = await response.json()
         console.log(data)
 
@@ -371,7 +373,11 @@ export default function Startseite() {
         <form className={classes.h}>
 
             <AddAuftrag Kurzzeichen={query.param} Name={name} />
-
+            <Karten data={data} Status={"Bestätigt"} Überschrift={"Bestätigt"}
+            KRZ={query.param} Name={query.param2}
+            filter2={filter2} filter3={filter3}
+            filter4={filter4} filter5={filter5}
+            />
             {/* <div className={classes.e}>
                 <div>
                     <Button color="inherit" className={classes.BTN}
@@ -698,7 +704,7 @@ export default function Startseite() {
 
             {error && <div>Error fetching data.</div>}
 
-
+            
         </form>
 
     )

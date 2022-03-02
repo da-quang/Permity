@@ -2,61 +2,33 @@
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
-import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
-import useSWR, { mutate, SWRConfig } from "swr";
-import CreateIcon from '@mui/icons-material/Create';
+import useSWR from "swr";
 import DeleteIcon from '@mui/icons-material/Delete';
-import SignaturePad from "react-signature-canvas";
-import Router from "next/router";
+import React, {useRef, useState } from "react";
 
-import React, { useEffect, useRef, useState } from "react";
-import LogoutIcon from '@mui/icons-material/Logout';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { Divider, ListItem, TextField } from '@mui/material';
-import Slide from '@mui/material/Slide';
-import Popup from 'reactjs-popup';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import IconButton from '@mui/material/IconButton';
+
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Dialog from '@mui/material/Dialog';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import CloseIcon from '@mui/icons-material/Close';
-
 import Badge from '@mui/material/Badge';
 
-import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
-
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
-import { Stack } from '@mui/material';
-import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
-import SaveIcon from '@mui/icons-material/Save';
 
-import AbschließenButton from './AbschließenButton';
-import BestätigenButton from './BestätigenButton';
-import ErneutSendenButton from './ErneutSendenButton';
-import GesehenButton from './GesehenButton';
-import LöschenButton from './LöschenButton';
+
+import AbschließenBTN from './Buttons/AbschließenButton';
+import BestätigenBTN from './Buttons/BestätigenButton'
+import ErneutSendenBTN from './Buttons/ErneutSendenButton';
+import GesehenBTN from './Buttons/GesehenButton';
+import LöschenBTN from './Buttons/LöschenButton';
+
+
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -72,26 +44,12 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const fetcher = (...args) => fetch(...args).then((response) => response.json())
 console.log("--> Übersicht")
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
-
-const BTNTheme = createTheme({
-    palette: {
-        primary: {
-            main: "#212121",
-        },
-    },
-});
-
-
-
-
-
 function Karten(props) {
 
-    
+
+   
+
+
 
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
@@ -99,43 +57,7 @@ function Karten(props) {
     const matchesLG = useMediaQuery(theme.breakpoints.up('lg'));
     console.log(matches)
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleSearchChange3 = e => {
-        console.log(e.target.value)
-        setfilter3(e.target.value)
-
-    };
-
-    const handleSearchChange4 = e => {
-        console.log(e.target.value)
-        setfilter4(e.target.value)
-
-    };
-
-    const handleSearchChange5 = e => {
-        console.log(e.target.value)
-        setfilter5(e.target.value)
-
-    };
-
-    const [Id, setId] = useState("");
-
-    const [open3, setOpen3] = useState(false);
-
-    const handleClickOpen3 = () => {
-        setOpen3(true);
-    };
-
-    const handleClose3 = () => {
-        setOpen3(false);
-    };
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -154,45 +76,8 @@ function Karten(props) {
 
 
     //<Filter>
-    const [filter, setfilter] = useState("");
-    const [filter2, setfilter2] = useState("");
-    const [filter3, setfilter3] = useState("");
-    const [filter4, setfilter4] = useState("");
-    const [filter5, setfilter5] = useState("");
-    const [filter6, setfilter6] = useState("");
-    const { Von, setVon } = useState("");
-    const { Bis, setBis } = useState("");
+    
 
-
-
-    const [currentDate, setCurrentDate] = useState(new Date());
-
-
-    const [FilteredDateData, setFilteredDateData] = useState()
-
-
-
-
-    const handleSearchChange2 = (se) => {
-        if (filter2 == se) {
-            setfilter2("");
-        }
-        else {
-            setfilter2(se);
-        }
-    };
-    const handleSearchChange = (se) => {
-        if (filter == se) {
-            setfilter("");
-        }
-        else {
-            setfilter(se);
-        }
-    };
-    //</Filter>
-
-
-    //<Unterschrift>
     const [AUFTRAGNEHMER_UNTERSCHRIFT, setAUFTRAGNEHMER_UNTERSCHRIFT] = useState('');
 
     const sigCanvasRef = useRef({});
@@ -229,167 +114,136 @@ function Karten(props) {
 
     // const { filterDate, errorDate } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
 
-
-
-
-
-
-
-
     let Count1 = 0
-    let Count2 = 0
-    let Count3 = 0
-    let Count4 = 0
 
-    let Offen = data.filter(item => item.STATUS === 'Offen')
-    let Bestätigt = data.filter(item => item.STATUS === 'Bestätigt')
-    let Abgelehnt = data.filter(item => item.STATUS === 'Nicht angenommen')
-    let Abgeschlossen = data.filter(item => item.STATUS === 'Abgeschlossen')
+
+    let Offen = data.filter(item => item.STATUS === props.Status)
+
 
     Count1 = Offen.length
-    Count2 = Bestätigt.length
-    Count3 = Abgelehnt.length
-    Count4 = Abgeschlossen.length
+
     //</Counter für Anzahl von Aufträgen in einer Status Kategorie>
 
-    const Mail = async auftragnehmer => {
-        const getEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${auftragnehmer}`, {
-            method: 'GET'
-        })
-        const email = await getEmail.json()
-
-        const sendEmail = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${email[0].EMAIL}`, {
-            method: 'POST'
-        })
-
-        console.log("Email wurde versendet")
-    }
-
-    const Delete = async auftragID => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/delete?id=${auftragID}`, {
-            method: 'DELETE'
-        })
-        const data = await response.json()
-        console.log(data)
-
-        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
-    }
-
-    const Bestätigen = async auftragID => {
-
-        let newDate = new Date();
-        let InsertDate = `${newDate.getFullYear()}.${newDate.getMonth() + 1}.${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}`;
-
-        console.log(InsertDate)
-
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/confirm?id=${auftragID}&am=${InsertDate}`, {
-            method: 'PUT'
-        })
-        const data = await response.json()
-        console.log(data)
-
-        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
-    }
-
-   
-
-    const Gesehen = async auftragID => {
-
-        let newDate = new Date();
-
-        let InsertDate = `${newDate.getFullYear()}.${newDate.getMonth() + 1}.${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}`;
-
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/watched?id=${auftragID}&am=${InsertDate}`, {
-            method: 'PUT'
-        })
-        const data = await response.json()
-        console.log(data)
-
-        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
-
-    }
-
-    const ErneutSenden = async auftragID => {
-
-        let newDate = new Date();
-
-        let InsertDate = `${newDate.getFullYear()}.${newDate.getMonth() + 1}.${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}`;
-
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/resend?id=${auftragID}&am=${InsertDate}`, {
-            method: 'PUT'
-        })
-        const data = await response.json()
-        console.log(data)
-
-        mutate(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`)
-
-    }
-
-
-
-    var curr = new Date; // get current date
-    var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-    var last = first + 6; // last day is the first day + 6
-
-
-
-
-
-
    
 
 
+
+
+
+
+
+
+
+    console.log(props.Status)
+
+    console.log(props.data)
 
     return (
-        <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '12%' && matchesLG == true ? '18%' : '18%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%' }} className={classes.Accordion}>
-            <AccordionSummary
+        <form className={classes.h}>
 
-                expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-            >
-                <StyledBadge showZero badgeContent={Count2} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>Bestätigt</Typography>
-            </AccordionSummary>
-            <AccordionDetails style={{ padding: '0px' }}>
-                {data && data.map((auftrag, id) => <a key={id}>{
-                    auftrag.STATUS == "Bestätigt" && data[id].SPERREN.includes(filter2) && data[id].KSV.includes(filter3) && data[id].AUFTRAGGEBER.includes(filter4) && data[id].AUFTRAGNEHMER.includes(filter5) &&
-                    <div className={classes.Bestätigt}>
-                        <details className={classes.details}>
-                            <summary className={classes.summary}>
-                                {auftrag.ID} | {auftrag.AUFTRAG}
-                                <a className={auftrag.GESEHEN_AM == null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) ? null : classes.Check}>
-                                    <Tooltip title="Bestätigung gesehen">
-                                        <IconButton onClick={() => Gesehen(auftrag.ID)} style={{ float: 'right', maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px' }} color="inherit">
-                                            <RemoveRedEyeIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                </a>
-                                <a className={auftrag.GESEHEN_AM !== null && (auftrag.AUFTRAGNEHMER !== query.param2 && auftrag.AUFTRAGGEBER == query.param2 || auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) ? null : classes.Check}>
-                                    <AbschließenButton/>
-                                </a>
-                            </summary>
-                            <div className={classes.InsideCard}>
-                                <div style={{ display: 'inline-block' }}>
-                                    <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
-                                    <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
-                                    <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
-                                    <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
-                                </div>
-                                <div className={matchesLG != true ? null : classes.CardDate} >
-                                    <Typography ><a style={{ fontWeight: "bold" }}>Bestätigt: </a> {auftrag.ANGENOMMEN_AM == null ? "" : auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]}</Typography>
-                                    <Typography className={auftrag.GESEHEN_AM == null ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Bestätigung gesehen: </a>{auftrag.GESEHEN_AM == null || auftrag.GESEHEN_AM == 0 ? "" : auftrag.GESEHEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.GESEHEN_AM.split('-')[1] + '-' + auftrag.GESEHEN_AM.split('-')[0] + ' um ' + auftrag.GESEHEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.GESEHEN_AM.split('T')[1].split(':')[1]}</Typography>
-                                </div>
-                                <div style={{ marginBottom: 30 }}>
-                                    <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
-                                        Details <DoubleArrowIcon />
-                                    </Button>
-                                </div>
-                            </div>
-                        </details>
-                    </div>}
-                </a>)}
-            </AccordionDetails>
-        </Accordion>
+            <Accordion style={{ borderRadius: '15px', marginLeft: matches == true ? '' : '12%' && matchesLG == true ? '18%' : '18%', marginRight: matches == true ? '' : '8%' && matchesLG == true ? '18%' : '18%' }} className={classes.Accordion}>
+
+                <AccordionSummary
+
+                    expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <StyledBadge showZero badgeContent={Count1} color="primary"><FiberManualRecordIcon /></StyledBadge><Typography style={{ fontWeight: 'bold', marginLeft: "6px" }}>{props.Überschrift}</Typography>
+                </AccordionSummary>
+                <AccordionDetails style={{ padding: '0px' }}>
+                    {data && data.map((auftrag, id) => <a key={id}>
+                        {auftrag.STATUS == props.Status && data[id].SPERREN.includes(props.filter2) && data[id].KSV.includes(props.filter3) && data[id].AUFTRAGGEBER.includes(props.filter4) && data[id].AUFTRAGNEHMER.includes(props.filter5) &&
+                            <div className={props.Überschrift == "Offen" ? classes.Offen : "" || props.Überschrift == "Bestätigt" ? classes.Bestätigt : "" || props.Überschrift == "Abgelehnt" ? classes.Abgelehnt : "" || props.Überschrift == "Abgeschlossen" ? classes.Abgeschlossen : ""}>
+
+                                <details className={classes.details}>
+                                    <summary className={classes.summary}>
+                                        {auftrag.ID} | {auftrag.AUFTRAG}
+
+                                        <a className={props.Überschrift !== "Bestätigen" ? classes.Check : ""}>
+                                            <AbschließenBTN
+                                                Name={props.Name}
+                                                A_Geber={auftrag.AUFTRAGGEBER}
+                                                A_Nehmer={auftrag.AUFTRAGNEHMER}
+                                                ID={auftrag.ID}
+                                                Gesehen={auftrag.GESEHEN_AM}
+                                            />
+                                        </a>
+                                        <a className={props.Überschrift !== "Offen" ? classes.Check : ""}>
+                                            <BestätigenBTN
+                                                Name={props.Name}
+                                                A_Geber={auftrag.AUFTRAGGEBER}
+                                                A_Nehmer={auftrag.AUFTRAGNEHMER}
+                                                ID={auftrag.ID}
+                                            />
+                                        </a>
+                                        <a className={props.Überschrift !== "Abgelehnt" ? classes.Check : ""}>
+                                            <ErneutSendenBTN
+                                                Name={props.Name}
+                                                A_Geber={auftrag.AUFTRAGGEBER}
+                                                A_Nehmer={auftrag.AUFTRAGNEHMER}
+                                                ID={auftrag.ID}
+                                            />
+                                        </a>
+                                        <a className={props.Überschrift !== "Abgelehnt" ? classes.Check : ""}>
+                                            <LöschenBTN
+                                                Name={props.Name}
+                                                A_Geber={auftrag.AUFTRAGGEBER}
+                                                A_Nehmer={auftrag.AUFTRAGNEHMER}
+                                                ID={auftrag.ID}
+                                            />
+                                        </a>
+
+                                        <a className={props.Überschrift !== "Abgeschlossen" ? classes.Check : ""}>
+                                            <LöschenBTN
+                                                Name={props.Name}
+                                                A_Geber={auftrag.AUFTRAGGEBER}
+                                                A_Nehmer={auftrag.AUFTRAGNEHMER}
+                                                ID={auftrag.ID}
+                                            />
+                                        </a>
+
+                                        <a className={props.Überschrift !== "Bestätigt" ? classes.Check : ""}>
+                                            <GesehenBTN
+                                                Name={props.Name}
+                                                A_Geber={auftrag.AUFTRAGGEBER}
+                                                A_Nehmer={auftrag.AUFTRAGNEHMER}
+                                                ID={auftrag.ID}
+                                                Gesehen={auftrag.GESEHEN_AM}
+                                            />
+                                        </a>
+
+
+
+                                    </summary>
+                                    <div className={classes.InsideCard}>
+                                        <div style={{ display: 'inline-block' }}>
+                                            <Typography> <a style={{ fontWeight: "bold" }}>KSV:</a> {auftrag.KSV}</Typography>
+                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftraggeber: </a> {auftrag.AUFTRAGGEBER}</Typography>
+                                            <Typography> <a style={{ fontWeight: "bold" }}>Auftragnehmer: </a> {auftrag.AUFTRAGNEHMER}</Typography>
+                                            <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
+                                        </div>
+                                        <div className={matchesLG != true ? null : classes.CardDate} >
+                                            <Typography className={auftrag.ERNEUT_GESENDET_AM == null ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Erneut gesendet: </a>{auftrag.ERNEUT_GESENDET_AM == null ? "" : auftrag.ERNEUT_GESENDET_AM.split('T')[0].split('-')[2] + '-' + auftrag.ERNEUT_GESENDET_AM.split('-')[1] + '-' + auftrag.ERNEUT_GESENDET_AM.split('-')[0] + ' um ' + auftrag.ERNEUT_GESENDET_AM.split('T')[1].split(':')[0] + ':' + auftrag.ERNEUT_GESENDET_AM.split('T')[1].split(':')[1]}</Typography>
+                                        </div>
+                                        <div style={{ marginBottom: 30 }}>
+                                            <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
+                                                Details <DoubleArrowIcon />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </details>
+                            </div>}
+                    </a>)}
+                </AccordionDetails>
+            </Accordion>
+
+
+            {error && <div>Error fetching data.</div>}
+
+
+        </form>
+
     )
 }
 
@@ -613,6 +467,5 @@ const useStyles = makeStyles((theme) => ({
 
 
 }))
-
 
 export default Karten

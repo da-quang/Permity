@@ -1,6 +1,8 @@
 {
   "devDependencies": {
     "babel-plugin-styled-components": "^2.0.2",
+    "eslint": "^8.10.0",
+    "eslint-plugin-react": "^7.29.2",
     "eslint-plugin-react-hooks": "^4.3.0"
   },
   "dependencies": {

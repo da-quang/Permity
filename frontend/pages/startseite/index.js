@@ -1,26 +1,13 @@
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
-import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import useSWR, { mutate, SWRConfig } from "swr";
-import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import SignaturePad from "react-signature-canvas";
-import Router from "next/router";
-import "./sigCanvas.module.css";
-import sigCanvas from './sigCanvas.module.css';
 import React, { useEffect, useRef, useState } from "react";
-import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Divider, ListItem, TextField } from '@mui/material';
-import Slide from '@mui/material/Slide';
-import Popup from 'reactjs-popup';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import IconButton from '@mui/material/IconButton';
@@ -28,18 +15,10 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Dialog from '@mui/material/Dialog';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import CloseIcon from '@mui/icons-material/Close';
-
 import Badge from '@mui/material/Badge';
-
 import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
-
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
@@ -49,15 +28,9 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import SaveIcon from '@mui/icons-material/Save';
-
-
-import Tab1 from '../../components/Tab';
-import Tab2 from '../../components/Tab2';
 import Appbar from '../../components/AppBars'
 import AddAuftrag from '../../components/AddAuftrag'
-
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -71,19 +44,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json())
 console.log("--> Übersicht")
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
-
-const BTNTheme = createTheme({
-    palette: {
-        primary: {
-            main: "#212121",
-        },
-    },
-});
 
 export default function Startseite() {
 
@@ -731,6 +691,7 @@ export default function Startseite() {
                         </a>)}
                     </AccordionDetails>
                 </Accordion>
+
 
 
             </div>

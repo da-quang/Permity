@@ -1,48 +1,16 @@
 import Typography from '@mui/material/Typography';
-import Fab from '@mui/material/Fab';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import React, { Fragment, useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
-import MenuIcon from '@mui/icons-material/Menu';
-import AddIcon from '@mui/icons-material/Add';
-import Stack from '@mui/material/Stack';
-import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LogoutIcon from '@mui/icons-material/Logout';
-import HomeIcon from '@mui/icons-material/Home';
-import Router from "next/router";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
-import CreateIcon from '@mui/icons-material/Create';
-import Popup from 'reactjs-popup';
-
-
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import { Autocomplete } from "@mui/material";
-import Dialog from '@mui/material/Dialog';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-import axios from 'axios';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const BTNTheme = createTheme({
@@ -60,7 +28,7 @@ function FormularCreate(props) {
     const classes = useStyles();
 
     const CREATE2 = async () => {
-        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${props.Ksv}&auftrag=${props.AUFTRAG}&auftraggeber=${props.Auftraggeber}&auftragnehmer=${props.Auftragnehmer}&sperren=${props.Sperren}&kommentar=${props.Kommentar}&von=${props.Von}&bis=${props.Bis}&auftraggeber_unterschrift=${props.AuftraggeberUnterschrift}`, {
+        const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/create?ksv=${props.Ksv}&auftrag=${props.Auftrag}&auftraggeber=${props.Auftraggeber}&auftragnehmer=${props.Auftragnehmer}&sperren=${props.Sperren}&kommentar=${props.Kommentar}&von=${props.Von}&bis=${props.Bis}&auftraggeber_unterschrift=${props.AuftraggeberUnterschrift}`, {
             method: 'POST'
         })
         const data = await response.json()
@@ -119,7 +87,6 @@ function FormularCreate(props) {
             </Snackbar>
         </div>
     )
-
 }
 
 const useStyles = makeStyles({

@@ -4,27 +4,23 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
-
 import { Typography } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 // Passwort
-
 import IconButton from '@mui/material/IconButton';
-
-
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {

@@ -1,27 +1,20 @@
+/* eslint-disable react/prop-types */
 
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import useSWR from "swr";
-import DeleteIcon from '@mui/icons-material/Delete';
-import React, {useRef, useState } from "react";
-
+import React from "react";
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Badge from '@mui/material/Badge';
-
 import { styled } from '@mui/material/styles';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
-
-
 import AbschließenBTN from './Buttons/AbschließenButton';
 import BestätigenBTN from './Buttons/BestätigenButton'
 import ErneutSendenBTN from './Buttons/ErneutSendenButton';
@@ -41,102 +34,25 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
 }));
 
-const fetcher = (...args) => fetch(...args).then((response) => response.json())
 console.log("--> Übersicht")
 
 function Karten(props) {
 
-
-   
-
-
-
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
-    const matchesMD = useMediaQuery(theme.breakpoints.up('md'));
     const matchesLG = useMediaQuery(theme.breakpoints.up('lg'));
-    console.log(matches)
-
-
-
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [anchorE2, setAnchorE2] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const open2 = Boolean(anchorE2);
-    const handleClick2 = (event) => {
-        setAnchorE2(event.currentTarget);
-    };
-    const handleClose2 = () => {
-        setAnchorE2(null);
-    };
-
-    const [AuftragData, setAuftragData] = useState();
-
-
-
-    //<Filter>
-    
-
-    const [AUFTRAGNEHMER_UNTERSCHRIFT, setAUFTRAGNEHMER_UNTERSCHRIFT] = useState('');
-
-    const sigCanvasRef = useRef({});
-    const clear = () => sigCanvasRef.current.clear();
-    const save = () => {
-
-        setAUFTRAGNEHMER_UNTERSCHRIFT(sigCanvasRef.current.getTrimmedCanvas().toDataURL("image/png"))
-        Update()
-    }
-    //</Unterschrift>
-
 
     const { query } = useRouter()
     const router = useRouter()
     const classes = useStyles();
 
-    let kurzzeichen = query.param
-    let name = query.param2
-
-
-    //<Fetchen der Daten für die Karten>
-    const { data, error } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
-
-    if (error) return <div>failed to load</div>
-    if (!data) return <div>loading...</div>
-
-    if (AuftragData == null) {
-        setAuftragData(data)
-    }
-
-    //<Fetchen der Daten für die Karten>
-
-    console.log(data)
-
-    // const { filterDate, errorDate } = useSWR(`https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/all?name=${name}`, fetcher)
+    let data = props.data
 
     let Count1 = 0
 
-
     let Offen = data.filter(item => item.STATUS === props.Status)
 
-
     Count1 = Offen.length
-
-    //</Counter für Anzahl von Aufträgen in einer Status Kategorie>
-
-   
-
-
-
-
-
-
-
-
-
-    console.log(props.Status)
-
-    console.log(props.data)
 
     return (
         <form className={classes.h}>
@@ -155,12 +71,11 @@ function Karten(props) {
                     {data && data.map((auftrag, id) => <a key={id}>
                         {auftrag.STATUS == props.Status && data[id].SPERREN.includes(props.filter2) && data[id].KSV.includes(props.filter3) && data[id].AUFTRAGGEBER.includes(props.filter4) && data[id].AUFTRAGNEHMER.includes(props.filter5) &&
                             <div className={props.Überschrift == "Offen" ? classes.Offen : "" || props.Überschrift == "Bestätigt" ? classes.Bestätigt : "" || props.Überschrift == "Abgelehnt" ? classes.Abgelehnt : "" || props.Überschrift == "Abgeschlossen" ? classes.Abgeschlossen : ""}>
-
                                 <details className={classes.details}>
                                     <summary className={classes.summary}>
                                         {auftrag.ID} | {auftrag.AUFTRAG}
+                                        <a className={props.Überschrift !== "Bestätigt" ? classes.Check : ""}>
 
-                                        <a className={props.Überschrift !== "Bestätigen" ? classes.Check : ""}>
                                             <AbschließenBTN
                                                 Name={props.Name}
                                                 A_Geber={auftrag.AUFTRAGGEBER}
@@ -169,6 +84,16 @@ function Karten(props) {
                                                 Gesehen={auftrag.GESEHEN_AM}
                                             />
                                         </a>
+                                        <a className={props.Überschrift !== "Bestätigt" ? classes.Check : ""}>
+                                            <GesehenBTN
+                                                Name={props.Name}
+                                                A_Geber={auftrag.AUFTRAGGEBER}
+                                                A_Nehmer={auftrag.AUFTRAGNEHMER}
+                                                ID={auftrag.ID}
+                                                Gesehen={auftrag.GESEHEN_AM}
+                                            />
+                                        </a>
+
                                         <a className={props.Überschrift !== "Offen" ? classes.Check : ""}>
                                             <BestätigenBTN
                                                 Name={props.Name}
@@ -203,18 +128,6 @@ function Karten(props) {
                                             />
                                         </a>
 
-                                        <a className={props.Überschrift !== "Bestätigt" ? classes.Check : ""}>
-                                            <GesehenBTN
-                                                Name={props.Name}
-                                                A_Geber={auftrag.AUFTRAGGEBER}
-                                                A_Nehmer={auftrag.AUFTRAGNEHMER}
-                                                ID={auftrag.ID}
-                                                Gesehen={auftrag.GESEHEN_AM}
-                                            />
-                                        </a>
-
-
-
                                     </summary>
                                     <div className={classes.InsideCard}>
                                         <div style={{ display: 'inline-block' }}>
@@ -224,10 +137,16 @@ function Karten(props) {
                                             <Typography> <a style={{ fontWeight: "bold" }}>Sperren: </a> {auftrag.SPERREN}</Typography>
                                         </div>
                                         <div className={matchesLG != true ? null : classes.CardDate} >
-                                            <Typography className={auftrag.ERNEUT_GESENDET_AM == null ? classes.Check : null}><a style={{ fontWeight: "bold" }}>Erneut gesendet: </a>{auftrag.ERNEUT_GESENDET_AM == null ? "" : auftrag.ERNEUT_GESENDET_AM.split('T')[0].split('-')[2] + '-' + auftrag.ERNEUT_GESENDET_AM.split('-')[1] + '-' + auftrag.ERNEUT_GESENDET_AM.split('-')[0] + ' um ' + auftrag.ERNEUT_GESENDET_AM.split('T')[1].split(':')[0] + ':' + auftrag.ERNEUT_GESENDET_AM.split('T')[1].split(':')[1]}</Typography>
+                                            {/* Offen */}
+                                            <Typography className={auftrag.ERNEUT_GESENDET_AM !== null && props.Überschrift == "Offen" ? null : classes.Check}><a style={{ fontWeight: "bold" }}>Erneut gesendet: </a>{auftrag.ERNEUT_GESENDET_AM == null ? "" : auftrag.ERNEUT_GESENDET_AM.split('T')[0].split('-')[2] + '-' + auftrag.ERNEUT_GESENDET_AM.split('-')[1] + '-' + auftrag.ERNEUT_GESENDET_AM.split('-')[0] + ' um ' + auftrag.ERNEUT_GESENDET_AM.split('T')[1].split(':')[0] + ':' + auftrag.ERNEUT_GESENDET_AM.split('T')[1].split(':')[1]}</Typography>
+                                            {/* Bestätigt */}
+                                            <Typography className={props.Überschrift == "Bestätigt" ? null : classes.Check} ><a style={{ fontWeight: "bold" }}>Bestätigt: </a> {auftrag.ANGENOMMEN_AM == null ? "" : auftrag.ANGENOMMEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ANGENOMMEN_AM.split('-')[1] + '-' + auftrag.ANGENOMMEN_AM.split('-')[0] + ' um ' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ANGENOMMEN_AM.split('T')[1].split(':')[1]}</Typography>
+                                            <Typography className={auftrag.GESEHEN_AM !== null && props.Überschrift == "Bestätigt" ? null: classes.Check}><a style={{ fontWeight: "bold" }}>Bestätigung gesehen: </a>{auftrag.GESEHEN_AM == null || auftrag.GESEHEN_AM == 0 ? "" : auftrag.GESEHEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.GESEHEN_AM.split('-')[1] + '-' + auftrag.GESEHEN_AM.split('-')[0] + ' um ' + auftrag.GESEHEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.GESEHEN_AM.split('T')[1].split(':')[1]}</Typography>
+                                            {/* Abgeschlossen */}
+                                            <Typography className={props.Überschrift == "Abgeschlossen" ? null : classes.Check}><a style={{ fontWeight: "bold" }}>Abgeschlossen: </a> {auftrag.ABGESCHLOSSEN_AM == null ? "" : auftrag.ABGESCHLOSSEN_AM.split('T')[0].split('-')[2] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[1] + '-' + auftrag.ABGESCHLOSSEN_AM.split('-')[0] + ' um ' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[0] + ':' + auftrag.ABGESCHLOSSEN_AM.split('T')[1].split(':')[1]}</Typography>
                                         </div>
                                         <div style={{ marginBottom: 30 }}>
-                                            <Button onClick={() => router.push(`/auftrag/details?param=${kurzzeichen}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
+                                            <Button onClick={() => router.push(`/auftrag/details?param=${props.KRZ}&param2=${auftrag.ID}&param3=${query.param2}`)} style={{ float: 'right', color: 'white' }}>
                                                 Details <DoubleArrowIcon />
                                             </Button>
                                         </div>
@@ -239,7 +158,7 @@ function Karten(props) {
             </Accordion>
 
 
-            {error && <div>Error fetching data.</div>}
+           
 
 
         </form>

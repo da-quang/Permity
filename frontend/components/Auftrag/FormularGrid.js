@@ -1,19 +1,17 @@
 
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import React, { Fragment, useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Stack from '@mui/material/Stack';
 import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import MuiAlert from '@mui/material/Alert';
+
 import { Autocomplete } from "@mui/material";
-import Slide from '@mui/material/Slide';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
 
@@ -22,12 +20,19 @@ import FormularCreate from './FormularCreate'
 console.log("--> Formular")
 
 
-function FormularGrid(props) {
-
-
-
+function FormularGrid() {
 
     const [Name, setName] = useState('')
+
+    const [value, setValue] = useState(new Date());
+    const [value1, setValue1] = useState(new Date());
+
+
+    useEffect(() => {
+        value.setHours(7, 30)
+        value1.setHours(16, 45)
+    },[])
+
 
     useEffect(() => {
         fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/all`)
@@ -41,33 +46,14 @@ function FormularGrid(props) {
     const classes = useStyles();
 
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.up('sm'));
+    
     const matchesMD = useMediaQuery(theme.breakpoints.up('md'));
-    const matchesLG = useMediaQuery(theme.breakpoints.up('lg'));
+  
 
-    let [von, setVon] = useState(new Date())
-    let [bis, setBis] = useState(new Date())
 
-    //Menü
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
-    const router = useRouter()
 
-    const [ksv1, setKsv1] = useState([]);
-    const handleLoad1 = (event, value) => setKsv1(value);
 
-    const [value, setValue] = useState(new Date());
-    const [value1, setValue1] = useState(new Date());
-
-    value.setHours(7, 30)
-    value1.setHours(16, 45)
 
     let VON = `${value.getFullYear()}.${value.getMonth() + 1}.${value.getDate()} ${value.getHours()}:${value.getMinutes()}`;
     let BIS = `${value1.getFullYear()}.${value1.getMonth() + 1}.${value1.getDate()} ${value1.getHours()}:${value1.getMinutes()}`;
@@ -84,10 +70,9 @@ function FormularGrid(props) {
     let [Ebene2LoadNext, setEbene2LoadNext] = useState('x')
     let [Ebene3LoadNext, setEbene3LoadNext] = useState('x')
     let [Ebene4LoadNext, setEbene4LoadNext] = useState('x')
-    let [Ebene5LoadNext, setEbene5LoadNext] = useState('x')
+  
 
-    const sigCanvasRef = useRef({});
-    const clear = () => sigCanvasRef.current.clear();
+
     const save = () => {
         setAUFTRAGGEBER_UNTERSCHRIFT('Hallo123')
     }
@@ -99,8 +84,7 @@ function FormularGrid(props) {
         label: "Prüfungserlaubnis"
     }];
 
-    let [ebene1, setEbene1] = useState('')
-    let [ebene2, setEbene2] = useState('')
+  
     let [ebene3, setEbene3] = useState('')
     let [ebene4, setEbene4] = useState('')
     let [ebene5, setEbene5] = useState('')
@@ -134,7 +118,7 @@ function FormularGrid(props) {
 
     let [Ebene3Bezeichnung, setEbene3Bezeichnung] = useState('')
     let [Ebene4Bezeichnung, setEbene4Bezeichnung] = useState('')
-    let [Ebene5Bezeichnung, setEbene5Bezeichnung] = useState('')
+  
 
     useEffect(() => {
         setEbene3LoadNext('x')
@@ -228,7 +212,7 @@ function FormularGrid(props) {
                         id="combo-box-demo"
                         options={ebene5}
                         getOptionLabel={(option) => option.BEZEICHNUNG}
-                        onChange={(event, value) => { if (value === null) { value = ""; setEbene5Bezeichnung(''); setKSV(Ebene4Bezeichnung) } else { setEbene5LoadNext(value.KSV); setKSV(value.BEZEICHNUNG) } }}
+                        onChange={(event, value) => { if (value === null) { value = ""; setKSV(Ebene4Bezeichnung) } else { setKSV(value.BEZEICHNUNG) } }}
                         renderInput={(params) => (<TextField  {...params} size="small" variant="outlined" label="Ksv 4" ></TextField>)}
                         isOptionEqualToValue={(option, value) => option.BEZEICHNUNG === value.BEZEICHNUNG}
                     />
@@ -236,7 +220,7 @@ function FormularGrid(props) {
 
                 <Grid item xs={6}>
                     <Button
-                        fullWidth variant="outlined"
+                        fullWidth
                         disabled={AUFTRAG != "" && AUFTRAGNEHMER != "" && Ebene2LoadNext != "x" && SPERREN != "" ? false : true} color={AUFTRAGGEBER_UNTERSCHRIFT != "" ? "success" : "primary"}
                         // onClick={handleClickOpen2}
                         onClick={() => save()}
@@ -257,7 +241,7 @@ function FormularGrid(props) {
                                 label="Von"
                                 inputFormat="yyyy/MM/dd HH:mm"
 
-                                renderInput={(params) => <TextField size="small" onChange={e => setVon(e.target.value)} variant="outlined" {...params} />}
+                                renderInput={(params) => <TextField size="small"variant="outlined" {...params} />}
                             />
                         </Stack>
                     </Grid>
@@ -265,14 +249,13 @@ function FormularGrid(props) {
                         <Stack>
                             <MobileDateTimePicker
                                 ampm={false}
-                                label="24hours"
                                 value={value1}
                                 onChange={(newValue1) => {
                                     setValue1(newValue1)
                                 }}
                                 label="Bis"
                                 inputFormat="yyyy/MM/dd HH:mm"
-                                renderInput={(params) => <TextField size="small" onChange={e => setBis(e.target.value)} variant="outlined" {...params} />}
+                                renderInput={(params) => <TextField size="small" variant="outlined" {...params} />}
                             />
                         </Stack>
                     </Grid>

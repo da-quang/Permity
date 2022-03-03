@@ -1,12 +1,12 @@
+/* eslint-disable react/prop-types */
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import React, { Fragment, useState, useRef, useEffect } from 'react';
+import React, {useState} from 'react';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import Slide from '@mui/material/Slide';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -24,7 +24,7 @@ const BTNTheme = createTheme({
 function FormularCreate(props) {
 
     const router = useRouter()
-    const { query } = useRouter()
+    
     const classes = useStyles();
 
     const CREATE2 = async () => {

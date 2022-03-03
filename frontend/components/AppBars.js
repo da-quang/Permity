@@ -1,15 +1,17 @@
+/* eslint-disable react/prop-types */
 import Box from '@mui/material/Box';
 import { AppBar, Menu, Typography, Button  } from '@mui/material';
 import { IconButton } from '@mui/material';
-import Router from 'next/router';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@mui/styles';
 import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/Menu';
-import React, { useRef, useState } from "react";
+import React from "react";
 import MenuItem from '@mui/material/MenuItem';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
+
+
 function AppBars(props){
 
     const { query } = useRouter()
@@ -18,7 +20,6 @@ function AppBars(props){
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [anchorE2, setAnchorE2] = React.useState(null);
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
@@ -66,7 +67,7 @@ function AppBars(props){
         )        
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 
     disabled: {
         display: 'none'

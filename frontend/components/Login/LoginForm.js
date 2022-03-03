@@ -40,7 +40,7 @@ const BTNTheme = createTheme({
 function LoginForm() {
 
     const router = useRouter()
-    const { query } = useRouter()
+   
     
 
     let [name, setName] = useState('')

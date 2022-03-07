@@ -1,23 +1,16 @@
-import TextField from '@mui/material/TextField';
-import React, {useState} from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/router';
+/* eslint-disable react/react-in-jsx-scope */
 import { makeStyles } from '@mui/styles';
-import Button from '@mui/material/Button';
-
 import { Typography } from '@mui/material';
-
-
 import LoginForm from '../../components/Login/LoginForm'
 
-
-
 console.log("--> Login")
+
 export default function Login() {
   
     const classes = useStyles();
+
     return (
-        <form className={classes.h}>
+        <form>
             <div className={classes.e}>
                 <div align="center"><Typography variant='h4'>PERMITY</Typography></div>
             </div>

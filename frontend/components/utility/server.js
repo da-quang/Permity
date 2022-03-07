@@ -1,4 +1,5 @@
-import express from 'express';
+/* eslint-disable no-unused-vars */
+import express from "express";
 
 // We are going to fill these out in the sections to follow.
 function renderFullPage(html, css) {

@@ -1,6 +1,5 @@
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { makeStyles } from "@mui/styles";
@@ -54,17 +53,14 @@ function FormularGrid() {
   let [AUFTRAGNEHMER, setAUFTRAGNEHMER] = useState("");
   let [SPERREN, setSPERREN] = useState("");
   let [AUFTRAG, setAUFTRAG] = useState("");
-  let [AUFTRAGGEBER_UNTERSCHRIFT, setAUFTRAGGEBER_UNTERSCHRIFT] = useState("");
+
+  let AUFTRAGGEBER_UNTERSCHRIFT = "Placeholder";
 
   let AUFTRAGGEBER = query.param2;
 
   let [Ebene2LoadNext, setEbene2LoadNext] = useState("x");
   let [Ebene3LoadNext, setEbene3LoadNext] = useState("x");
   let [Ebene4LoadNext, setEbene4LoadNext] = useState("x");
-
-  const save = () => {
-    setAUFTRAGGEBER_UNTERSCHRIFT("Hallo123");
-  };
 
   const Sperren = [
     {
@@ -326,23 +322,15 @@ function FormularGrid() {
         </Grid>
 
         <Grid item xs={6}>
-          <Button
+          <TextField
+            size="small"
+            multiline
+            maxRows={4}
             fullWidth
-            disabled={
-              AUFTRAG != "" &&
-              AUFTRAGNEHMER != "" &&
-              Ebene2LoadNext != "x" &&
-              SPERREN != ""
-                ? false
-                : true
-            }
-            color={AUFTRAGGEBER_UNTERSCHRIFT != "" ? "success" : "primary"}
-            // onClick={handleClickOpen2}
-            onClick={() => save()}
-            variant="contained"
-          >
-            Bestätigen
-          </Button>
+            variant="outlined"
+            label="Kommentar"
+            onChange={(e) => setKOMMENTAR(e.target.value)}
+          ></TextField>
         </Grid>
       </div>
       <div className={classes.g}>
@@ -380,19 +368,6 @@ function FormularGrid() {
             </Stack>
           </Grid>
         </LocalizationProvider>
-      </div>
-      <div className={classes.g}>
-        <Grid item xs={12}>
-          <TextField
-            size="small"
-            multiline
-            maxRows={4}
-            fullWidth
-            variant="outlined"
-            label="Kommentar"
-            onChange={(e) => setKOMMENTAR(e.target.value)}
-          ></TextField>
-        </Grid>
       </div>
       <div className={classes.BTNGroup}>
         <Grid

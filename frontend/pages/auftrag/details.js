@@ -1,4 +1,4 @@
-import { useState } from "react";
+/* eslint-disable react/jsx-key */
 import { useRouter } from "next/router";
 import { makeStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
@@ -8,8 +8,6 @@ import useSWR from "swr";
 import MenuIcon from "@mui/icons-material/Menu";
 import * as React from "react";
 import Box from "@mui/material/Box";
-import SignaturePad from "react-signature-canvas";
-import { useRef } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -23,6 +21,11 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import { useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/styles";
+import LöschenBTN from "../../components/Startseite/Buttons/LöschenButton";
+import GesehenBTN from "../../components/Startseite/Buttons/GesehenButton";
+import AbschließenBTN from "../../components/Startseite/Buttons/AbschließenButton";
+import BestätigenBTN from "../../components/Startseite/Buttons/BestätigenButton";
+import ErneutSendenBTN from "../../components/Startseite/Buttons/ErneutSendenButton";
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json());
 console.log("--> Details");
@@ -36,17 +39,11 @@ export default function Start() {
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.up("md"));
 
-  const [AUFTRAGNEHMER_UNTERSCHRIFT, setAUFTRAGNEHMER_UNTERSCHRIFT] =
-    useState("");
-
   const { data, error } = useSWR(
     `https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/find?id=${id}`,
     fetcher
   );
   if (error) return <div>failed to load</div>;
-
-  const sigCanvasRef = useRef({});
-  const clear = () => sigCanvasRef.current.clear();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -57,83 +54,7 @@ export default function Start() {
     setAnchorEl(null);
   };
 
-  console.log({ AUFTRAGNEHMER_UNTERSCHRIFT });
-
-  const [signatureMode, setSignatureMode] = useState(false);
-
-  function changeMode() {
-    if (signatureMode == false) {
-      setSignatureMode(true);
-    } else {
-      setSignatureMode(false);
-    }
-  }
-
   const classes = useStyles();
-
-  const Delete = async (auftragID) => {
-    const response = await fetch(
-      `https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/delete?id=${auftragID}`,
-      {
-        method: "DELETE",
-      }
-    );
-    const data = await response.json();
-    console.log(data);
-  };
-
-  const Update = async (auftragID) => {
-    setAUFTRAGNEHMER_UNTERSCHRIFT("Hallo1234");
-
-    const response = await fetch(
-      `https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/update?id=${auftragID}&status=Bestätigt&auftragnehmer_unterschrift=Leer`,
-      {
-        method: "PUT",
-      }
-    );
-    const data = await response.json();
-    console.log(data);
-  };
-
-  const Update2 = async (auftragID) => {
-    const response = await fetch(
-      `https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/abgeschlossen?id=${auftragID}&auftragnehmer_unterschrift=Leer`,
-      {
-        method: "PUT",
-      }
-    );
-    const data = await response.json();
-    console.log(data);
-  };
-
-  const Mail = async (auftragnehmer) => {
-    const getEmail = await fetch(
-      `https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${auftragnehmer}`,
-      {
-        method: "GET",
-      }
-    );
-    const email = await getEmail.json();
-
-    const sendEmail = await fetch(
-      `https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${email[0].EMAIL}`,
-      {
-        method: "POST",
-      }
-    );
-
-    console.log("Email wurde versendet");
-  };
-
-  const Update3 = async (auftragID) => {
-    const Update3 = await fetch(
-      ` https://palmiest-hornet-1388.dataplicity.io/api/api/Auftrag/resend?id=${auftragID}`,
-      {
-        method: "PUT",
-      }
-    );
-    const data = await Update3.json();
-  };
 
   return (
     <div>
@@ -191,397 +112,352 @@ export default function Start() {
           marginRight: matchesMD == true ? "4%" : "",
         }}
       >
-        {signatureMode == false ? (
-          <div>
-            {data &&
-              data.map((auftrag) => (
-                <Card elevation={2} className={classes.container}>
-                  <CardContent style={{ padding: "2px" }}>
-                    <div className={classes.box}>
-                      <div className={classes.contentInfo}>Id</div>
-                      <div className={classes.contentInfo}>Auftrag</div>
-                    </div>
-                    <div className={classes.box2}>
-                      <TextField
-                        style={{ marginRight: "5px" }}
-                        multiline
-                        className={classes.contentAuftrag}
-                        defaultValue={auftrag.ID}
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                      <TextField
-                        multiline
-                        className={classes.contentAuftrag}
-                        defaultValue={auftrag.AUFTRAG}
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                    </div>
+        <div>
+          {data &&
+            data.map((auftrag) => (
+              <Card elevation={2} className={classes.container}>
+                <CardContent style={{ padding: "2px" }}>
+                  <div className={classes.box}>
+                    <div className={classes.contentInfo}>Id</div>
+                    <div className={classes.contentInfo}>Auftrag</div>
+                  </div>
+                  <div className={classes.box2}>
+                    <TextField
+                      style={{ marginRight: "5px" }}
+                      multiline
+                      className={classes.contentAuftrag}
+                      defaultValue={auftrag.ID}
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                    <TextField
+                      multiline
+                      className={classes.contentAuftrag}
+                      defaultValue={auftrag.AUFTRAG}
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                  </div>
 
-                    <div className={classes.box}>
-                      <div className={classes.contentInfo}>Ksv</div>
-                      <div className={classes.contentInfo}>Sperren</div>
-                    </div>
-                    <div className={classes.box2}>
-                      <TextField
-                        style={{ marginRight: "5px" }}
-                        multiline
-                        className={classes.contentAuftrag}
-                        defaultValue={auftrag.KSV}
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                      <TextField
-                        multiline
-                        className={classes.contentAuftrag}
-                        defaultValue={auftrag.SPERREN}
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                    </div>
+                  <div className={classes.box}>
+                    <div className={classes.contentInfo}>Ksv</div>
+                    <div className={classes.contentInfo}>Sperren</div>
+                  </div>
+                  <div className={classes.box2}>
+                    <TextField
+                      style={{ marginRight: "5px" }}
+                      multiline
+                      className={classes.contentAuftrag}
+                      defaultValue={auftrag.KSV}
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                    <TextField
+                      multiline
+                      className={classes.contentAuftrag}
+                      defaultValue={auftrag.SPERREN}
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                  </div>
 
-                    <div className={classes.box}>
-                      <div className={classes.contentInfo}>Von</div>
-                      <div className={classes.contentInfo}>Bis</div>
-                    </div>
-                    <div className={classes.box2}>
-                      <TextField
-                        multiline
-                        fullWidth
-                        style={{ marginRight: "5px" }}
-                        className={classes.contentDate}
-                        defaultValue={
-                          auftrag.VON.split("T")[0].split("-")[2] +
-                          "-" +
-                          auftrag.VON.split("-")[1] +
-                          "-" +
-                          auftrag.VON.split("-")[0] +
-                          " um " +
-                          auftrag.VON.split("T")[1].split(":")[0] +
-                          ":" +
-                          auftrag.VON.split("T")[1].split(":")[1]
-                        }
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                      <TextField
-                        multiline
-                        fullWidth
-                        className={classes.contentDate}
-                        defaultValue={
-                          auftrag.BIS.split("T")[0].split("-")[2] +
-                          "-" +
-                          auftrag.BIS.split("-")[1] +
-                          "-" +
-                          auftrag.BIS.split("-")[0] +
-                          " um " +
-                          auftrag.BIS.split("T")[1].split(":")[0] +
-                          ":" +
-                          auftrag.BIS.split("T")[1].split(":")[1]
-                        }
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                    </div>
-                    <div className={classes.box}></div>
-                    <div className={classes.box2}></div>
-
-                    <div className={classes.box}>
-                      <div className={classes.contentInfo}>Kommentar</div>
-                    </div>
-                    <div className={classes.box2}>
-                      <TextField
-                        className={classes.contentKommentar}
-                        defaultValue={auftrag.KOMMENTAR}
-                        variant="filled"
-                        size="small"
-                        readOnly
-                      />
-                    </div>
-
-                    <div className={classes.box}>
-                      <div className={classes.contentInfo}>Auftraggeber</div>
-                      <div className={classes.contentInfo}>Auftragnehmer</div>
-                    </div>
-                    <div className={classes.box2}>
-                      <TextField
-                        style={{ marginRight: "5px" }}
-                        className={classes.contentAuftrag}
-                        defaultValue={auftrag.AUFTRAGGEBER}
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                      <TextField
-                        className={classes.contentAuftrag}
-                        defaultValue={auftrag.AUFTRAGNEHMER}
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                    </div>
-
-                    <div className={classes.box}>
-                      <div className={classes.contentInfo}>Bestätigt am</div>
-                      <div className={classes.contentInfo}>Gesehen am</div>
-                    </div>
-                    <div className={classes.box2}>
-                      <TextField
-                        style={{ marginRight: "5px" }}
-                        fullWidth
-                        className={classes.contentDate}
-                        defaultValue={
-                          auftrag.ANGENOMMEN_AM == null
-                            ? ""
-                            : auftrag.ANGENOMMEN_AM.split("T")[0].split(
-                                "-"
-                              )[2] +
-                              "-" +
-                              auftrag.ANGENOMMEN_AM.split("-")[1] +
-                              "-" +
-                              auftrag.ANGENOMMEN_AM.split("-")[0] +
-                              " um " +
-                              auftrag.ANGENOMMEN_AM.split("T")[1].split(
-                                ":"
-                              )[0] +
-                              ":" +
-                              auftrag.ANGENOMMEN_AM.split("T")[1].split(":")[1]
-                        }
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                      <TextField
-                        style={{ marginRight: "5px" }}
-                        fullWidth
-                        className={classes.contentDate}
-                        defaultValue={
-                          auftrag.GESEHEN_AM == null
-                            ? ""
-                            : auftrag.GESEHEN_AM.split("T")[0].split("-")[2] +
-                              "-" +
-                              auftrag.GESEHEN_AM.split("-")[1] +
-                              "-" +
-                              auftrag.GESEHEN_AM.split("-")[0] +
-                              " um " +
-                              auftrag.GESEHEN_AM.split("T")[1].split(":")[0] +
-                              ":" +
-                              auftrag.GESEHEN_AM.split("T")[1].split(":")[1]
-                        }
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                    </div>
-
-                    <div className={classes.box}>
-                      <div className={classes.contentInfo}>
-                        Abgeschlossen am
-                      </div>
-                      <div className={classes.contentInfo}>
-                        Erneut gesendet am
-                      </div>
-                    </div>
-                    <div className={classes.box2}>
-                      <TextField
-                        style={{ marginRight: "5px" }}
-                        fullWidth
-                        className={classes.contentDate}
-                        defaultValue={
-                          auftrag.ABGESCHLOSSEN_AM == null
-                            ? ""
-                            : auftrag.ABGESCHLOSSEN_AM.split("T")[0].split(
-                                "-"
-                              )[2] +
-                              "-" +
-                              auftrag.ABGESCHLOSSEN_AM.split("-")[1] +
-                              "-" +
-                              auftrag.ABGESCHLOSSEN_AM.split("-")[0] +
-                              " um " +
-                              auftrag.ABGESCHLOSSEN_AM.split("T")[1].split(
-                                ":"
-                              )[0] +
-                              ":" +
-                              auftrag.ABGESCHLOSSEN_AM.split("T")[1].split(
-                                ":"
-                              )[1]
-                        }
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                      <TextField
-                        style={{ marginRight: "5px" }}
-                        fullWidth
-                        className={classes.contentDate}
-                        defaultValue={
-                          auftrag.ERNEUT_GESENDET_AM == null
-                            ? ""
-                            : auftrag.ERNEUT_GESENDET_AM.split("T")[0].split(
-                                "-"
-                              )[2] +
-                              "-" +
-                              auftrag.ERNEUT_GESENDET_AM.split("-")[1] +
-                              "-" +
-                              auftrag.ERNEUT_GESENDET_AM.split("-")[0] +
-                              " um " +
-                              auftrag.ERNEUT_GESENDET_AM.split("T")[1].split(
-                                ":"
-                              )[0] +
-                              ":" +
-                              auftrag.ERNEUT_GESENDET_AM.split("T")[1].split(
-                                ":"
-                              )[1]
-                        }
-                        variant="filled"
-                        size="small"
-                        inputProps={{ readOnly: true }}
-                      />
-                    </div>
-                    {/* 
-
-
-                            <div className={classes.box}>
-                                <div className={classes.contentInfo}>Unterschrift</div>
-                                <div className={classes.contentInfo}>Unterschrift</div>
-                            </div>
-                            <div className={classes.box2}>
-                                <img className={classes.unterschrift} src={auftrag.AUFTRAGGEBER_UNTERSCHRIFT} />
-
-                                <img className={classes.unterschrift} src={auftrag.AUFTRAGNEHMER_UNTERSCHRIFT} />
-                            </div> */}
-                  </CardContent>
-                  <Divider></Divider>
-                  <CardActions style={{ display: "flex" }}>
-                    <Button
-                      className={
-                        (auftrag.AUFTRAGGEBER !== query.param3 ||
-                          auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) &&
-                        auftrag.STATUS == "Offen"
-                          ? null
-                          : classes.disabled
+                  <div className={classes.box}>
+                    <div className={classes.contentInfo}>Von</div>
+                    <div className={classes.contentInfo}>Bis</div>
+                  </div>
+                  <div className={classes.box2}>
+                    <TextField
+                      multiline
+                      fullWidth
+                      style={{ marginRight: "5px" }}
+                      className={classes.contentDate}
+                      defaultValue={
+                        auftrag.VON.split("T")[0].split("-")[2] +
+                        "-" +
+                        auftrag.VON.split("-")[1] +
+                        "-" +
+                        auftrag.VON.split("-")[0] +
+                        " um " +
+                        auftrag.VON.split("T")[1].split(":")[0] +
+                        ":" +
+                        auftrag.VON.split("T")[1].split(":")[1]
                       }
-                      style={{ color: "#0000EE" }}
-                      size="medium"
-                    >
-                      Bestätigen
-                    </Button>
-                    <Button
-                      className={
-                        (auftrag.AUFTRAGGEBER == query.param3 ||
-                          auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) &&
-                        auftrag.STATUS == "Bestätigt" &&
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                    <TextField
+                      multiline
+                      fullWidth
+                      className={classes.contentDate}
+                      defaultValue={
+                        auftrag.BIS.split("T")[0].split("-")[2] +
+                        "-" +
+                        auftrag.BIS.split("-")[1] +
+                        "-" +
+                        auftrag.BIS.split("-")[0] +
+                        " um " +
+                        auftrag.BIS.split("T")[1].split(":")[0] +
+                        ":" +
+                        auftrag.BIS.split("T")[1].split(":")[1]
+                      }
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                  </div>
+                  <div className={classes.box}></div>
+                  <div className={classes.box2}></div>
+
+                  <div className={classes.box}>
+                    <div className={classes.contentInfo}>Kommentar</div>
+                  </div>
+                  <div className={classes.box2}>
+                    <TextField
+                      className={classes.contentKommentar}
+                      defaultValue={auftrag.KOMMENTAR}
+                      variant="filled"
+                      size="small"
+                      readOnly
+                    />
+                  </div>
+
+                  <div className={classes.box}>
+                    <div className={classes.contentInfo}>Auftraggeber</div>
+                    <div className={classes.contentInfo}>Auftragnehmer</div>
+                  </div>
+                  <div className={classes.box2}>
+                    <TextField
+                      style={{ marginRight: "5px" }}
+                      className={classes.contentAuftrag}
+                      defaultValue={auftrag.AUFTRAGGEBER}
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                    <TextField
+                      className={classes.contentAuftrag}
+                      defaultValue={auftrag.AUFTRAGNEHMER}
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                  </div>
+
+                  <div className={classes.box}>
+                    <div className={classes.contentInfo}>Bestätigt am</div>
+                    <div className={classes.contentInfo}>Gesehen am</div>
+                  </div>
+                  <div className={classes.box2}>
+                    <TextField
+                      style={{ marginRight: "5px" }}
+                      fullWidth
+                      className={classes.contentDate}
+                      defaultValue={
+                        auftrag.ANGENOMMEN_AM == null
+                          ? ""
+                          : auftrag.ANGENOMMEN_AM.split("T")[0].split("-")[2] +
+                            "-" +
+                            auftrag.ANGENOMMEN_AM.split("-")[1] +
+                            "-" +
+                            auftrag.ANGENOMMEN_AM.split("-")[0] +
+                            " um " +
+                            auftrag.ANGENOMMEN_AM.split("T")[1].split(":")[0] +
+                            ":" +
+                            auftrag.ANGENOMMEN_AM.split("T")[1].split(":")[1]
+                      }
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                    <TextField
+                      style={{ marginRight: "5px" }}
+                      fullWidth
+                      className={classes.contentDate}
+                      defaultValue={
                         auftrag.GESEHEN_AM == null
-                          ? null
-                          : classes.disabled
+                          ? ""
+                          : auftrag.GESEHEN_AM.split("T")[0].split("-")[2] +
+                            "-" +
+                            auftrag.GESEHEN_AM.split("-")[1] +
+                            "-" +
+                            auftrag.GESEHEN_AM.split("-")[0] +
+                            " um " +
+                            auftrag.GESEHEN_AM.split("T")[1].split(":")[0] +
+                            ":" +
+                            auftrag.GESEHEN_AM.split("T")[1].split(":")[1]
                       }
-                      style={{ color: "#0000EE" }}
-                      size="medium"
-                    >
-                      Gesehen{" "}
-                    </Button>
-                    <Button
-                      className={
-                        (auftrag.AUFTRAGGEBER == query.param3 ||
-                          auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) &&
-                        auftrag.STATUS == "Bestätigt" &&
-                        auftrag.GESEHEN_AM !== null
-                          ? null
-                          : classes.disabled
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                  </div>
+
+                  <div className={classes.box}>
+                    <div className={classes.contentInfo}>Abgeschlossen am</div>
+                    <div className={classes.contentInfo}>
+                      Erneut gesendet am
+                    </div>
+                  </div>
+                  <div className={classes.box2}>
+                    <TextField
+                      style={{ marginRight: "5px" }}
+                      fullWidth
+                      className={classes.contentDate}
+                      defaultValue={
+                        auftrag.ABGESCHLOSSEN_AM == null
+                          ? ""
+                          : auftrag.ABGESCHLOSSEN_AM.split("T")[0].split(
+                              "-"
+                            )[2] +
+                            "-" +
+                            auftrag.ABGESCHLOSSEN_AM.split("-")[1] +
+                            "-" +
+                            auftrag.ABGESCHLOSSEN_AM.split("-")[0] +
+                            " um " +
+                            auftrag.ABGESCHLOSSEN_AM.split("T")[1].split(
+                              ":"
+                            )[0] +
+                            ":" +
+                            auftrag.ABGESCHLOSSEN_AM.split("T")[1].split(":")[1]
                       }
-                      style={{ color: "#0000EE" }}
-                      size="medium"
-                    >
-                      Abschließen
-                    </Button>
-                    <Button
-                      className={
-                        auftrag.STATUS == "Nicht angenommen" ||
-                        auftrag.STATUS == "Abgeschlossen"
-                          ? null
-                          : classes.disabled
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                    <TextField
+                      style={{ marginRight: "5px" }}
+                      fullWidth
+                      className={classes.contentDate}
+                      defaultValue={
+                        auftrag.ERNEUT_GESENDET_AM == null
+                          ? ""
+                          : auftrag.ERNEUT_GESENDET_AM.split("T")[0].split(
+                              "-"
+                            )[2] +
+                            "-" +
+                            auftrag.ERNEUT_GESENDET_AM.split("-")[1] +
+                            "-" +
+                            auftrag.ERNEUT_GESENDET_AM.split("-")[0] +
+                            " um " +
+                            auftrag.ERNEUT_GESENDET_AM.split("T")[1].split(
+                              ":"
+                            )[0] +
+                            ":" +
+                            auftrag.ERNEUT_GESENDET_AM.split("T")[1].split(
+                              ":"
+                            )[1]
                       }
-                      style={{ color: "#0000EE" }}
-                      size="medium"
-                    >
-                      Löschen
-                    </Button>
-                    <Button
-                      className={
-                        (auftrag.AUFTRAGGEBER == query.param3 ||
-                          auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER) &&
-                        auftrag.STATUS == "Nicht angenommen"
-                          ? null
-                          : classes.disabled
-                      }
-                      style={{ color: "#0000EE" }}
-                      size="medium"
-                    >
-                      Erneut senden
-                    </Button>
-                  </CardActions>
-                </Card>
-              ))}
-            <div></div>
-          </div>
-        ) : (
-          <div>
-            <SignaturePad
-              ref={sigCanvasRef}
-              canvasProps={{
-                style: {
-                  border: "solid",
-                  borderWidth: "7px",
-                  borderRadius: "5px",
-                  margin: "auto",
-                  borderColor: "#143968",
-                  display: "flex",
-                  alignContent: "s",
-                  background: "#e0e0e0",
-                  width: "90%",
-                  minHeight: "600px",
-                },
-              }}
-            />
-            <div className={classes.buttons}>
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={() => changeMode()}
-              >
-                Zurück
-              </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={() => clear()}
-              >
-                Leeren
-              </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={() => save()}
-              >
-                Speichern
-              </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={() => unterschreiben()}
-              >
-                Unterschreiben
-              </Button>
-            </div>
-          </div>
-        )}
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
+                  </div>
+                </CardContent>
+                <Divider></Divider>
+                <CardActions style={{ display: "flex" }}>
+                  <Typography
+                    className={
+                      (auftrag.AUFTRAGGEBER !== query.param3 ||
+                        auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) &&
+                      auftrag.STATUS == "Offen"
+                        ? null
+                        : classes.disabled
+                    }
+                    style={{ color: "#0000EE" }}
+                    size="medium"
+                  >
+                    <BestätigenBTN
+                      Name={query.param2}
+                      A_Geber={auftrag.AUFTRAGGEBER}
+                      A_Nehmer={auftrag.AUFTRAGNEHMER}
+                      ID={auftrag.ID}
+                    />
+                  </Typography>
+                  <Typography
+                    className={
+                      (auftrag.AUFTRAGGEBER == query.param3 ||
+                        auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) &&
+                      auftrag.STATUS == "Bestätigt" &&
+                      auftrag.GESEHEN_AM == null
+                        ? null
+                        : classes.disabled
+                    }
+                    style={{ color: "#0000EE" }}
+                    size="medium"
+                  >
+                    <GesehenBTN
+                      Name={query.param3}
+                      A_Geber={auftrag.AUFTRAGGEBER}
+                      A_Nehmer={auftrag.AUFTRAGNEHMER}
+                      ID={auftrag.ID}
+                      Gesehen={auftrag.GESEHEN_AM}
+                    />
+                  </Typography>
+                  <Typography
+                    className={
+                      (auftrag.AUFTRAGGEBER == query.param3 ||
+                        auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) &&
+                      auftrag.STATUS == "Bestätigt" &&
+                      auftrag.GESEHEN_AM !== null
+                        ? null
+                        : classes.disabled
+                    }
+                    style={{ color: "#0000EE" }}
+                    size="medium"
+                  >
+                    <AbschließenBTN
+                      Name={query.param3}
+                      A_Geber={auftrag.AUFTRAGGEBER}
+                      A_Nehmer={auftrag.AUFTRAGNEHMER}
+                      ID={auftrag.ID}
+                      Gesehen={auftrag.GESEHEN_AM}
+                    />
+                  </Typography>
+                  <Typography
+                    className={
+                      auftrag.STATUS == "Nicht angenommen" ||
+                      auftrag.STATUS == "Abgeschlossen"
+                        ? null
+                        : classes.disabled
+                    }
+                    style={{ color: "#0000EE" }}
+                  >
+                    <LöschenBTN
+                      Name={query.param3}
+                      A_Geber={auftrag.AUFTRAGGEBER}
+                      A_Nehmer={auftrag.AUFTRAGNEHMER}
+                      ID={auftrag.ID}
+                    />
+                  </Typography>
+
+                  <Typography
+                    className={
+                      (auftrag.AUFTRAGGEBER == query.param3 ||
+                        auftrag.AUFTRAGNEHMER == auftrag.AUFTRAGGEBER) &&
+                      auftrag.STATUS == "Nicht angenommen"
+                        ? null
+                        : classes.disabled
+                    }
+                    style={{ color: "#0000EE" }}
+                    size="medium"
+                  >
+                    <ErneutSendenBTN
+                      Name={query.param3}
+                      A_Geber={auftrag.AUFTRAGGEBER}
+                      A_Nehmer={auftrag.AUFTRAGNEHMER}
+                      ID={auftrag.ID}
+                    />
+                  </Typography>
+                </CardActions>
+              </Card>
+            ))}
+          <div></div>
+        </div>
       </div>
     </div>
   );

@@ -60,7 +60,7 @@ namespace backend.Controllers
         }
 
         /*
-        * Get all ksv up to stage 5
+        * Get all ksv up to stage 2
         *
         * return all ksv as json-format
         *
@@ -71,7 +71,7 @@ namespace backend.Controllers
         [HttpGet("ksv")]
         public JsonResult ksv()
         {
-            string query = @"select ""KSV"", ""BEZEICHNUNG"", ""EBENE"" from ""KSV_Struktur"" where ""EBENE"" <= 5";
+            string query = @"select ""KSV"", ""BEZEICHNUNG"", ""EBENE"" from ""KSV_Struktur"" where ""EBENE"" 2";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("AppCon");

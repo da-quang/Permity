@@ -21,11 +21,11 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import { useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/styles";
-import LöschenBTN from "../../components/Startseite/Buttons/LöschenButton";
-import GesehenBTN from "../../components/Startseite/Buttons/GesehenButton";
-import AbschließenBTN from "../../components/Startseite/Buttons/AbschließenButton";
-import BestätigenBTN from "../../components/Startseite/Buttons/BestätigenButton";
-import ErneutSendenBTN from "../../components/Startseite/Buttons/ErneutSendenButton";
+import LöschenBTN from "../../components/Details/Buttons/LöschenButton";
+import GesehenBTN from "../../components/Details/Buttons/GesehenButton";
+import AbschließenBTN from "../../components/Details/Buttons/AbschließenButton";
+import BestätigenBTN from "../../components/Details/Buttons/BestätigenButton";
+import ErneutSendenBTN from "../../components/Details/Buttons/ErneutSendenButton";
 
 const fetcher = (...args) => fetch(...args).then((response) => response.json());
 console.log("--> Details");
@@ -368,11 +368,10 @@ export default function Start() {
                         ? null
                         : classes.disabled
                     }
-                    style={{ color: "#0000EE" }}
-                    size="medium"
                   >
                     <BestätigenBTN
-                      Name={query.param2}
+                      KRZ={query.param}
+                      Name={query.param3}
                       A_Geber={auftrag.AUFTRAGGEBER}
                       A_Nehmer={auftrag.AUFTRAGNEHMER}
                       ID={auftrag.ID}
@@ -387,10 +386,9 @@ export default function Start() {
                         ? null
                         : classes.disabled
                     }
-                    style={{ color: "#0000EE" }}
-                    size="medium"
                   >
                     <GesehenBTN
+                      KRZ={query.param}
                       Name={query.param3}
                       A_Geber={auftrag.AUFTRAGGEBER}
                       A_Nehmer={auftrag.AUFTRAGNEHMER}
@@ -398,7 +396,7 @@ export default function Start() {
                       Gesehen={auftrag.GESEHEN_AM}
                     />
                   </Typography>
-                  <Typography
+                  <a
                     className={
                       (auftrag.AUFTRAGGEBER == query.param3 ||
                         auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) &&
@@ -407,17 +405,16 @@ export default function Start() {
                         ? null
                         : classes.disabled
                     }
-                    style={{ color: "#0000EE" }}
-                    size="medium"
                   >
                     <AbschließenBTN
+                      KRZ={query.param}
                       Name={query.param3}
                       A_Geber={auftrag.AUFTRAGGEBER}
                       A_Nehmer={auftrag.AUFTRAGNEHMER}
                       ID={auftrag.ID}
                       Gesehen={auftrag.GESEHEN_AM}
                     />
-                  </Typography>
+                  </a>
                   <Typography
                     className={
                       auftrag.STATUS == "Nicht angenommen" ||
@@ -425,9 +422,9 @@ export default function Start() {
                         ? null
                         : classes.disabled
                     }
-                    style={{ color: "#0000EE" }}
                   >
                     <LöschenBTN
+                      KRZ={query.param}
                       Name={query.param3}
                       A_Geber={auftrag.AUFTRAGGEBER}
                       A_Nehmer={auftrag.AUFTRAGNEHMER}
@@ -443,10 +440,9 @@ export default function Start() {
                         ? null
                         : classes.disabled
                     }
-                    style={{ color: "#0000EE" }}
-                    size="medium"
                   >
                     <ErneutSendenBTN
+                      KRZ={query.param}
                       Name={query.param3}
                       A_Geber={auftrag.AUFTRAGGEBER}
                       A_Nehmer={auftrag.AUFTRAGNEHMER}

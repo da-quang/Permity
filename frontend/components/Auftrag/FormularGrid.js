@@ -393,7 +393,6 @@ function FormularGrid() {
           />
         </Grid>
       </div>
-      Hallo
     </Grid>
   );
 }

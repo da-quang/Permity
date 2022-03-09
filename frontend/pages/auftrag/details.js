@@ -22,7 +22,6 @@ import IconButton from "@mui/material/IconButton";
 import { useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import LöschenBTN from "../../components/Details/Buttons/LöschenButton";
-import GesehenBTN from "../../components/Details/Buttons/GesehenButton";
 import AbschließenBTN from "../../components/Details/Buttons/AbschließenButton";
 import BestätigenBTN from "../../components/Details/Buttons/BestätigenButton";
 import ErneutSendenBTN from "../../components/Details/Buttons/ErneutSendenButton";
@@ -250,7 +249,7 @@ export default function Start() {
 
                   <div className={classes.box}>
                     <div className={classes.contentInfo}>Bestätigt am</div>
-                    <div className={classes.contentInfo}>Gesehen am</div>
+                    <div className={classes.contentInfo}>Abgeschlossen am</div>
                   </div>
                   <div className={classes.box2}>
                     <TextField
@@ -279,36 +278,6 @@ export default function Start() {
                       fullWidth
                       className={classes.contentDate}
                       defaultValue={
-                        auftrag.GESEHEN_AM == null
-                          ? ""
-                          : auftrag.GESEHEN_AM.split("T")[0].split("-")[2] +
-                            "-" +
-                            auftrag.GESEHEN_AM.split("-")[1] +
-                            "-" +
-                            auftrag.GESEHEN_AM.split("-")[0] +
-                            " um " +
-                            auftrag.GESEHEN_AM.split("T")[1].split(":")[0] +
-                            ":" +
-                            auftrag.GESEHEN_AM.split("T")[1].split(":")[1]
-                      }
-                      variant="filled"
-                      size="small"
-                      inputProps={{ readOnly: true }}
-                    />
-                  </div>
-
-                  <div className={classes.box}>
-                    <div className={classes.contentInfo}>Abgeschlossen am</div>
-                    <div className={classes.contentInfo}>
-                      Erneut gesendet am
-                    </div>
-                  </div>
-                  <div className={classes.box2}>
-                    <TextField
-                      style={{ marginRight: "5px" }}
-                      fullWidth
-                      className={classes.contentDate}
-                      defaultValue={
                         auftrag.ABGESCHLOSSEN_AM == null
                           ? ""
                           : auftrag.ABGESCHLOSSEN_AM.split("T")[0].split(
@@ -329,6 +298,14 @@ export default function Start() {
                       size="small"
                       inputProps={{ readOnly: true }}
                     />
+                  </div>
+
+                  <div className={classes.box}>
+                    <div className={classes.contentInfo}>
+                      Erneut gesendet am
+                    </div>
+                  </div>
+                  <div className={classes.box2}>
                     <TextField
                       style={{ marginRight: "5px" }}
                       fullWidth
@@ -356,6 +333,14 @@ export default function Start() {
                       size="small"
                       inputProps={{ readOnly: true }}
                     />
+                    <TextField
+                      style={{ marginRight: "5px" }}
+                      fullWidth
+                      className={classes.contentDate}
+                      variant="filled"
+                      size="small"
+                      inputProps={{ readOnly: true }}
+                    />
                   </div>
                 </CardContent>
                 <Divider></Divider>
@@ -375,25 +360,6 @@ export default function Start() {
                       A_Geber={auftrag.AUFTRAGGEBER}
                       A_Nehmer={auftrag.AUFTRAGNEHMER}
                       ID={auftrag.ID}
-                    />
-                  </Typography>
-                  <Typography
-                    className={
-                      (auftrag.AUFTRAGGEBER == query.param3 ||
-                        auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) &&
-                      auftrag.STATUS == "Bestätigt" &&
-                      auftrag.GESEHEN_AM == null
-                        ? null
-                        : classes.disabled
-                    }
-                  >
-                    <GesehenBTN
-                      KRZ={query.param}
-                      Name={query.param3}
-                      A_Geber={auftrag.AUFTRAGGEBER}
-                      A_Nehmer={auftrag.AUFTRAGNEHMER}
-                      ID={auftrag.ID}
-                      Gesehen={auftrag.GESEHEN_AM}
                     />
                   </Typography>
                   <a

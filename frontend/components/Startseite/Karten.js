@@ -247,7 +247,8 @@ function Karten(props) {
                             {/* Bestätigt */}
                             <Typography
                               className={
-                                props.Überschrift == "Bestätigt"
+                                props.Überschrift == "Bestätigt" ||
+                                props.Überschrift == "Abgeschlossen"
                                   ? null
                                   : classes.Check
                               }
@@ -268,36 +269,6 @@ function Karten(props) {
                                   )[0] +
                                   ":" +
                                   auftrag.ANGENOMMEN_AM.split("T")[1].split(
-                                    ":"
-                                  )[1]}
-                            </Typography>
-                            <Typography
-                              className={
-                                auftrag.GESEHEN_AM !== null &&
-                                props.Überschrift == "Bestätigt"
-                                  ? null
-                                  : classes.Check
-                              }
-                            >
-                              <a style={{ fontWeight: "bold" }}>
-                                Bestätigung gesehen:{" "}
-                              </a>
-                              {auftrag.GESEHEN_AM == null ||
-                              auftrag.GESEHEN_AM == 0
-                                ? ""
-                                : auftrag.GESEHEN_AM.split("T")[0].split(
-                                    "-"
-                                  )[2] +
-                                  "-" +
-                                  auftrag.GESEHEN_AM.split("-")[1] +
-                                  "-" +
-                                  auftrag.GESEHEN_AM.split("-")[0] +
-                                  " um " +
-                                  auftrag.GESEHEN_AM.split("T")[1].split(
-                                    ":"
-                                  )[0] +
-                                  ":" +
-                                  auftrag.GESEHEN_AM.split("T")[1].split(
                                     ":"
                                   )[1]}
                             </Typography>

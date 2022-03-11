@@ -199,7 +199,7 @@ function FormularGrid() {
                 value = "";
                 setEbene2LoadNext("x");
               } else {
-                setEbene2LoadNext(value.KSV), setKSV(value.KSV);
+                setEbene2LoadNext(value.KSV), setKSV(value.BEZEICHNUNG);
               }
             }}
             renderInput={(params) => (

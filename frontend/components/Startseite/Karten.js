@@ -45,7 +45,15 @@ function Karten(props) {
   let Count1 = 0;
   let Offen = data.filter((item) => item.STATUS === props.Status);
   Count1 = Offen.length;
-
+  let a = data.map((auftrag, id) => {
+    auftrag.STATUS == props.Status
+      ? data[id].SPERREN.includes(props.filter2) &&
+        data[id].KSV.includes(props.filter3) &&
+        data[id].AUFTRAGGEBER.includes(props.filter4) &&
+        data[id].AUFTRAGNEHMER.includes(props.filter5)
+      : "";
+  });
+  let z = a.length;
   return (
     <form className={classes.h}>
       <Accordion

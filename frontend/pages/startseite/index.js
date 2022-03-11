@@ -18,6 +18,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import SaveIcon from "@mui/icons-material/Save";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Autocomplete } from "@mui/material";
 
 import Appbar from "../../components/AppBars";
 import AddAuftrag from "../../components/Startseite/AddAuftrag";
@@ -32,6 +33,8 @@ export default function Startseite() {
   const classes = useStyles();
 
   let name = query.param2;
+
+  let [KsvALL, setKsvALL] = useState("");
 
   const [FilterVon, setFilterVon] = useState("");
   const [FilterBis, setFilterBis] = useState("");
@@ -88,6 +91,65 @@ export default function Startseite() {
     value2.setHours(16, 45);
   }, []);
 
+  let [Ebene2LoadNext, setEbene2LoadNext] = useState("x");
+  let [Ebene3LoadNext, setEbene3LoadNext] = useState("x");
+  let [Ebene4LoadNext, setEbene4LoadNext] = useState("x");
+
+  let [ebene3, setEbene3] = useState("");
+  let [ebene4, setEbene4] = useState("");
+  let [ebene5, setEbene5] = useState("");
+
+  const getKSVALL = async () => {
+    const response = await fetch(
+      `https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/all?kurzzeichen=${query.param}`,
+      {
+        method: "GET",
+      }
+    );
+    const data = await response.json();
+    setKsvALL(data);
+  };
+  useEffect(() => {
+    getKSVALL();
+    console.log(KsvALL);
+  }, [router]);
+
+  useEffect(() => {
+    fetch(
+      `https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${Ebene2LoadNext}&ebene=3`
+    )
+      .then((response) => response.json())
+      .then((ebene3) => setEbene3(ebene3));
+  }, [Ebene2LoadNext]);
+
+  useEffect(() => {
+    fetch(
+      `https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${Ebene3LoadNext}&ebene=4`
+    )
+      .then((response) => response.json())
+      .then((ebene4) => setEbene4(ebene4));
+  }, [Ebene3LoadNext]);
+
+  useEffect(() => {
+    fetch(
+      `https://palmiest-hornet-1388.dataplicity.io/api/api/KSV/select?ksv=${Ebene4LoadNext}&ebene=5`
+    )
+      .then((response) => response.json())
+      .then((ebene5) => setEbene5(ebene5));
+  }, [Ebene4LoadNext]);
+
+  let [Ebene3Bezeichnung, setEbene3Bezeichnung] = useState("");
+  let [Ebene4Bezeichnung, setEbene4Bezeichnung] = useState("");
+
+  useEffect(() => {
+    setEbene3LoadNext("x");
+    setEbene4LoadNext("x");
+  }, [Ebene2LoadNext]);
+
+  useEffect(() => {
+    setEbene4LoadNext("x");
+  }, [Ebene3LoadNext]);
+
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
   const matchesLG = useMediaQuery(theme.breakpoints.up("lg"));
@@ -129,6 +191,7 @@ export default function Startseite() {
   const [filter3, setfilter3] = useState("");
   const [filter4, setfilter4] = useState("");
   const [filter5, setfilter5] = useState("");
+  let [KSV, setKSV] = useState("");
 
   const handleSearchChange2 = (se) => {
     if (filter2 == se) {
@@ -270,15 +333,145 @@ export default function Startseite() {
           <Divider></Divider>
           <Divider></Divider>
           <ListItem>
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={KsvALL}
+              getOptionLabel={(option) => option.BEZEICHNUNG}
+              onChange={(event, value) => {
+                if (value === null) {
+                  value = "";
+                  setEbene2LoadNext("x");
+                  setKSV("");
+                } else {
+                  setEbene2LoadNext(value.KSV), setKSV(value.BEZEICHNUNG);
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  size="small"
+                  variant="outlined"
+                  label="Ksv 1"
+                  style={{ width: 208 }}
+                ></TextField>
+              )}
+              isOptionEqualToValue={(option, value) =>
+                option.BEZEICHNUNG === value.BEZEICHNUNG
+              }
+            />
+          </ListItem>
+
+          <ListItem>
             {" "}
-            <TextField
-              size="small"
-              fullWidth
-              variant="outlined"
-              value={filter3}
-              onChange={handleSearchChange3}
-              label={"KSV"}
-            ></TextField>
+            <Autocomplete
+              key={Ebene2LoadNext}
+              disabled={ebene3 == "" ? true : false}
+              disablePortal
+              id="combo-box-demo"
+              options={ebene3}
+              getOptionLabel={(option) => option.BEZEICHNUNG}
+              onChange={(event, value) => {
+                if (value === null) {
+                  value = "";
+                  setEbene3LoadNext("x");
+                  setEbene3Bezeichnung("");
+                  setKSV(Ebene2LoadNext);
+                  console.log("Null");
+                } else {
+                  setEbene3LoadNext(value.KSV),
+                    setKSV(value.BEZEICHNUNG),
+                    setEbene3Bezeichnung(value.BEZEICHNUNG);
+                  console.log("NOT Null");
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  size="small"
+                  variant="outlined"
+                  label="Ksv 2"
+                  style={{ width: 208 }}
+                ></TextField>
+              )}
+              isOptionEqualToValue={(option, value) =>
+                option.BEZEICHNUNG === value.BEZEICHNUNG
+              }
+            />
+          </ListItem>
+          <ListItem>
+            {" "}
+            <Autocomplete
+              key={Ebene3LoadNext}
+              disabled={ebene3 == "" || ebene4 == "" ? true : false}
+              disablePortal
+              id="combo-box-demo"
+              options={ebene4}
+              getOptionLabel={(option) => option.BEZEICHNUNG}
+              onChange={(event, value) => {
+                if (value === null) {
+                  value = "";
+                  setEbene4LoadNext("x");
+                  setEbene4Bezeichnung("");
+                  setKSV(Ebene3Bezeichnung);
+                } else {
+                  setEbene4LoadNext(value.KSV);
+                  setKSV(value.BEZEICHNUNG);
+                  setEbene4Bezeichnung(value.BEZEICHNUNG);
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  value=""
+                  size="small"
+                  variant="outlined"
+                  label="Ksv 3"
+                  style={{ width: 208 }}
+                ></TextField>
+              )}
+              isOptionEqualToValue={(option, value) =>
+                option.BEZEICHNUNG === value.BEZEICHNUNG
+              }
+            />
+          </ListItem>
+          <ListItem>
+            {" "}
+            <Autocomplete
+              key={Ebene4LoadNext}
+              disabled={
+                ebene3 == "" || ebene4 == "" || ebene5 == "" ? true : false
+              }
+              disablePortal
+              id="combo-box-demo"
+              options={ebene5}
+              getOptionLabel={(option) => option.BEZEICHNUNG}
+              onChange={(event, value) => {
+                if (value === null) {
+                  value = "";
+                  setKSV(Ebene4Bezeichnung);
+                } else {
+                  setKSV(value.BEZEICHNUNG);
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  size="small"
+                  variant="outlined"
+                  label="Ksv 4"
+                  style={{ width: 208 }}
+                ></TextField>
+              )}
+              isOptionEqualToValue={(option, value) =>
+                option.BEZEICHNUNG === value.BEZEICHNUNG
+              }
+            />
+          </ListItem>
+          <ListItem>
+            <Typography style={{ fontWeight: "bold" }}>
+              Ausgewählt: {KSV}
+            </Typography>
           </ListItem>
           <Divider></Divider>
           <ListItem>
@@ -350,7 +543,7 @@ export default function Startseite() {
                 />
               </Stack>
             </ListItem>
-
+            <Divider />
             <IconButton
               style={{ marginLeft: "10px" }}
               color="primary"
@@ -365,6 +558,14 @@ export default function Startseite() {
               onClick={() => {
                 setFilterBis("");
                 setFilterVon("");
+                setfilter2("");
+                setfilter3("");
+                setfilter4("");
+                setfilter5("");
+                setKSV("");
+                setEbene2LoadNext("X");
+                setEbene3LoadNext("X");
+                setEbene4LoadNext("X");
               }}
               color="error"
             >
@@ -381,7 +582,7 @@ export default function Startseite() {
           KRZ={query.param}
           Name={query.param2}
           filter2={filter2}
-          filter3={filter3}
+          filter3={KSV}
           filter4={filter4}
           filter5={filter5}
         />
@@ -396,7 +597,7 @@ export default function Startseite() {
           KRZ={query.param}
           Name={query.param2}
           filter2={filter2}
-          filter3={filter3}
+          filter3={KSV}
           filter4={filter4}
           filter5={filter5}
         />
@@ -411,7 +612,7 @@ export default function Startseite() {
           KRZ={query.param}
           Name={query.param2}
           filter2={filter2}
-          filter3={filter3}
+          filter3={KSV}
           filter4={filter4}
           filter5={filter5}
         />
@@ -426,7 +627,7 @@ export default function Startseite() {
           KRZ={query.param}
           Name={query.param2}
           filter2={filter2}
-          filter3={filter3}
+          filter3={KSV}
           filter4={filter4}
           filter5={filter5}
         />

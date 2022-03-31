@@ -138,17 +138,28 @@ export default function Startseite() {
       .then((ebene5) => setEbene5(ebene5));
   }, [Ebene4LoadNext]);
 
-  let [Ebene3Bezeichnung, setEbene3Bezeichnung] = useState("");
-  let [Ebene4Bezeichnung, setEbene4Bezeichnung] = useState("");
+  let [Ebene2Bezeichnung, setEbene2Bezeichnung] = useState("KSV 1");
+  let [Ebene3Bezeichnung, setEbene3Bezeichnung] = useState("KSV 2");
+  let [Ebene4Bezeichnung, setEbene4Bezeichnung] = useState("KSV 3");
+  let [Ebene5Bezeichnung, setEbene5Bezeichnung] = useState("KSV 5");
 
   useEffect(() => {
+    setEbene3Bezeichnung("KSV 2");
+    setEbene4Bezeichnung("KSV 3");
+    setEbene5Bezeichnung("KSV 4");
     setEbene3LoadNext("x");
     setEbene4LoadNext("x");
   }, [Ebene2LoadNext]);
 
   useEffect(() => {
+    setEbene4Bezeichnung("KSV 3");
+    setEbene5Bezeichnung("KSV 4");
     setEbene4LoadNext("x");
   }, [Ebene3LoadNext]);
+
+  useEffect(() => {
+    setEbene5Bezeichnung("KSV 4");
+  }, [Ebene4LoadNext]);
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
@@ -343,8 +354,11 @@ export default function Startseite() {
                   value = "";
                   setEbene2LoadNext("x");
                   setKSV("");
+                  setEbene2Bezeichnung("KSV 1");
                 } else {
-                  setEbene2LoadNext(value.KSV), setKSV(value.BEZEICHNUNG);
+                  setEbene2LoadNext(value.KSV),
+                    setKSV(value.BEZEICHNUNG),
+                    setEbene2Bezeichnung(value.BEZEICHNUNG);
                 }
               }}
               renderInput={(params) => (
@@ -352,7 +366,7 @@ export default function Startseite() {
                   {...params}
                   size="small"
                   variant="outlined"
-                  label="Ksv 1"
+                  label={Ebene2Bezeichnung}
                   style={{ width: 208 }}
                 ></TextField>
               )}
@@ -375,8 +389,8 @@ export default function Startseite() {
                 if (value === null) {
                   value = "";
                   setEbene3LoadNext("x");
-                  setEbene3Bezeichnung("");
-                  setKSV(Ebene2LoadNext);
+                  setEbene3Bezeichnung("KSV 2");
+                  setKSV(Ebene2Bezeichnung);
                   console.log("Null");
                 } else {
                   setEbene3LoadNext(value.KSV),
@@ -388,9 +402,10 @@ export default function Startseite() {
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  value={Ebene3Bezeichnung}
                   size="small"
                   variant="outlined"
-                  label="Ksv 2"
+                  label={Ebene3Bezeichnung}
                   style={{ width: 208 }}
                 ></TextField>
               )}
@@ -412,7 +427,7 @@ export default function Startseite() {
                 if (value === null) {
                   value = "";
                   setEbene4LoadNext("x");
-                  setEbene4Bezeichnung("");
+                  setEbene4Bezeichnung("KSV 3");
                   setKSV(Ebene3Bezeichnung);
                 } else {
                   setEbene4LoadNext(value.KSV);
@@ -426,7 +441,7 @@ export default function Startseite() {
                   value=""
                   size="small"
                   variant="outlined"
-                  label="Ksv 3"
+                  label={Ebene4Bezeichnung}
                   style={{ width: 208 }}
                 ></TextField>
               )}
@@ -450,8 +465,10 @@ export default function Startseite() {
                 if (value === null) {
                   value = "";
                   setKSV(Ebene4Bezeichnung);
+                  setEbene5Bezeichnung("KSV 4");
                 } else {
                   setKSV(value.BEZEICHNUNG);
+                  setEbene5Bezeichnung(value.BEZEICHNUNG);
                 }
               }}
               renderInput={(params) => (
@@ -459,7 +476,7 @@ export default function Startseite() {
                   {...params}
                   size="small"
                   variant="outlined"
-                  label="Ksv 4"
+                  label={Ebene5Bezeichnung}
                   style={{ width: 208 }}
                 ></TextField>
               )}
@@ -467,11 +484,6 @@ export default function Startseite() {
                 option.BEZEICHNUNG === value.BEZEICHNUNG
               }
             />
-          </ListItem>
-          <ListItem>
-            <Typography style={{ fontWeight: "bold" }}>
-              Ausgewählt: {KSV}
-            </Typography>
           </ListItem>
           <Divider></Divider>
           <ListItem>
@@ -566,6 +578,10 @@ export default function Startseite() {
                 setEbene2LoadNext("X");
                 setEbene3LoadNext("X");
                 setEbene4LoadNext("X");
+                setEbene2Bezeichnung("KSV 1");
+                setEbene3Bezeichnung("KSV 2");
+                setEbene4Bezeichnung("KSV 3");
+                setEbene5Bezeichnung("KSV 4");
               }}
               color="error"
             >

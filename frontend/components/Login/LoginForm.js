@@ -96,10 +96,6 @@ function LoginForm() {
     });
   };
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
   const [values, setValues] = React.useState({
     password: "",
     showPassword: false,

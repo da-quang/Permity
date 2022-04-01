@@ -43,7 +43,6 @@ function AbschließenButton(props) {
       }
     >
       <Button
-        disabled={props.Gesehen == "" ? true : false}
         onClick={() => Abschließen(props.ID)}
         color="inherit"
         size="large"

@@ -366,10 +366,7 @@ export default function Start() {
                     className={
                       (auftrag.AUFTRAGGEBER == query.param3 ||
                         auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) &&
-                      auftrag.STATUS == "Bestätigt" &&
-                      auftrag.GESEHEN_AM !== null
-                        ? null
-                        : classes.disabled
+                      auftrag.STATUS == "Bestätigt"
                     }
                   >
                     <AbschließenBTN
@@ -378,7 +375,6 @@ export default function Start() {
                       A_Geber={auftrag.AUFTRAGGEBER}
                       A_Nehmer={auftrag.AUFTRAGNEHMER}
                       ID={auftrag.ID}
-                      Gesehen={auftrag.GESEHEN_AM}
                     />
                   </a>
                   <Typography

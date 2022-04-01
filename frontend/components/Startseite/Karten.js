@@ -120,21 +120,6 @@ function Karten(props) {
                           </a>
                           <a
                             className={
-                              props.Überschrift !== "Bestätigt"
-                                ? classes.Check
-                                : ""
-                            }
-                          >
-                            <GesehenBTN
-                              Name={props.Name}
-                              A_Geber={auftrag.AUFTRAGGEBER}
-                              A_Nehmer={auftrag.AUFTRAGNEHMER}
-                              ID={auftrag.ID}
-                              Gesehen={auftrag.GESEHEN_AM}
-                            />
-                          </a>
-                          <a
-                            className={
                               props.Überschrift !== "Offen" ? classes.Check : ""
                             }
                           >

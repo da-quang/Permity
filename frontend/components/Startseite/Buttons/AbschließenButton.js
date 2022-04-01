@@ -34,16 +34,14 @@ function AbschließenButton(props) {
   return (
     <a
       className={
-        props.Gesehen !== null &&
-        ((props.A_Nehmer !== props.Name && props.A_Geber == props.Name) ||
-          props.A_Geber == props.A_Nehmer)
+        (props.A_Nehmer !== props.Name && props.A_Geber == props.Name) ||
+        props.A_Geber == props.A_Nehmer
           ? null
           : classes.Check
       }
     >
       <Tooltip title="Abschließen">
         <IconButton
-          disabled={props.Gesehen == "" ? true : false}
           onClick={() => Abschließen(props.ID)}
           style={{
             float: "right",

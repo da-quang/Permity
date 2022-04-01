@@ -35,10 +35,6 @@ function FormularCreate(props) {
         console.log(data)
 
         router.push(`/startseite?param=${props.param}&param2=${props.param2}`)
-
-        // const fd = new FormData();
-        // fd.append
-
     }
 
     const [Mail, setMail] = useState()
@@ -51,6 +47,7 @@ function FormularCreate(props) {
 
         setMail(email[0].EMAIL)
 
+        // eslint-disable-next-line no-unused-vars
         const response = await fetch(`https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${Mail}`, {
             method: 'POST'
         })

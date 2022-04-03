@@ -35,6 +35,8 @@ function FormularCreate(props) {
     );
     const data = await response.json();
     console.log(data);
+
+    router.push(`/startseite?param=${props.param}&param2=${props.param2}`);
   };
 
   const [Mail, setMail] = useState();

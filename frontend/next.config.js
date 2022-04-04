@@ -1,6 +1,7 @@
 module.exports = {
+  reactStrictMode: true,
   env: {
-    customKey: "my-value",
+    customKey: 'my-value',
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
@@ -8,8 +9,6 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
   optimizeFonts: false,
-  experimental: {
-    // Enables the styled-components SWC transform
-    styledComponents: true,
-  },
-};
+
+  
+}

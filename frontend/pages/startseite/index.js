@@ -142,7 +142,7 @@ export default function Startseite() {
   let [Ebene3Bezeichnung, setEbene3Bezeichnung] = useState("KSV 2");
   let [Ebene4Bezeichnung, setEbene4Bezeichnung] = useState("KSV 3");
   let [Ebene5Bezeichnung, setEbene5Bezeichnung] = useState("KSV 5");
-  let [resetKSV1, setResetKSV1] = useState(false);
+
   useEffect(() => {
     setEbene3Bezeichnung("KSV 2");
     setEbene4Bezeichnung("KSV 3");
@@ -345,7 +345,6 @@ export default function Startseite() {
           <Divider></Divider>
           <ListItem>
             <Autocomplete
-              key={resetKSV1}
               disablePortal
               id="combo-box-demo"
               options={KsvALL}
@@ -583,7 +582,6 @@ export default function Startseite() {
                 setEbene3Bezeichnung("KSV 2");
                 setEbene4Bezeichnung("KSV 3");
                 setEbene5Bezeichnung("KSV 4");
-                setResetKSV1(!resetKSV1);
               }}
               color="error"
             >

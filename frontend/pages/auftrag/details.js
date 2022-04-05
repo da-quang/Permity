@@ -367,6 +367,8 @@ export default function Start() {
                       (auftrag.AUFTRAGGEBER == query.param3 ||
                         auftrag.AUFTRAGGEBER == auftrag.AUFTRAGNEHMER) &&
                       auftrag.STATUS == "Bestätigt"
+                        ? null
+                        : classes.disabled
                     }
                   >
                     <AbschließenBTN

@@ -41,8 +41,6 @@ function FormularCreate(props) {
 
   const [Mail, setMail] = useState();
 
-  console.log(props.Auftragnehmer);
-
   const MAIL = async () => {
     const getEmail = await fetch(
       `https://palmiest-hornet-1388.dataplicity.io/api/api/Mitarbeiter/email?name=${props.Auftragnehmer}`,
@@ -56,7 +54,7 @@ function FormularCreate(props) {
 
     // eslint-disable-next-line no-unused-vars
     const response = await fetch(
-      `https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${email[0].EMAIL}`,
+      `https://palmiest-hornet-1388.dataplicity.io/api/api/Email/send?email=${L}`,
       {
         method: "POST",
       }
